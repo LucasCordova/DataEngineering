@@ -1,25 +1,21 @@
 project:
   type: website
 
-book:
+website:
   title: "DataEngineering"
-  author: "Norah Jones"
-  date: "4/8/2025"
-  chapters:
-    - index.qmd
-    - intro.qmd
-    - summary.qmd
-    - references.qmd
-
-bibliography: references.bib
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
 
 format:
   html:
     theme:
       - cosmo
       - brand
-  pdf:
-    documentclass: scrreprt
+    css: styles.css
+    toc: true
 
 
 
