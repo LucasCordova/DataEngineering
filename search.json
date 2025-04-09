@@ -1,16 +1,23 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "pipelines.html",
+    "href": "pipelines.html",
+    "title": "Pipelines - Data Engineering",
     "section": "",
-    "text": "About this site"
+    "text": "In today’s data-driven landscape, the ability to synthesize new knowledge by integrating disparate data sources is a powerful asset. This guide will walk you through the design and deployment of a data pipeline architecture on Railway.app, a cloud-native development platform that allows you to quickly spin up backend infrastructure with minimal configuration overhead.\nThe goal of this pipeline is to collect, structure, and expose data in a way that supports meaningful analysis and knowledge generation. By combining unstructured and structured data from multiple services into a single relational data model, this system enables real-time insights via a customizable dashboard and a developer-friendly REST API."
+  },
+  {
+    "objectID": "pipelines.html#architecture-overview",
+    "href": "pipelines.html#architecture-overview",
+    "title": "Pipelines - Data Engineering",
+    "section": "Architecture Overview",
+    "text": "Architecture Overview\ngraph TD\n    subgraph Railway.app\n        Postgres[(Postgres Database)]\n        Web2DB1[Web2DB - Scraper/API Service #1]\n        Web2DB2[Web2DB - Scraper/API Service #2]\n        DataTransform[DataTransform Service]\n        Grafana[Grafana Dashboard]\n        DB2API[PostgREST - DB2API Bridge]\n        Swagger[Swagger UI - API Dev Tool]\n    end\n\n    Web2DB1 --&gt; Postgres\n    Web2DB2 --&gt; Postgres\n    Postgres --&gt; DataTransform\n    DataTransform --&gt; Postgres\n    Postgres --&gt; Grafana\n    Postgres --&gt; DB2API\n    DB2API --&gt; Swagger"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Data Engineering",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "This site contains guides for various Data Engineering tasks."
   }
 ]
