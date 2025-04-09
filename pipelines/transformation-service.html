@@ -421,14 +421,17 @@ This means the service runs once every hour, at the top of the hour.</code></pre
 </section>
 <section id="testing-and-validation" class="level2" data-number="1.9">
 <h2 data-number="1.9" class="anchored" data-anchor-id="testing-and-validation"><span class="header-section-number">1.9</span> Testing and Validation</h2>
-<p>✅ Check the Tables in Beekeeper</p>
-<pre><code>After the first cron run, inspect the structured tables:
+<pre><code>✅ Check the Tables in Beekeeper
 
-```sql
-SELECT * FROM flights ORDER BY timestamp DESC LIMIT 10;
-SELECT * FROM weather_observations ORDER BY timestamp DESC LIMIT 10;
-```</code></pre>
-<p>✅ View Logs in Railway Use the Logs tab to inspect any errors or debug output.</p>
+    After the first cron run, inspect the structured tables:
+
+    ```sql
+    SELECT * FROM flights ORDER BY timestamp DESC LIMIT 10;
+    SELECT * FROM weather_observations ORDER BY timestamp DESC LIMIT 10;
+    ```
+
+✅ View Logs in Railway
+    Use the Logs tab to inspect any errors or debug output.</code></pre>
 </section>
 <section id="whats-next" class="level2" data-number="1.10">
 <h2 data-number="1.10" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.10</span> What’s Next?</h2>

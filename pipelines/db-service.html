@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -222,10 +256,10 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="1.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">1.1</span> Overview</h2>
 <p>In this pipeline, the <strong>Postgres</strong> service functions as the central knowledge repository for all collected and transformed data. It plays a dual role:</p>
 <ol type="1">
-<li><strong>Raw Data Storage</strong>: Capturing unstructured API responses from external ingestion services (e.g., OpenSkyNetwork for flights, Open-Meteo for weather).</li>
-<li><strong>Structured Relational Modeling</strong>: Housing clean, normalized data models post-transformation—ready for querying, visualization, and API exposure.</li>
+<li><strong>Raw Data Storage</strong> – Capturing unstructured API responses from external ingestion services (e.g., OpenSky Network for flights, Open-Meteo for weather).</li>
+<li><strong>Structured Relational Modeling</strong> – Housing clean, normalized data models post-transformation—ready for querying, visualization, and API exposure.</li>
 </ol>
-<p>As we build a system to detect <strong>“no-fly windows”</strong> based on weather thresholds over Portland, Postgres serves as the long-term memory of the pipeline. In this step, we’ll deploy it using <a href="https://railway.app">Railway</a>, and connect via <a href="https://www.beekeeperstudio.io/">Beekeeper Studio</a> to validate connectivity and inspect future data.</p>
+<p>As we build a system to detect <strong>“no-fly windows”</strong> based on weather thresholds over Portland, Postgres serves as the long-term memory of the pipeline. In this step, we’ll deploy it using <a href="https://railway.app">Railway</a> and connect via <a href="https://www.beekeeperstudio.io/">Beekeeper Studio</a> to validate connectivity and inspect future data.</p>
 <hr>
 </section>
 <section id="prerequisites" class="level2" data-number="1.2">
@@ -255,9 +289,15 @@ ul.task-list li input[type="checkbox"] {
 <section id="add-a-postgres-database" class="level3" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="add-a-postgres-database"><span class="header-section-number">1.3.2</span> 2. Add a Postgres Database</h3>
 <ol type="1">
-<li>In your project dashboard, click <strong>“New”</strong> to add a service.</li>
-<li>Choose <strong>“Database”</strong>, then click <strong>“PostgreSQL”</strong>.</li>
-<li>Railway will now deploy your Postgres service. <img src="https://docs.railway.app/img/postgres-add.gif" class="img-fluid" alt="Adding PostgreSQL Service"></li>
+<li><p>In your project dashboard, click <strong>“New”</strong> to add a service.</p></li>
+<li><p>Choose <strong>“Database”</strong>, then click <strong>“PostgreSQL”</strong>.</p></li>
+<li><p>Railway will now deploy your Postgres service.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://docs.railway.app/img/postgres-add.gif" class="img-fluid figure-img"></p>
+<figcaption>Adding PostgreSQL Service</figcaption>
+</figure>
+</div></li>
 </ol>
 <p>Once provisioned, this database becomes the shared backend for all services in your pipeline.</p>
 <hr>
@@ -267,8 +307,7 @@ ul.task-list li input[type="checkbox"] {
 <ol type="1">
 <li>Click into the <strong>Postgres</strong> service from the project dashboard.</li>
 <li>Open the <strong>Variables</strong> tab.</li>
-<li>Copy the <code>DATABASE_PUBLIC_URL</code>—it will look something like:<br>
-<code>postgresql://postgres:&lt;some-long-password&gt;@some-server.proxy.rlwy.net:20848/railway</code> <img src="https://docs.railway.app/img/postgres-connect.png" class="img-fluid" alt="PostgreSQL Connection Details"></li>
+<li>Copy the <code>DATABASE_PUBLIC_URL</code> — it will look something like: <code>postgresql://postgres:&lt;some-passsword&gt;@&lt;some-server&gt;.proxy.rlwy.net:20848/railway</code>. <img src="https://docs.railway.app/img/postgres-connect.png" class="img-fluid" alt="PostgreSQL Connection Details"></li>
 </ol>
 <p>This URL is your access point for Beekeeper and other services that will connect to the database.</p>
 <hr>
@@ -283,146 +322,67 @@ ul.task-list li input[type="checkbox"] {
 <section id="import-the-url" class="level4" data-number="1.3.4.2">
 <h4 data-number="1.3.4.2" class="anchored" data-anchor-id="import-the-url"><span class="header-section-number">1.3.4.2</span> 4.2 Import the URL</h4>
 <ol type="1">
-<li><p>Choose <strong>“PostgreSQL”</strong> from the connection type options.</p></li>
-<li><p>Click <strong>“Import from URL”</strong> (top-right or near the bottom of the connection screen).</p></li>
-<li><p>Paste the <code>PUBLIC_DATABASE_URL</code> from Railway.</p></li>
-<li><p>Click <strong>“Connect”</strong>.</p>
+<li>Choose <strong>“PostgreSQL”</strong> from the connection type options.</li>
+<li>Click <strong>“Import from URL”</strong> (top-right or near the bottom of the connection screen).</li>
+<li>Paste the <code>DATABASE_PUBLIC_URL</code> from Railway.</li>
+<li>Click <strong>“Connect”</strong>.</li>
+</ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://user-images.githubusercontent.com/2289/209501243-3f5dd986-1bfc-4c55-bfc6-b86fe9cba926.png" class="img-fluid figure-img"></p>
 <figcaption>Beekeeper Import URL Example</figcaption>
 </figure>
-</div></li>
-</ol>
+</div>
 </section>
 <section id="confirm-connection" class="level4" data-number="1.3.4.3">
 <h4 data-number="1.3.4.3" class="anchored" data-anchor-id="confirm-connection"><span class="header-section-number">1.3.4.3</span> 4.3 Confirm Connection</h4>
-<p>Once connected, you’ll see an empty database. That’s expected—your ingestion and transformation services will populate it in later steps. For now, you can: - Test SQL queries, - Monitor schema evolution, - Verify your database is reachable from your local environment.</p>
-<hr>
+<p>Once connected, you’ll see an empty database. That’s expected—your ingestion and transformation services will populate it in later steps. For now, you can:</p>
+<ul>
+<li>Test SQL queries.</li>
+<li>Monitor schema evolution.</li>
+<li>Verify your database is reachable from your local environment.</li>
+</ul>
 <hr>
 </section>
 </section>
 <section id="create-tables-for-raw-json-storage" class="level3" data-number="1.3.5">
 <h3 data-number="1.3.5" class="anchored" data-anchor-id="create-tables-for-raw-json-storage"><span class="header-section-number">1.3.5</span> 5. Create Tables for Raw JSON Storage</h3>
-<p>Before data ingestion can begin, we need to create two tables in Postgres to hold the raw, unstructured API responses from the flight and weather ingestion services. These tables will serve as append-only logs that store the full JSON payloads alongside timestamps for later transformation.</p>
+<p>Before data ingestion can begin, you need to create two tables in Postgres to hold the raw, unstructured API responses from the flight and weather ingestion services. These tables will serve as append-only logs that store the full JSON payloads alongside timestamps for later transformation.</p>
 <p>We’ll create:</p>
 <ul>
-<li><code>flight_json_data</code>: stores data retrieved from the OpenSky Network</li>
-<li><code>weather_json_data</code>: stores data retrieved from the Open-Meteo API</li>
+<li><code>flight_json_data</code>: stores data retrieved from the OpenSky Network.</li>
+<li><code>weather_json_data</code>: stores data retrieved from the Open-Meteo API.</li>
 </ul>
-<p>Each table includes: - <code>id</code>: an auto-incrementing primary key - <code>raw_json</code>: the unmodified API response stored as a <code>jsonb</code> object - <code>timestamptz</code>: a timestamp indicating when the data was ingested</p>
+<p>Each table includes:</p>
+<ul>
+<li><code>id</code>: an auto-incrementing primary key.</li>
+<li><code>raw_json</code>: the unmodified API response stored as a <code>jsonb</code> object.</li>
+<li><code>timestamptz</code>: a timestamp indicating when the data was ingested.</li>
+</ul>
 <section id="create-tables-using-sql" class="level4" data-number="1.3.5.1">
-<h4 data-number="1.3.5.1" class="anchored" data-anchor-id="create-tables-using-sql"><span class="header-section-number">1.3.5.1</span> 💾 Create Tables Using SQL</h4>
+<h4 data-number="1.3.5.1" class="anchored" data-anchor-id="create-tables-using-sql"><span class="header-section-number">1.3.5.1</span> Create Tables Using SQL</h4>
 <p>Paste the following SQL into Beekeeper Studio and execute it to create both tables:</p>
-<p>```sql CREATE TABLE flight_json_data ( id SERIAL PRIMARY KEY, raw_json JSONB NOT NULL, timestamptz TIMESTAMPTZ NOT NULL DEFAULT NOW() );</p>
-<p>CREATE TABLE weather_json_data ( id SERIAL PRIMARY KEY, raw_json JSONB NOT NULL, timestamptz TIMESTAMPTZ NOT NULL DEFAULT NOW() );</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> flight_json_data (</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="kw">id</span> SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> raw_json JSONB <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> timestamptz TIMESTAMPTZ <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> NOW()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> weather_json_data (</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a> <span class="kw">id</span> SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a> raw_json JSONB <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a> timestamptz TIMESTAMPTZ <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> NOW()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
 </section>
 <section id="whats-next" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.4</span> What’s Next?</h2>
-<p>Now that your <strong>Postgres</strong> service is up and running, it’s ready to accept incoming unstructured data from your ingestion services:</p>
-<ul>
-<li><code>Web2DB Flights</code>: gathers flight telemetry from the OpenSky Network.</li>
-<li><code>Web2DB Weather</code>: gathers Portland weather conditions from Open-Meteo.</li>
-</ul>
-<p>These services will write raw JSON payloads to the database every 5 minutes. Later, the <code>DataTransform</code> service will structure that data hourly into relational tables optimized for analysis.</p>
-<p>In the next step, we’ll configure the <strong>Web2DB Flights</strong> service to begin live ingestion.</p>
-<hr>
-<p><em>References:</em></p>
-<ul>
-<li><a href="https://docs.railway.app/guides/postgresql">Railway Docs – PostgreSQL</a></li>
-<li><a href="https://www.beekeeperstudio.io/">Beekeeper Studio</a></li>
-<li><a href="https://docs.railway.app/databases/external-access">Connect to Railway from External Clients</a></li>
-</ul>
-<!-- ---
-title: "Database Service Setup"
-sidebar: pipelines
----
-
-# Setting Up the Postgres Service on Railway
-
-## Overview
-
-In this section, we’ll set up the **Postgres** service, which acts as the central data store in our pipeline architecture. Postgres will store raw unstructured data during the collection phase and structured relational data after transformation. We’ll use [Railway](https://railway.app) to deploy and manage the service and [Beekeeper Studio](https://www.beekeeperstudio.io/) to connect, inspect, and manage the database.
-
-## Prerequisites
-
-Before you begin, make sure you have the following:
-
-- A [GitHub](https://github.com/) account.
-- A [Railway](https://railway.app) account with at least **Hobby** tier access.  
-  > This requires a $5 credit deposit using a credit card.
-- [Beekeeper Studio](https://www.beekeeperstudio.io/) installed on your computer.  
-  > Beekeeper is a modern, open-source SQL client for managing PostgreSQL and other databases. It's available on macOS, Windows, and Linux.
-
----
-
-## Steps to Set Up the Postgres Service
-
-### 1. Create a New Project in Railway
-
-1. Log in at [railway.app](https://railway.app).
-2. Click **"New Project"**.
-3. Select **"Blank Project"**.
-4. Enter a project name (e.g., `knowledge-pipeline`) and click **"Create Project"**.
-
----
-
-### 2. Add a Postgres Database
-
-1. From your project dashboard, click the **"New"** button to add a service.
-2. Select **"Database"** and then click **"PostgreSQL"**.
-3. Railway will now provision your Postgres service. This may take a few seconds.  
-   ![Adding PostgreSQL Service](https://docs.railway.app/img/postgres-add.gif)
-
----
-
-### 3. Copy Your Connection Details
-
-1. Click into the new **Postgres** service from your project dashboard.
-2. Go to the **Variables** tab.
-3. Copy the `DATABASE_PUBLIC_URL` (it should look like: `postgresql://postgres:DKYasSWOUjAfxAdKJdDDWVpcXMFdbfpA@someserver.proxy.rlwy.net:20848/railway`).  
-   ![PostgreSQL Connection Details](https://docs.railway.app/img/postgres-connect.png)
-
----
-
-### 4. Connect to Postgres Using Beekeeper Studio
-
-You’ll now use **Beekeeper Studio** to inspect and interact with your database.
-
-#### 4.1 Launch Beekeeper Studio
-
-Open Beekeeper on your computer. You should see a **"New Connection"** button.
-
-#### 4.2 Use the Import URL Option
-
-1. Click **"New Connection"**.
-2. Select **"PostgreSQL"**.
-3. Instead of filling each field manually, click **"Import from URL"** (top-right or near the bottom).
-4. Paste the full **Postgres Connection URL** copied earlier from Railway.
-5. Click **"Connect"**.  
-   ![Beekeeper Import URL Example](https://user-images.githubusercontent.com/2289/209501243-3f5dd986-1bfc-4c55-bfc6-b86fe9cba926.png)
-
-6. You should now be connected and able to:
-   - Browse tables (none will exist yet),
-   - Run SQL queries,
-   - Monitor schema changes and test connectivity.
-
----
-
-## ✅ Next Up
-
-With your Postgres database created, verified, and prepped with raw ingestion tables, you’re ready to configure your first ingestion service. In the next step, we’ll walk through setting up Web2DB Flights to retrieve and store real-time air traffic data over Portland.
-
----
-
-*References:*
-
-- [Railway Docs – PostgreSQL](https://docs.railway.app/guides/postgresql)
-- [Beekeeper Studio Download](https://www.beekeeperstudio.io/)
-- [Connect to Railway from External Clients](https://docs.railway.app/databases/external-access) -->
+<p>Now that your Postgres service is up and running, it’s ready to accept incoming unstructured data from your ingestion services: - Web2DB Flights: gathers flight telemetry from the OpenSky Network. - Web2DB Weather: gathers Portland weather conditions from Open-Meteo.</p>
+<p>These services will write raw JSON payloads to the database every 5 minutes. Later, the DataTransform service will structure that data hourly into relational tables optimized for analysis.</p>
+<p>In the next step, we’ll configure the Web2DB Flights service to begin live ingestion.</p>
+<p>📚 References - <a href="Railway Docs – PostgreSQL">https://docs.railway.app/guides/postgresql</a> - <a href="Beekeeper Studio">https://www.beekeeperstudio.io/</a> - <a href="Connect to Railway from External Clients">https://docs.railway.app/databases/external-access</a></p>
 
 
 </section>
