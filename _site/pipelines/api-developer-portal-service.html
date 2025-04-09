@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>👨🏾‍💻 API Developer Portal Service Setup – Data Engineering Guides</title>
+<title>👨🏾‍💻API Developer Portal Setup (Swagger) – Data Engineering Guides</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -173,7 +173,22 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1</span> Overview</a></li>
+  <li><a href="#setting-up-the-api-developer-portal-with-swagger-ui" id="toc-setting-up-the-api-developer-portal-with-swagger-ui" class="nav-link active" data-scroll-target="#setting-up-the-api-developer-portal-with-swagger-ui"><span class="header-section-number">1</span> Setting Up the API Developer Portal with Swagger UI</a>
+  <ul class="collapse">
+  <li><a href="#why-create-an-api-developer-portal" id="toc-why-create-an-api-developer-portal" class="nav-link" data-scroll-target="#why-create-an-api-developer-portal"><span class="header-section-number">1.1</span> Why Create an API Developer Portal?</a>
+  <ul class="collapse">
+  <li><a href="#what-is-swagger" id="toc-what-is-swagger" class="nav-link" data-scroll-target="#what-is-swagger"><span class="header-section-number">1.1.1</span> What is Swagger?</a></li>
+  </ul></li>
+  <li><a href="#step-by-step-deploy-swagger-in-railway" id="toc-step-by-step-deploy-swagger-in-railway" class="nav-link" data-scroll-target="#step-by-step-deploy-swagger-in-railway"><span class="header-section-number">1.2</span> Step-by-Step: Deploy Swagger in Railway</a>
+  <ul class="collapse">
+  <li><a href="#create-the-swagger-service" id="toc-create-the-swagger-service" class="nav-link" data-scroll-target="#create-the-swagger-service"><span class="header-section-number">1.2.1</span> Create the Swagger Service</a></li>
+  <li><a href="#add-the-api-url-environment-variable" id="toc-add-the-api-url-environment-variable" class="nav-link" data-scroll-target="#add-the-api-url-environment-variable"><span class="header-section-number">1.2.2</span> Add the API URL Environment Variable</a></li>
+  <li><a href="#redeploy-the-swagger-service" id="toc-redeploy-the-swagger-service" class="nav-link" data-scroll-target="#redeploy-the-swagger-service"><span class="header-section-number">1.2.3</span> Redeploy the Swagger Service</a></li>
+  <li><a href="#generate-a-public-url-for-swagger" id="toc-generate-a-public-url-for-swagger" class="nav-link" data-scroll-target="#generate-a-public-url-for-swagger"><span class="header-section-number">1.2.4</span> Generate a Public URL for Swagger</a></li>
+  </ul></li>
+  <li><a href="#test-the-swagger-ui" id="toc-test-the-swagger-ui" class="nav-link" data-scroll-target="#test-the-swagger-ui"><span class="header-section-number">1.3</span> ✅ Test the Swagger UI</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.4</span> 🎉 Summary</a></li>
+  </ul></li>
   </ul>
 </nav>
 </nav>
@@ -186,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">👨🏾‍💻 API Developer Portal Service Setup</h1>
+<h1 class="title">👨🏾‍💻API Developer Portal Setup (Swagger)</h1>
 </div>
 
 
@@ -203,11 +218,99 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="overview"><span class="header-section-number">1</span> Overview</h2>
-<p>Content goes here…</p>
+<section id="setting-up-the-api-developer-portal-with-swagger-ui" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Setting Up the API Developer Portal with Swagger UI</h1>
+<section id="why-create-an-api-developer-portal" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="why-create-an-api-developer-portal"><span class="header-section-number">1.1</span> Why Create an API Developer Portal?</h2>
+<p>Once your data is available through a RESTful interface (via PostgREST), the next step is to <strong>document</strong> it and make it easy for developers to discover and test. This is where <strong>Swagger UI</strong> comes in.</p>
+<section id="what-is-swagger" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="what-is-swagger"><span class="header-section-number">1.1.1</span> What is Swagger?</h3>
+<p><a href="https://swagger.io/tools/swagger-ui/">Swagger UI</a> is an open-source interface that visualizes APIs using the <strong>OpenAPI specification</strong>. It allows developers to: - 📖 Read documentation for your API endpoints. - 🔎 Explore input and output parameters. - 🧪 Interactively test endpoints with live data. - 🤝 Share API functionality with frontend developers and integrators.</p>
+<p>Swagger connects seamlessly with <strong>PostgREST</strong>, which automatically serves an OpenAPI schema that Swagger can consume.</p>
+<p>📚 References: - <a href="https://swagger.io/tools/swagger-ui/">Swagger UI Docs</a> - <a href="https://postgrest.org/en/stable/api.html#openapi">PostgREST OpenAPI Support</a></p>
+<hr>
+</section>
+</section>
+<section id="step-by-step-deploy-swagger-in-railway" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="step-by-step-deploy-swagger-in-railway"><span class="header-section-number">1.2</span> Step-by-Step: Deploy Swagger in Railway</h2>
+<section id="create-the-swagger-service" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="create-the-swagger-service"><span class="header-section-number">1.2.1</span> Create the Swagger Service</h3>
+<ol type="1">
+<li><p>In Railway, click <strong>Create</strong> → <strong>New Service</strong>.</p></li>
+<li><p>Select <strong>Docker Image</strong>.</p></li>
+<li><p>Type in the image name:</p>
+<pre><code>swaggerapi/swagger-ui</code></pre></li>
+<li><p>Press <strong>Enter</strong>, then click <strong>Deploy</strong>.</p></li>
+</ol>
+<hr>
+</section>
+<section id="add-the-api-url-environment-variable" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="add-the-api-url-environment-variable"><span class="header-section-number">1.2.2</span> Add the API URL Environment Variable</h3>
+<p>Once the service is deployed:</p>
+<ol type="1">
+<li>Go to the <strong>Environment Variables</strong> tab.</li>
+<li>Click <strong>New Variable</strong> and add:</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>API_URL</code></td>
+<td><code>${{postgrest.PGRST_OPENAPI_SERVER_PROXY_URI}}</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>✅ This tells Swagger where to fetch the OpenAPI specification generated by PostgREST. It allows Swagger to automatically read and render your live API documentation.</p>
+</blockquote>
+<hr>
+</section>
+<section id="redeploy-the-swagger-service" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="redeploy-the-swagger-service"><span class="header-section-number">1.2.3</span> Redeploy the Swagger Service</h3>
+<p>After setting the <code>API_URL</code> environment variable:</p>
+<ol type="1">
+<li>Click <strong>Deploy</strong> again to apply the change.</li>
+</ol>
+<hr>
+</section>
+<section id="generate-a-public-url-for-swagger" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="generate-a-public-url-for-swagger"><span class="header-section-number">1.2.4</span> Generate a Public URL for Swagger</h3>
+<ol type="1">
+<li>Navigate to the <strong>Settings</strong> tab of the Swagger service.</li>
+<li>Under <strong>Networking</strong>, click <strong>Generate Domain</strong>.</li>
+<li>Choose the <strong>default port: 8080</strong>.</li>
+<li>Click <strong>Deploy</strong>.</li>
+</ol>
+<p>Once deployment is complete, a <strong>public URL</strong> will appear.</p>
+<hr>
+</section>
+</section>
+<section id="test-the-swagger-ui" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="test-the-swagger-ui"><span class="header-section-number">1.3</span> ✅ Test the Swagger UI</h2>
+<p>Open the <strong>public URL</strong> you generated. If everything was configured correctly, you should see the <strong>Swagger UI</strong> load your API documentation automatically. You’ll be able to:</p>
+<ul>
+<li>View your <code>general_aviation_weather_view</code> endpoint.</li>
+<li>Click to expand and see parameters, response schema, and sample data.</li>
+<li>Run test requests directly from the browser.</li>
+</ul>
+<hr>
+</section>
+<section id="summary" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.4</span> 🎉 Summary</h2>
+<ul>
+<li>✅ Swagger UI provides a developer-friendly interface to your API.</li>
+<li>✅ It connects automatically to PostgREST using the OpenAPI spec.</li>
+<li>✅ Your live API is now self-documenting, testable, and ready to share.</li>
+</ul>
+<p>You now have a complete pipeline: <strong>data ingestion → transformation → structured storage → API → developer docs</strong>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
