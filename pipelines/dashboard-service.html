@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -169,7 +203,34 @@ ul.task-list li input[type="checkbox"] {
 </li>
     </ul>
     </div>
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#but-first-views" id="toc-but-first-views" class="nav-link active" data-scroll-target="#but-first-views"><span class="header-section-number">1</span> 🌁 But first, Views</a></li>
+  <li><a href="#create-a-view-for-the-dashboard" id="toc-create-a-view-for-the-dashboard" class="nav-link" data-scroll-target="#create-a-view-for-the-dashboard"><span class="header-section-number">2</span> Create a View for the Dashboard</a></li>
+  <li><a href="#deploying-grafana-in-railway" id="toc-deploying-grafana-in-railway" class="nav-link" data-scroll-target="#deploying-grafana-in-railway"><span class="header-section-number">3</span> Deploying Grafana in Railway</a>
+  <ul class="collapse">
+  <li><a href="#add-the-grafana-template" id="toc-add-the-grafana-template" class="nav-link" data-scroll-target="#add-the-grafana-template"><span class="header-section-number">3.1</span> Add the Grafana Template</a></li>
+  <li><a href="#enable-serverless-mode-on-grafana" id="toc-enable-serverless-mode-on-grafana" class="nav-link" data-scroll-target="#enable-serverless-mode-on-grafana"><span class="header-section-number">3.2</span> Enable Serverless Mode on Grafana</a></li>
+  </ul></li>
+  <li><a href="#add-a-grafana-specific-db-user" id="toc-add-a-grafana-specific-db-user" class="nav-link" data-scroll-target="#add-a-grafana-specific-db-user"><span class="header-section-number">4</span> Add a Grafana-Specific DB User</a>
+  <ul class="collapse">
+  <li><a href="#steps" id="toc-steps" class="nav-link" data-scroll-target="#steps"><span class="header-section-number">4.1</span> Steps:</a></li>
+  </ul></li>
+  <li><a href="#connect-grafana-to-postgres" id="toc-connect-grafana-to-postgres" class="nav-link" data-scroll-target="#connect-grafana-to-postgres"><span class="header-section-number">5</span> Connect Grafana to Postgres</a>
+  <ul class="collapse">
+  <li><a href="#copy-pghost-from-railway" id="toc-copy-pghost-from-railway" class="nav-link" data-scroll-target="#copy-pghost-from-railway"><span class="header-section-number">5.1</span> Copy PGHOST from Railway</a></li>
+  <li><a href="#open-grafana-and-log-in" id="toc-open-grafana-and-log-in" class="nav-link" data-scroll-target="#open-grafana-and-log-in"><span class="header-section-number">5.2</span> Open Grafana and Log In</a></li>
+  <li><a href="#add-a-data-source" id="toc-add-a-data-source" class="nav-link" data-scroll-target="#add-a-data-source"><span class="header-section-number">5.3</span> Add a Data Source</a></li>
+  </ul></li>
+  <li><a href="#create-your-first-dashboard-in-grafana" id="toc-create-your-first-dashboard-in-grafana" class="nav-link" data-scroll-target="#create-your-first-dashboard-in-grafana"><span class="header-section-number">6</span> Create Your First Dashboard in Grafana</a>
+  <ul class="collapse">
+  <li><a href="#configure-the-panel" id="toc-configure-the-panel" class="nav-link" data-scroll-target="#configure-the-panel"><span class="header-section-number">6.1</span> Configure the Panel</a></li>
+  </ul></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">7</span> What’s Next?</a></li>
+  </ul>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -197,9 +258,209 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Content goes here…</p>
+<section id="but-first-views" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="but-first-views"><span class="header-section-number">1</span> 🌁 But first, Views</h2>
+<p>A <strong>View</strong> in Postgres is a virtual table based on a SQL <code>SELECT</code> query. It behaves just like a table for reading, but doesn’t store any data itself—it simply runs the query behind it whenever it’s accessed.</p>
+<p>Views are excellent for dashboards because:</p>
+<ul>
+<li>✅ They abstract complex queries behind a simple name.</li>
+<li>✅ They can be reused by multiple clients (like Grafana).</li>
+<li>✅ You can restrict access to views rather than raw tables using <strong>Postgres roles</strong>.</li>
+<li>✅ They allow you to pre-join and pre-aggregate data in a way that’s efficient and secure for visualization.</li>
+</ul>
+<hr>
+</section>
+<section id="create-a-view-for-the-dashboard" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="create-a-view-for-the-dashboard"><span class="header-section-number">2</span> Create a View for the Dashboard</h2>
+<p>Let’s create a view that answers our research question: &gt; <em>Are there “no-fly windows” correlated with weather thresholds?</em></p>
+<p>This view joins structured flight and weather data to support correlation queries:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> flight_weather <span class="kw">AS</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    f.<span class="dt">timestamp</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    f.callsign,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    f.altitude_meters,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    f.velocity_knots,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    f.latitude <span class="kw">AS</span> flight_latitude,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    f.longitude <span class="kw">AS</span> flight_longitude,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    w.precipitation_mm,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    w.weathercode,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    w.latitude <span class="kw">AS</span> weather_latitude,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    w.longitude <span class="kw">AS</span> weather_longitude</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    flights f</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    weather_observations w</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">ON</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    date_trunc(<span class="st">'minute'</span>, f.<span class="dt">timestamp</span>) <span class="op">=</span> date_trunc(<span class="st">'minute'</span>, w.<span class="dt">timestamp</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    f.<span class="dt">timestamp</span> <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="deploying-grafana-in-railway" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="deploying-grafana-in-railway"><span class="header-section-number">3</span> Deploying Grafana in Railway</h2>
+<section id="add-the-grafana-template" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="add-the-grafana-template"><span class="header-section-number">3.1</span> Add the Grafana Template</h3>
+<ol type="1">
+<li><p>In your Railway project, click <strong>“Create”</strong> → <strong>“Template”</strong>.</p></li>
+<li><p>Type <strong>Grafana</strong> in the search bar.</p></li>
+<li><p>Select the version provided by <strong>Andre Lademann’s Projects</strong>.</p></li>
+<li><p>Add the following environment variables:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GF_SECURITY_ADMIN_USER</td>
+<td>grafanareader</td>
+</tr>
+<tr class="even">
+<td>GF_DEFAULT_INSTANCE_NAME</td>
+<td>grafanapg</td>
+</tr>
+<tr class="odd">
+<td>GF_SECURITY_ADMIN_PASSWORD</td>
+<td>your-password</td>
+</tr>
+</tbody>
+</table>
+<p>Leave the 4 pre-configured environment variables as they are.</p>
+<p>Once you’ve entered the variables, the service will check connectivity and display a message saying <strong>“Ready to be deployed”</strong>.</p></li>
+<li><p>Click [Deploy]</p>
+<p>This will start the deployment process. It may take a few minutes.</p></li>
+</ol>
+<hr>
+</section>
+<section id="enable-serverless-mode-on-grafana" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="enable-serverless-mode-on-grafana"><span class="header-section-number">3.2</span> Enable Serverless Mode on Grafana</h3>
+<p>After deployment completes:</p>
+<ol type="1">
+<li>Return to the <strong>Grafana service</strong> in Railway.</li>
+<li>Click on <strong>Settings</strong>.</li>
+<li>Scroll down to <strong>“Serverless”</strong>.</li>
+<li>Toggle <strong>Enable Serverless</strong> and click <strong>Deploy</strong> again.</li>
+</ol>
+<blockquote class="blockquote">
+<p>✅ Enabling serverless mode helps reduce cost because the service will <strong>go to sleep when not in use</strong> and <strong>wake up on demand</strong>. This is ideal for tools like Grafana that are used periodically.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="add-a-grafana-specific-db-user" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="add-a-grafana-specific-db-user"><span class="header-section-number">4</span> Add a Grafana-Specific DB User</h2>
+<p>To avoid giving Grafana full access to your database, we’ll create a <strong>read-only user</strong> that can only access the view.</p>
+<section id="steps" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="steps"><span class="header-section-number">4.1</span> Steps:</h3>
+<ol type="1">
+<li>Open your Postgres database in <strong>Beekeeper Studio</strong>.</li>
+<li>Run the following SQL (replace <code>'password'</code> with one you’ll remember):</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="fu">USER</span> grafanareader <span class="kw">WITH</span> <span class="kw">PASSWORD</span> <span class="st">'your_password'</span>;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">GRANT</span> <span class="kw">USAGE</span> <span class="kw">ON</span> <span class="kw">SCHEMA</span> <span class="ot">"public"</span> <span class="kw">TO</span> grafanareader;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GRANT</span> <span class="kw">SELECT</span> <span class="kw">ON</span> <span class="ot">"public"</span>.flight_weather <span class="kw">TO</span> grafanareader;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="connect-grafana-to-postgres" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="connect-grafana-to-postgres"><span class="header-section-number">5</span> Connect Grafana to Postgres</h2>
+<section id="copy-pghost-from-railway" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="copy-pghost-from-railway"><span class="header-section-number">5.1</span> Copy PGHOST from Railway</h3>
+<ol type="1">
+<li>Go to your <strong>Postgres service</strong> in Railway.</li>
+<li>Under <strong>Environment Variables</strong>, copy the value for <code>PGHOST</code>.<br>
+It will look like: <code>postgres.railway.internal</code>.</li>
+</ol>
+<hr>
+</section>
+<section id="open-grafana-and-log-in" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="open-grafana-and-log-in"><span class="header-section-number">5.2</span> Open Grafana and Log In</h3>
+<ol type="1">
+<li>Go to your Grafana URL shown in the <strong>Deployments</strong> tab.<br>
+Example:<br>
+<a href="https://grafana-rbi9-production.up.railway.app">https://grafana-rbi9-production.up.railway.app</a></li>
+<li>Log in with:
+<ul>
+<li><strong>Username</strong>: <code>grafanareader</code></li>
+<li><strong>Password</strong>: the password you assigned earlier</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="add-a-data-source" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="add-a-data-source"><span class="header-section-number">5.3</span> Add a Data Source</h3>
+<ol type="1">
+<li>In Grafana, click <strong>Connections</strong> on the left panel.</li>
+<li>Click <strong>Data Sources</strong>.</li>
+<li>Search for <strong>PostgreSQL</strong> and select it.</li>
+</ol>
+<section id="fill-in-the-following" class="level4" data-number="5.3.1">
+<h4 data-number="5.3.1" class="anchored" data-anchor-id="fill-in-the-following"><span class="header-section-number">5.3.1</span> Fill in the following:</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Host</td>
+<td><code>postgres.railway.internal:5432</code></td>
+</tr>
+<tr class="even">
+<td>Database</td>
+<td><code>railway</code></td>
+</tr>
+<tr class="odd">
+<td>User</td>
+<td><code>grafanareader</code></td>
+</tr>
+<tr class="even">
+<td>Password</td>
+<td><code>your_password</code></td>
+</tr>
+</tbody>
+</table>
+<p>Click <strong>Save &amp; Test</strong> to confirm connectivity.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="create-your-first-dashboard-in-grafana" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="create-your-first-dashboard-in-grafana"><span class="header-section-number">6</span> Create Your First Dashboard in Grafana</h2>
+<ol type="1">
+<li>Go back to the <strong>Home</strong> page in Grafana.</li>
+<li>Click <strong>“Create your first dashboard”</strong>.</li>
+<li>Click <strong>“Add Visualization”</strong>.</li>
+</ol>
+<section id="configure-the-panel" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="configure-the-panel"><span class="header-section-number">6.1</span> Configure the Panel</h3>
+<ol type="1">
+<li><strong>Choose Data Source</strong>: Select the PostgreSQL source you just set up.</li>
+<li><strong>From Table</strong>: Select the <code>flight_weather</code> view.</li>
+<li><strong>Add Columns</strong>: Choose at least one time-based column (<code>timestamp</code>) and one data column (e.g., <code>altitude_meters</code> or <code>precipitation_mm</code>).</li>
+<li>Click <strong>Run Query</strong>.</li>
+<li>Use <strong>Table Mode</strong> or switch to a chart via <strong>Suggested Visualizations</strong>.</li>
+</ol>
+<p>You now have a live dashboard pulling from your structured data pipeline!</p>
+<hr>
+</section>
+</section>
+<section id="whats-next" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">7</span> What’s Next?</h2>
+<p>From here, you can:</p>
+<ul>
+<li>Add filters to segment by <code>weathercode</code>.</li>
+<li>Aggregate values like average flight altitude during rain conditions.</li>
+<li>Build a full visualization of “no-fly” windows over time.</li>
+</ul>
+<p>In the <a href="../pipelines/db-api-bridge-service.html">next step</a> we’ll expose your view as a <strong>REST API</strong> using PostgREST and document it using Swagger.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

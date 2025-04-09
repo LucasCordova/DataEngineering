@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Transformation Service Setup – Data Engineering Guides</title>
+<title>🔄 Data Transformation Service Setup – Data Engineering Guides</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -235,7 +235,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Transformation Service Setup</h1>
+<h1 class="title">🔄 Data Transformation Service Setup</h1>
 </div>
 
 
@@ -389,7 +389,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="use-the-github-template" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="use-the-github-template"><span class="header-section-number">1.5</span> Use the GitHub Template</h2>
-<pre><code>1.  Visit: [https://github.com/LucasCordova/db_transform](https://github.com/LucasCordova/db_transform).
+<pre><code>1.  [Use the db_transform GitHub template](https://github.com/LucasCordova/db_transform).
 2.  Click the “Use this template” button.
 3.  Name your repository: `weather_flight_db_transform`
 4.  Choose your GitHub account and click Create Repository.</code></pre>
@@ -406,11 +406,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 2.  Click New → Deploy from GitHub Repo.
 3.  Click “Configure GitHub App” to give Railway access to your GitHub account.
 4.  Choose the repository weather_flight_db_transform.
-5.  Click Deploy.
-
-*Add Environment Variable*
-    Key: DATABASE_URL
-    Value: ${{Postgres.DATABASE_PUBLIC_URL}}</code></pre>
+5.  Add the following environment variables in the Variables tab. </code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DATABASE_URL</td>
+<td><code>${{Postgres.DATABASE_PUBLIC_URL}}</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code>6.  Click Deploy.</code></pre>
 </section>
 <section id="set-cron-schedule" class="level2" data-number="1.8">
 <h2 data-number="1.8" class="anchored" data-anchor-id="set-cron-schedule"><span class="header-section-number">1.8</span> Set Cron Schedule</h2>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Web2DB Flights Ingestion Setup – Data Engineering Guides</title>
+<title>✈️ Web2DB Flights Ingestion Setup – Data Engineering Guides</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -217,17 +217,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#deploying-the-web2db-flights-service" id="toc-deploying-the-web2db-flights-service" class="nav-link" data-scroll-target="#deploying-the-web2db-flights-service"><span class="header-section-number">1.4</span> Deploying the Web2DB Flights Service</a>
   <ul class="collapse">
-  <li><a href="#add-the-docker-service-in-railway" id="toc-add-the-docker-service-in-railway" class="nav-link" data-scroll-target="#add-the-docker-service-in-railway"><span class="header-section-number">1.4.1</span> 1. Add the Docker Service in Railway</a></li>
-  <li><a href="#configure-environment-variables" id="toc-configure-environment-variables" class="nav-link" data-scroll-target="#configure-environment-variables"><span class="header-section-number">1.4.2</span> 2. Configure Environment Variables</a></li>
+  <li><a href="#add-the-docker-service-in-railway" id="toc-add-the-docker-service-in-railway" class="nav-link" data-scroll-target="#add-the-docker-service-in-railway"><span class="header-section-number">1.4.1</span> Add the Docker Service in Railway</a></li>
+  <li><a href="#configure-environment-variables" id="toc-configure-environment-variables" class="nav-link" data-scroll-target="#configure-environment-variables"><span class="header-section-number">1.4.2</span> Configure Environment Variables</a></li>
   </ul></li>
   <li><a href="#scheduling-the-ingestion" id="toc-scheduling-the-ingestion" class="nav-link" data-scroll-target="#scheduling-the-ingestion"><span class="header-section-number">1.5</span> Scheduling the Ingestion</a>
   <ul class="collapse">
-  <li><a href="#set-up-cron-trigger" id="toc-set-up-cron-trigger" class="nav-link" data-scroll-target="#set-up-cron-trigger"><span class="header-section-number">1.5.1</span> 3. Set Up Cron Trigger</a></li>
+  <li><a href="#set-up-cron-trigger" id="toc-set-up-cron-trigger" class="nav-link" data-scroll-target="#set-up-cron-trigger"><span class="header-section-number">1.5.1</span> Set Up Cron Trigger</a></li>
   </ul></li>
   <li><a href="#testing-the-ingestion" id="toc-testing-the-ingestion" class="nav-link" data-scroll-target="#testing-the-ingestion"><span class="header-section-number">1.6</span> Testing the Ingestion</a>
   <ul class="collapse">
   <li><a href="#verify-the-data-is-flowing" id="toc-verify-the-data-is-flowing" class="nav-link" data-scroll-target="#verify-the-data-is-flowing"><span class="header-section-number">1.6.1</span> ✅ Verify the Data is Flowing</a></li>
   </ul></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">1.7</span> What’s Next?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -241,7 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Web2DB Flights Ingestion Setup</h1>
+<h1 class="title">✈️ Web2DB Flights Ingestion Setup</h1>
 </div>
 
 
@@ -296,7 +297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="deploying-the-web2db-flights-service" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="deploying-the-web2db-flights-service"><span class="header-section-number">1.4</span> Deploying the Web2DB Flights Service</h2>
 <section id="add-the-docker-service-in-railway" class="level3" data-number="1.4.1">
-<h3 data-number="1.4.1" class="anchored" data-anchor-id="add-the-docker-service-in-railway"><span class="header-section-number">1.4.1</span> 1. Add the Docker Service in Railway</h3>
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="add-the-docker-service-in-railway"><span class="header-section-number">1.4.1</span> Add the Docker Service in Railway</h3>
 <ol type="1">
 <li>In your Railway project, click <strong>“New”</strong> → <strong>“Deploy from Docker Image”</strong>.</li>
 <li>Enter the image name: <code>lucascordova/web2db</code></li>
@@ -305,7 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 <section id="configure-environment-variables" class="level3" data-number="1.4.2">
-<h3 data-number="1.4.2" class="anchored" data-anchor-id="configure-environment-variables"><span class="header-section-number">1.4.2</span> 2. Configure Environment Variables</h3>
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="configure-environment-variables"><span class="header-section-number">1.4.2</span> Configure Environment Variables</h3>
 <p>Once deployed, go to the <strong>Variables</strong> tab and add the following:</p>
 <table class="caption-top table">
 <colgroup>
@@ -346,7 +347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="scheduling-the-ingestion" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="scheduling-the-ingestion"><span class="header-section-number">1.5</span> Scheduling the Ingestion</h2>
 <section id="set-up-cron-trigger" class="level3" data-number="1.5.1">
-<h3 data-number="1.5.1" class="anchored" data-anchor-id="set-up-cron-trigger"><span class="header-section-number">1.5.1</span> 3. Set Up Cron Trigger</h3>
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="set-up-cron-trigger"><span class="header-section-number">1.5.1</span> Set Up Cron Trigger</h3>
 <ol type="1">
 <li>Go to the <strong>Settings</strong> tab of the Web2DB Flights service.</li>
 <li>Scroll to the <strong>Triggers</strong> section and click <strong>“New Trigger”</strong>.</li>
@@ -373,11 +374,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> flight_json_data <span class="kw">ORDER</span> <span class="kw">BY</span> timestamptz <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If data is being ingested correctly, you should see rows with timestamps and raw JSON.</p>
 <p>🛠️ Troubleshooting Tips • Go to the Deployments tab to check if the latest deployment Completed successfully. • Check the Logs tab to view debug output (especially helpful if DEBUG=TRUE is set). • Review the Cron Triggers to make sure they’re running on schedule. • Double-check the SITE_URL and DATABASE_URL for typos or incorrect formatting.</p>
-<p>What’s Next?</p>
+<hr>
+</section>
+</section>
+<section id="whats-next" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.7</span> What’s Next?</h2>
 <p>Now that your Web2DB Flights service is live and filling your database with raw flight data, we’ll set up the companion Web2DB Weather service to do the same with meteorological data. Together, these two data streams will power our future correlation and transformation services.</p>
 
 
-</section>
 </section>
 </section>
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DB/API Bridge Service – Data Engineering Guides</title>
+<title>🌉DB API Bridge Service Setup – Data Engineering Guides</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -169,7 +203,33 @@ ul.task-list li input[type="checkbox"] {
 </li>
     </ul>
     </div>
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setting-up-the-db-api-bridge-service-postgrest" id="toc-setting-up-the-db-api-bridge-service-postgrest" class="nav-link active" data-scroll-target="#setting-up-the-db-api-bridge-service-postgrest"><span class="header-section-number">1</span> Setting Up the DB API Bridge Service (PostgREST)</a>
+  <ul class="collapse">
+  <li><a href="#why-set-up-a-db-api-bridge" id="toc-why-set-up-a-db-api-bridge" class="nav-link" data-scroll-target="#why-set-up-a-db-api-bridge"><span class="header-section-number">1.1</span> Why Set Up a DB API Bridge?</a></li>
+  <li><a href="#what-is-postgrest" id="toc-what-is-postgrest" class="nav-link" data-scroll-target="#what-is-postgrest"><span class="header-section-number">1.2</span> What is PostgREST?</a>
+  <ul class="collapse">
+  <li><a href="#key-features" id="toc-key-features" class="nav-link" data-scroll-target="#key-features"><span class="header-section-number">1.2.1</span> Key Features:</a></li>
+  </ul></li>
+  <li><a href="#step-by-step-deploy-postgrest-in-railway" id="toc-step-by-step-deploy-postgrest-in-railway" class="nav-link" data-scroll-target="#step-by-step-deploy-postgrest-in-railway"><span class="header-section-number">1.3</span> Step-by-Step: Deploy PostgREST in Railway</a>
+  <ul class="collapse">
+  <li><a href="#create-the-service-in-railway" id="toc-create-the-service-in-railway" class="nav-link" data-scroll-target="#create-the-service-in-railway"><span class="header-section-number">1.3.1</span> Create the Service in Railway</a></li>
+  <li><a href="#configure-network-and-serverless-options" id="toc-configure-network-and-serverless-options" class="nav-link" data-scroll-target="#configure-network-and-serverless-options"><span class="header-section-number">1.3.2</span> Configure Network and Serverless Options</a></li>
+  <li><a href="#set-environment-variables" id="toc-set-environment-variables" class="nav-link" data-scroll-target="#set-environment-variables"><span class="header-section-number">1.3.3</span> Set Environment Variables</a></li>
+  </ul></li>
+  <li><a href="#set-up-database-permissions" id="toc-set-up-database-permissions" class="nav-link" data-scroll-target="#set-up-database-permissions"><span class="header-section-number">1.4</span> Set Up Database Permissions</a></li>
+  <li><a href="#create-a-dedicated-authenticator-role" id="toc-create-a-dedicated-authenticator-role" class="nav-link" data-scroll-target="#create-a-dedicated-authenticator-role"><span class="header-section-number">1.5</span> Create a Dedicated Authenticator Role</a>
+  <ul class="collapse">
+  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters"><span class="header-section-number">1.5.1</span> Why This Matters:</a></li>
+  </ul></li>
+  <li><a href="#test-the-api-endpoint" id="toc-test-the-api-endpoint" class="nav-link" data-scroll-target="#test-the-api-endpoint"><span class="header-section-number">1.6</span> Test the API Endpoint</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.7</span> 🎉 Summary</a></li>
+  </ul></li>
+  </ul>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -180,7 +240,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">DB/API Bridge Service</h1>
+<h1 class="title">🌉DB API Bridge Service Setup</h1>
 </div>
 
 
@@ -197,9 +257,156 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Content goes here…</p>
+<section id="setting-up-the-db-api-bridge-service-postgrest" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Setting Up the DB API Bridge Service (PostgREST)</h1>
+<section id="why-set-up-a-db-api-bridge" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="why-set-up-a-db-api-bridge"><span class="header-section-number">1.1</span> Why Set Up a DB API Bridge?</h2>
+<p>Once your structured data is ready for exploration and integration, the next step is to expose it via an API. This allows your data to be accessed securely by dashboards, external applications, or developer tools. Instead of building a custom REST API, we can use <strong>PostgREST</strong>, which automates this process by generating RESTful endpoints directly from your PostgreSQL schema.</p>
+<hr>
+</section>
+<section id="what-is-postgrest" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="what-is-postgrest"><span class="header-section-number">1.2</span> What is PostgREST?</h2>
+<p><a href="https://postgrest.org">PostgREST</a> is a lightweight, open-source tool that turns your PostgreSQL database into a secure RESTful API. With PostgREST, your views and tables become accessible via HTTP without writing backend code.</p>
+<section id="key-features" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="key-features"><span class="header-section-number">1.2.1</span> Key Features:</h3>
+<ul>
+<li>🚀 Generates REST endpoints for tables, views, and stored procedures.</li>
+<li>🔐 Uses PostgreSQL’s native roles and permissions for access control.</li>
+<li>📊 Perfect for exposing analytic views to tools like Swagger, frontend apps, and more.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="step-by-step-deploy-postgrest-in-railway" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="step-by-step-deploy-postgrest-in-railway"><span class="header-section-number">1.3</span> Step-by-Step: Deploy PostgREST in Railway</h2>
+<section id="create-the-service-in-railway" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="create-the-service-in-railway"><span class="header-section-number">1.3.1</span> Create the Service in Railway</h3>
+<ol type="1">
+<li><p>Click <strong>Create</strong> in your Railway project.</p></li>
+<li><p>Choose <strong>Docker Image</strong>.</p></li>
+<li><p>Enter the Docker image name:</p>
+<pre><code>postgrest/postgrest</code></pre></li>
+<li><p>Click <strong>Deploy</strong>.</p></li>
+</ol>
+<hr>
+</section>
+<section id="configure-network-and-serverless-options" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="configure-network-and-serverless-options"><span class="header-section-number">1.3.2</span> Configure Network and Serverless Options</h3>
+<p>After deployment:</p>
+<ol type="1">
+<li>Click on the <strong>Deployments</strong> tab, then select <strong>Settings</strong>.</li>
+<li>Under <strong>Public Networking</strong>, click <strong>Generate Domain</strong>.
+<ul>
+<li>You can customize the domain to a meaningful name if desired.</li>
+<li>Copy the <strong>public URL</strong> shown.</li>
+</ul></li>
+<li>Scroll to the <strong>Serverless</strong> section.</li>
+<li>Toggle <strong>Enable Serverless</strong>, then click <strong>Deploy</strong> again.</li>
+</ol>
+<blockquote class="blockquote">
+<p>Enabling <strong>Serverless</strong> mode helps reduce costs — the service sleeps when not in use and wakes up on demand.</p>
+</blockquote>
+<hr>
+</section>
+<section id="set-environment-variables" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="set-environment-variables"><span class="header-section-number">1.3.3</span> Set Environment Variables</h3>
+<p>Navigate to the <strong>Variables</strong> tab and add the following:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PGRST_DB_ANON_ROLE</code></td>
+<td><code>web_anon</code></td>
+</tr>
+<tr class="even">
+<td><code>PGRST_DB_SCHEMA</code></td>
+<td><code>api</code></td>
+</tr>
+<tr class="odd">
+<td><code>PGRST_DB_URI</code></td>
+<td><code>${{DATABASE_URL}}</code></td>
+</tr>
+<tr class="even">
+<td><code>PGRST_OPENAPI_SERVER_PROXY_URI</code></td>
+<td><code>&lt;your public hostname&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>Replace <code>&lt;your public hostname&gt;</code> with the public domain you generated in the previous step.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="set-up-database-permissions" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="set-up-database-permissions"><span class="header-section-number">1.4</span> Set Up Database Permissions</h2>
+<p>Open <strong>Beekeeper Studio</strong> and execute the following SQL:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Create a non-login role to define anonymous API access</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">ROLE</span> web_anon NOLOGIN;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- Allow that role to access the "api" schema</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">GRANT</span> <span class="kw">USAGE</span> <span class="kw">ON</span> <span class="kw">SCHEMA</span> api <span class="kw">TO</span> web_anon;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- Limit access only to this view</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">GRANT</span> <span class="kw">SELECT</span> <span class="kw">ON</span> api.general_aviation_weather_view <span class="kw">TO</span> web_anon;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This ensures PostgREST can only <strong>read</strong> from a specific schema (<code>api</code>) and specific view (<code>general_aviation_weather_view</code>). It does <strong>not</strong> grant access to other tables or schemas.</p>
+<hr>
+</section>
+<section id="create-a-dedicated-authenticator-role" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="create-a-dedicated-authenticator-role"><span class="header-section-number">1.5</span> Create a Dedicated Authenticator Role</h2>
+<p>Rather than using the powerful <code>postgres</code> role to connect from PostgREST, we create a separate <strong>authenticator</strong> user that can assume the <code>web_anon</code> role. This is more secure and scalable.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">ROLE</span> authenticator NOINHERIT LOGIN <span class="kw">PASSWORD</span> <span class="st">'&lt;your password&gt;'</span>;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">GRANT</span> web_anon <span class="kw">TO</span> authenticator;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="why-this-matters" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="why-this-matters"><span class="header-section-number">1.5.1</span> Why This Matters:</h3>
+<ul>
+<li><code>NOINHERIT</code>: the authenticator role <strong>cannot directly access</strong> anything.</li>
+<li><code>LOGIN</code>: it can be used to log in from PostgREST.</li>
+<li><code>GRANT web_anon</code>: allows this user to <strong>act as web_anon</strong>.</li>
+</ul>
+<p>📚 See <a href="https://docs.postgrest.org/en/v12/tutorials/tut0.html#step-3-create-database-for-api">PostgREST Tutorial, Step 3</a></p>
+<hr>
+</section>
+</section>
+<section id="test-the-api-endpoint" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="test-the-api-endpoint"><span class="header-section-number">1.6</span> Test the API Endpoint</h2>
+<p>To test your PostgREST API:</p>
+<ol type="1">
+<li>Open your browser or use a tool like <code>curl</code>.</li>
+<li>Visit your public API URL, appending the view name:</li>
+</ol>
+<pre><code>https://&lt;your-domain&gt;.up.railway.app/general_aviation_weather_view</code></pre>
+<p>If everything is configured correctly, you should see a JSON response:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2025-04-08T16:00:00Z"</span><span class="fu">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"callsign"</span><span class="fu">:</span> <span class="st">"N12345"</span><span class="fu">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"altitude_meters"</span><span class="fu">:</span> <span class="dv">1524</span><span class="fu">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"precipitation_mm"</span><span class="fu">:</span> <span class="dv">0</span><span class="er">.</span><span class="dv">8</span><span class="fu">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"weathercode"</span><span class="fu">:</span> <span class="dv">61</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="er">...</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>✅ If you see data, your DB API bridge is fully operational!</p>
+<hr>
+</section>
+<section id="summary" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.7</span> 🎉 Summary</h2>
+<ul>
+<li>✅ PostgREST converts your database views into REST endpoints.</li>
+<li>✅ You isolated access using a dedicated schema (<code>api</code>) and view.</li>
+<li>✅ You secured the system using PostgreSQL roles (<code>web_anon</code> and <code>authenticator</code>).</li>
+<li>✅ You can now integrate this endpoint with Swagger, frontend tools, or other systems.</li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
