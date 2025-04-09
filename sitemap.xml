@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://LucasCordova.github.io/DataEngineering/pipelines.html</loc>
-    <lastmod>2025-04-09T06:57:21.759Z</lastmod>
+    <loc>https://LucasCordova.github.io/DataEngineering/index.html</loc>
+    <lastmod>2025-04-09T08:08:30.653Z</lastmod>
   </url>
   <url>
-    <loc>https://LucasCordova.github.io/DataEngineering/index.html</loc>
-    <lastmod>2025-04-09T05:47:17.204Z</lastmod>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/api-developer-portal-service.html</loc>
+    <lastmod>2025-04-09T08:05:59.092Z</lastmod>
+  </url>
+  <url>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/db-api-bridge-service.html</loc>
+    <lastmod>2025-04-09T08:06:08.183Z</lastmod>
+  </url>
+  <url>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/ingestion-services.html</loc>
+    <lastmod>2025-04-09T08:06:15.953Z</lastmod>
+  </url>
+  <url>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/dashboard-service.html</loc>
+    <lastmod>2025-04-09T08:06:03.912Z</lastmod>
+  </url>
+  <url>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/transformation-service.html</loc>
+    <lastmod>2025-04-09T08:06:19.615Z</lastmod>
+  </url>
+  <url>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/index.html</loc>
+    <lastmod>2025-04-09T08:09:19.413Z</lastmod>
+  </url>
+  <url>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/db-service.html</loc>
+    <lastmod>2025-04-09T08:06:11.484Z</lastmod>
   </url>
 </urlset>

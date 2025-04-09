@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Home – Data Engineering Guides</title>
+<title>Pipelines – Data Engineering Guides</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,22 +23,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -66,9 +66,13 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="default">
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -78,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Data Engineering Guides</span>
     </a>
   </div>
@@ -89,11 +93,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./pipelines/index.html"> 
+    <a class="nav-link" href="../pipelines/index.html"> 
 <span class="menu-text">Pipelines</span></a>
   </li>  
 </ul>
@@ -107,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Pipelines</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -121,43 +125,43 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines/db-service.html" class="sidebar-item-text sidebar-link">
+  <a href="../pipelines/db-service.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Database Service</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines/ingestion-services.html" class="sidebar-item-text sidebar-link">
+  <a href="../pipelines/ingestion-services.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Ingestion Services</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines/transformation-service.html" class="sidebar-item-text sidebar-link">
+  <a href="../pipelines/transformation-service.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Transformation Service</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines/dashboard-service.html" class="sidebar-item-text sidebar-link">
+  <a href="../pipelines/dashboard-service.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dashboard Service</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines/db-api-bridge-service.html" class="sidebar-item-text sidebar-link">
+  <a href="../pipelines/db-api-bridge-service.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">DB/API Bridge Service</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines/api-developer-portal-service.html" class="sidebar-item-text sidebar-link">
+  <a href="../pipelines/api-developer-portal-service.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">API Developer Portal Service</span></a>
   </div>
 </li>
@@ -168,7 +172,8 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1</span> Overview</a></li>
-  <li><a href="#steps" id="toc-steps" class="nav-link" data-scroll-target="#steps"><span class="header-section-number">2</span> Steps</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">2</span> Prerequisites</a></li>
+  <li><a href="#architecture" id="toc-architecture" class="nav-link" data-scroll-target="#architecture"><span class="header-section-number">3</span> Architecture</a></li>
   </ul>
 </nav>
 </nav>
@@ -181,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Home</h1>
+<h1 class="title">Pipelines</h1>
 </div>
 
 
@@ -200,11 +205,60 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="overview" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="overview"><span class="header-section-number">1</span> Overview</h2>
-<p>Overview of the step</p>
+<p>The ability to synthesize new knowledge by integrating disparate data sources is a powerful asset. This guide will walk you through the design and deployment of a data pipeline architecture on <a href="https://railway.app">Railway.app</a>, a cloud-native development platform that allows you to quickly spin up backend infrastructure with minimal configuration overhead.</p>
+<p>The goal of this pipeline is to collect, structure, and expose data in a way that supports meaningful analysis and knowledge generation. By combining unstructured and structured data from multiple services into a single relational data model, this system enables real-time insights via a customizable dashboard and a developer-friendly REST API.</p>
 </section>
-<section id="steps" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="steps"><span class="header-section-number">2</span> Steps</h2>
-<p>Here are the steps.</p>
+<section id="prerequisites" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">2</span> Prerequisites</h2>
+<p>To follow this guide, ensure you have the following: 1. A GitHub account. 2. A Railway.app account with at least Hobby tier access. Note: This requires depositing a $5 credit via credit card. It’s recommended to sign up for Railway using your GitHub account. Established GitHub accounts are subject to fewer verification checks, as Railway uses this to reduce bot or adversarial sign-up attempts.</p>
+</section>
+<section id="architecture" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="architecture"><span class="header-section-number">3</span> Architecture</h2>
+<p>You will build an architecture composed of six distinct services as illustrated below.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    subgraph Railway.app
+        Postgres[(Postgres Database)]
+        Web2DB1[Web2DB - Scraper/API Service #1]
+        Web2DB2[Web2DB - Scraper/API Service #2]
+        DataTransform[DataTransform Service]
+        Grafana[Grafana Dashboard]
+        DB2API[PostgREST - DB2API Bridge]
+        Swagger[Swagger UI - API Dev Tool]
+    end
+
+    Web2DB1 --&gt; Postgres
+    Web2DB2 --&gt; Postgres
+    Postgres --&gt; DataTransform
+    DataTransform --&gt; Postgres
+    Postgres --&gt; Grafana
+    Postgres --&gt; DB2API
+    DB2API --&gt; Swagger
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ol type="1">
+<li><p><strong>Postgres Database Service (<code>Postgres</code>)</strong><br>
+A Railway-hosted PostgreSQL instance used as the central data repository. It stores raw, unstructured data during the initial collection phase and houses the cleaned, structured relational model post-transformation.</p></li>
+<li><p><strong>Data Ingestion Services (<code>Web2DB</code>)</strong><br>
+These microservices are responsible for ingesting data from external sources, including APIs and web scraping targets. They persist the gathered unstructured data into the Postgres service.</p></li>
+<li><p><strong>Data Transformation Service (<code>DataTransform</code>)</strong><br>
+This service transforms the unstructured data into a normalized and query-friendly relational schema, suitable for downstream analysis and API exposure.</p></li>
+<li><p><strong>Dashboard Service (<code>Grafana</code>)</strong><br>
+A visualization and analytics platform connected to the Postgres database. Grafana provides real-time dashboards, aggregations, and analysis capabilities.</p></li>
+<li><p><strong>DB/API Bridge Service (<code>DB2API</code>)</strong><br>
+This service uses <a href="https://postgrest.org">PostgREST</a> to expose your relational model as a secure, queryable REST API, generated directly from your database schema.</p></li>
+<li><p><strong>API Developer Interface (<code>Swagger</code>)</strong><br>
+The Swagger UI allows developers to explore, test, and understand the API endpoints served by PostgREST, enhancing developer experience and reducing integration friction.</p></li>
+</ol>
+<p>Stay tuned for the <a href="../pipelines/db-service.html">next section</a>, where we’ll begin by setting up the Postgres database service and preparing the schema for incoming unstructured data.</p>
 
 
 </section>

@@ -1,23 +1,137 @@
 [
   {
-    "objectID": "pipelines.html",
-    "href": "pipelines.html",
-    "title": "Pipelines - Data Engineering",
-    "section": "",
-    "text": "In today’s data-driven landscape, the ability to synthesize new knowledge by integrating disparate data sources is a powerful asset. This guide will walk you through the design and deployment of a data pipeline architecture on Railway.app, a cloud-native development platform that allows you to quickly spin up backend infrastructure with minimal configuration overhead.\nThe goal of this pipeline is to collect, structure, and expose data in a way that supports meaningful analysis and knowledge generation. By combining unstructured and structured data from multiple services into a single relational data model, this system enables real-time insights via a customizable dashboard and a developer-friendly REST API."
-  },
-  {
-    "objectID": "pipelines.html#architecture-overview",
-    "href": "pipelines.html#architecture-overview",
-    "title": "Pipelines - Data Engineering",
-    "section": "Architecture Overview",
-    "text": "Architecture Overview\n\n\n\n\n\ngraph TD\n    subgraph Railway.app\n        Postgres[(Postgres Database)]\n        Web2DB1[Web2DB - Scraper/API Service #1]\n        Web2DB2[Web2DB - Scraper/API Service #2]\n        DataTransform[DataTransform Service]\n        Grafana[Grafana Dashboard]\n        DB2API[PostgREST - DB2API Bridge]\n        Swagger[Swagger UI - API Dev Tool]\n    end\n\n    Web2DB1 --&gt; Postgres\n    Web2DB2 --&gt; Postgres\n    Postgres --&gt; DataTransform\n    DataTransform --&gt; Postgres\n    Postgres --&gt; Grafana\n    Postgres --&gt; DB2API\n    DB2API --&gt; Swagger"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Data Engineering",
+    "title": "Home",
     "section": "",
-    "text": "This site contains guides for various Data Engineering tasks."
+    "text": "Overview of the step",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
+    "title": "Home",
+    "section": "",
+    "text": "Overview of the step",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#steps",
+    "href": "index.html#steps",
+    "title": "Home",
+    "section": "2 Steps",
+    "text": "2 Steps\nHere are the steps.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "pipelines/api-developer-portal-service.html",
+    "href": "pipelines/api-developer-portal-service.html",
+    "title": "API Developer Portal Service",
+    "section": "",
+    "text": "Content goes here…",
+    "crumbs": [
+      "Home",
+      "API Developer Portal Service"
+    ]
+  },
+  {
+    "objectID": "pipelines/api-developer-portal-service.html#overview",
+    "href": "pipelines/api-developer-portal-service.html#overview",
+    "title": "API Developer Portal Service",
+    "section": "",
+    "text": "Content goes here…",
+    "crumbs": [
+      "Home",
+      "API Developer Portal Service"
+    ]
+  },
+  {
+    "objectID": "pipelines/db-api-bridge-service.html",
+    "href": "pipelines/db-api-bridge-service.html",
+    "title": "DB/API Bridge Service",
+    "section": "",
+    "text": "Content goes here…",
+    "crumbs": [
+      "Home",
+      "DB/API Bridge Service"
+    ]
+  },
+  {
+    "objectID": "pipelines/ingestion-services.html",
+    "href": "pipelines/ingestion-services.html",
+    "title": "Ingestion Services",
+    "section": "",
+    "text": "Content goes here…",
+    "crumbs": [
+      "Home",
+      "Data Ingestion Services"
+    ]
+  },
+  {
+    "objectID": "pipelines/dashboard-service.html",
+    "href": "pipelines/dashboard-service.html",
+    "title": "Dashboard Service",
+    "section": "",
+    "text": "Content goes here…",
+    "crumbs": [
+      "Home",
+      "Dashboard Service"
+    ]
+  },
+  {
+    "objectID": "pipelines/transformation-service.html",
+    "href": "pipelines/transformation-service.html",
+    "title": "Transformation Service",
+    "section": "",
+    "text": "Content goes here…",
+    "crumbs": [
+      "Home",
+      "Data Transformation Service"
+    ]
+  },
+  {
+    "objectID": "pipelines/index.html",
+    "href": "pipelines/index.html",
+    "title": "Pipelines",
+    "section": "",
+    "text": "The ability to synthesize new knowledge by integrating disparate data sources is a powerful asset. This guide will walk you through the design and deployment of a data pipeline architecture on Railway.app, a cloud-native development platform that allows you to quickly spin up backend infrastructure with minimal configuration overhead.\nThe goal of this pipeline is to collect, structure, and expose data in a way that supports meaningful analysis and knowledge generation. By combining unstructured and structured data from multiple services into a single relational data model, this system enables real-time insights via a customizable dashboard and a developer-friendly REST API."
+  },
+  {
+    "objectID": "pipelines/index.html#overview",
+    "href": "pipelines/index.html#overview",
+    "title": "Pipelines",
+    "section": "",
+    "text": "The ability to synthesize new knowledge by integrating disparate data sources is a powerful asset. This guide will walk you through the design and deployment of a data pipeline architecture on Railway.app, a cloud-native development platform that allows you to quickly spin up backend infrastructure with minimal configuration overhead.\nThe goal of this pipeline is to collect, structure, and expose data in a way that supports meaningful analysis and knowledge generation. By combining unstructured and structured data from multiple services into a single relational data model, this system enables real-time insights via a customizable dashboard and a developer-friendly REST API."
+  },
+  {
+    "objectID": "pipelines/index.html#prerequisites",
+    "href": "pipelines/index.html#prerequisites",
+    "title": "Pipelines",
+    "section": "2 Prerequisites",
+    "text": "2 Prerequisites\nTo follow this guide, ensure you have the following: 1. A GitHub account. 2. A Railway.app account with at least Hobby tier access. Note: This requires depositing a $5 credit via credit card. It’s recommended to sign up for Railway using your GitHub account. Established GitHub accounts are subject to fewer verification checks, as Railway uses this to reduce bot or adversarial sign-up attempts."
+  },
+  {
+    "objectID": "pipelines/index.html#architecture",
+    "href": "pipelines/index.html#architecture",
+    "title": "Pipelines",
+    "section": "3 Architecture",
+    "text": "3 Architecture\nYou will build an architecture composed of six distinct services as illustrated below.\n\n\n\n\n\ngraph TD\n    subgraph Railway.app\n        Postgres[(Postgres Database)]\n        Web2DB1[Web2DB - Scraper/API Service #1]\n        Web2DB2[Web2DB - Scraper/API Service #2]\n        DataTransform[DataTransform Service]\n        Grafana[Grafana Dashboard]\n        DB2API[PostgREST - DB2API Bridge]\n        Swagger[Swagger UI - API Dev Tool]\n    end\n\n    Web2DB1 --&gt; Postgres\n    Web2DB2 --&gt; Postgres\n    Postgres --&gt; DataTransform\n    DataTransform --&gt; Postgres\n    Postgres --&gt; Grafana\n    Postgres --&gt; DB2API\n    DB2API --&gt; Swagger\n\n\n\n\n\n\n\nPostgres Database Service (Postgres)\nA Railway-hosted PostgreSQL instance used as the central data repository. It stores raw, unstructured data during the initial collection phase and houses the cleaned, structured relational model post-transformation.\nData Ingestion Services (Web2DB)\nThese microservices are responsible for ingesting data from external sources, including APIs and web scraping targets. They persist the gathered unstructured data into the Postgres service.\nData Transformation Service (DataTransform)\nThis service transforms the unstructured data into a normalized and query-friendly relational schema, suitable for downstream analysis and API exposure.\nDashboard Service (Grafana)\nA visualization and analytics platform connected to the Postgres database. Grafana provides real-time dashboards, aggregations, and analysis capabilities.\nDB/API Bridge Service (DB2API)\nThis service uses PostgREST to expose your relational model as a secure, queryable REST API, generated directly from your database schema.\nAPI Developer Interface (Swagger)\nThe Swagger UI allows developers to explore, test, and understand the API endpoints served by PostgREST, enhancing developer experience and reducing integration friction.\n\nStay tuned for the next section, where we’ll begin by setting up the Postgres database service and preparing the schema for incoming unstructured data."
+  },
+  {
+    "objectID": "pipelines/db-service.html",
+    "href": "pipelines/db-service.html",
+    "title": "Database Service",
+    "section": "",
+    "text": "Content goes here…",
+    "crumbs": [
+      "Home",
+      "Database Service"
+    ]
   }
 ]
