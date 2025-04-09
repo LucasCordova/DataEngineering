@@ -1,0 +1,219 @@
+---
+title: "🔄 Data Transformation Service Setup"
+sidebar: pipelines
+---
+
+# Setting Up the `DataTransform` Service
+
+## Overview
+
+In this section, you’ll design and deploy a transformation service called `DataTransform`. This service will extract meaningful fields from your raw JSON flight and weather data and insert them into clean, structured tables in your Postgres database.
+
+This transformation process involves:
+- Understanding the structure of raw JSON.
+- Designing normalized physical tables for analysis.
+- Writing SQL to extract values using Postgres JSON functions.
+- Automating the transformation with a scheduled job in Railway.
+
+---
+
+## Understand the JSON Structure
+
+Before transforming the data, you must understand what the raw JSON looks like. You can do this by running:
+
+```sql
+SELECT raw_json FROM flight_json_data ORDER BY timestamptz DESC LIMIT 1;
+SELECT raw_json FROM weather_json_data ORDER BY timestamptz DESC LIMIT 1;
+```
+
+Explore the shape and nesting of each payload. For example:
+    - OpenSky states is an array of arrays. OpenSky JSON Structure
+    - Open-Meteo JSON is a nested object. Open-Meteo Example
+
+📚 Reference:
+	[PostgreSQL JSON Functions and Operators](https://www.postgresql.org/docs/current/queries-with.html) 
+
+## Design Your Physical Schema
+
+Based on the JSON contents, you’ll need normalized tables to store flight and weather data. Here’s the schema you’ll use:
+
+```sql
+CREATE TABLE flight_json_data (
+    id SERIAL PRIMARY KEY,
+    raw_json JSONB NOT NULL,
+    timestamptz TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE weather_json_data (
+    id SERIAL PRIMARY KEY,
+    raw_json JSONB NOT NULL,
+    timestamptz TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Structured output tables
+CREATE TABLE flights (
+    id SERIAL PRIMARY KEY,
+    icao24 VARCHAR(10) NOT NULL,
+    callsign VARCHAR(10),
+    country VARCHAR(64),
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION,
+    altitude_meters DOUBLE PRECISION,
+    velocity_knots DOUBLE PRECISION,
+    heading_degrees DOUBLE PRECISION,
+    vertical_rate DOUBLE PRECISION,
+    timestamp TIMESTAMPTZ NOT NULL
+);
+
+CREATE TABLE weather_observations (
+    id SERIAL PRIMARY KEY,
+    latitude DOUBLE PRECISION NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
+    timestamp TIMESTAMPTZ NOT NULL,
+    precipitation_mm DOUBLE PRECISION,
+    weathercode SMALLINT
+);
+
+CREATE TABLE weather_condition (
+    code SMALLINT PRIMARY KEY,
+    description TEXT
+);
+```
+
+These tables will be the targets of your transformation logic.
+
+## Write SQL to Transform the Data
+
+What’s a Common Table Expression?
+
+A Common Table Expression (CTE) is a temporary result set defined at the beginning of a SQL statement. It helps modularize complex queries and allows you to:
+    - Break down a multi-step transformation into readable pieces.
+    - Reference intermediate results multiple times.
+
+📚 Reference: [CTEs in PostgreSQL](https://www.postgresql.org/docs/current/queries-with.html)
+
+*Example Transformation for Flights*
+```sql
+BEGIN;
+
+WITH raw AS (
+    SELECT id, timestamptz, jsonb_array_elements(raw_json->'states') AS state
+    FROM flight_json_data
+),
+parsed AS (
+    SELECT
+        id,
+        state->>0 AS icao24,
+        state->>1 AS callsign,
+        state->>2 AS country,
+        (state->>6)::DOUBLE PRECISION AS longitude,
+        (state->>5)::DOUBLE PRECISION AS latitude,
+        (state->>7)::DOUBLE PRECISION AS altitude_meters,
+        (state->>9)::DOUBLE PRECISION AS velocity_knots,
+        (state->>10)::DOUBLE PRECISION AS heading_degrees,
+        (state->>11)::DOUBLE PRECISION AS vertical_rate,
+        timestamptz
+    FROM raw
+)
+INSERT INTO flights (
+    icao24, callsign, country, latitude, longitude,
+    altitude_meters, velocity_knots, heading_degrees,
+    vertical_rate, timestamp
+)
+SELECT
+    icao24, callsign, country, latitude, longitude,
+    altitude_meters, velocity_knots, heading_degrees,
+    vertical_rate, timestamptz
+FROM parsed;
+
+-- Delete processed rows
+DELETE FROM flight_json_data;
+
+COMMIT;
+```
+
+*Example Transformation for Weather*
+
+```sql
+BEGIN;
+
+WITH raw AS (
+    SELECT id, raw_json, timestamptz
+    FROM weather_json_data
+),
+parsed AS (
+    SELECT
+        (raw_json->'latitude')::DOUBLE PRECISION AS latitude,
+        (raw_json->'longitude')::DOUBLE PRECISION AS longitude,
+        (raw_json->'current'->'precipitation')::DOUBLE PRECISION AS precipitation_mm,
+        (raw_json->'current'->'weathercode')::SMALLINT AS weathercode,
+        timestamptz AS timestamp
+    FROM raw
+)
+INSERT INTO weather_observations (
+    latitude, longitude, precipitation_mm, weathercode, timestamp
+)
+SELECT
+    latitude, longitude, precipitation_mm, weathercode, timestamp
+FROM parsed;
+
+-- Delete processed rows
+DELETE FROM weather_json_data;
+
+COMMIT;
+```
+
+### Why Use Transactions?
+
+A TRANSACTION ensures that either all your steps complete successfully, or none of them are applied. This prevents partial writes and data corruption.
+	•	BEGIN; starts the transaction.
+	•	COMMIT; applies all changes if no error occurred.
+	•	If an error occurs, the entire transaction can be rolled back.
+
+## Use the GitHub Template
+	1.	[Use the db_transform GitHub template](https://github.com/LucasCordova/db_transform).
+	2.	Click the “Use this template” button.
+	3.	Name your repository: `weather_flight_db_transform`
+    4.	Choose your GitHub account and click Create Repository.
+
+## Add Your SQL to clean.sql
+	1.	Open the new repository on GitHub (recommended) or clone it locally.
+    2.	Edit the clean.sql file. If you are editing in the browser, choose the `pencil` icon. Paste your flight and weather transformation SQL inside it.
+    3.	Save the file and commit. In the browser editor, click the Commit changes... button, add a message, and click the final Commit changes button.
+
+## Deploy the Service in Railway
+    1.	Go to your Railway project.
+	2.	Click New → Deploy from GitHub Repo.
+	3.	Click “Configure GitHub App” to give Railway access to your GitHub account.
+	4.	Choose the repository weather_flight_db_transform.
+    5.  Add the following environment variables in the Variables tab. 
+
+| Key           | Value                            |
+|---------------|----------------------------------|
+| DATABASE_URL  | `${{Postgres.DATABASE_PUBLIC_URL}}` |
+
+	6.	Click Deploy.
+
+## Set Cron Schedule
+    1.	Go to the Settings tab of the DataTransform service.
+	2.	Scroll to Triggers → New Trigger.
+	3.	Choose Cron and enter: `0 * * * *`.
+    This means the service runs once every hour, at the top of the hour.
+
+## Testing and Validation
+
+    ✅ Check the Tables in Beekeeper
+
+        After the first cron run, inspect the structured tables:
+
+        ```sql
+        SELECT * FROM flights ORDER BY timestamp DESC LIMIT 10;
+        SELECT * FROM weather_observations ORDER BY timestamp DESC LIMIT 10;
+        ```
+
+    ✅ View Logs in Railway
+        Use the Logs tab to inspect any errors or debug output.
+
+## What's Next?
+
+    Now that your structured data is flowing, you can visualize and analyze it in the next step using Grafana Dashboards. You’ll use SQL queries to explore patterns in flight activity and weather data—laying the foundation for answering your core research question.

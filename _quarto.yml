@@ -2,20 +2,46 @@ project:
   type: website
 
 website:
-  title: "DataEngineering"
+  title: "Data Engineering Guides"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: pipelines/index.qmd
+        text: Pipelines
+  sidebar:
+    - id: pipelines
+      title: "Pipelines"
+      contents:
+        - text: Pipelines
+          href: pipelines/index.qmd
+        - text: 1. Database Service Setup
+          href: pipelines/db-service.qmd
+        - text: 2. Flight Data Ingestion Service Setup
+          href: pipelines/flight-ingestion-service.qmd
+        - text: 3. Weather Data Ingestion Service Setup
+          href: pipelines/weather-ingestion-service.qmd
+        - text: 4. Data Transformation Service Setup
+          href: pipelines/transformation-service.qmd
+        - text: 5. Dashboard Service Setup
+          href: pipelines/dashboard-service.qmd
+        - text: 6. DB/API Bridge Service Setup
+          href: pipelines/db-api-bridge-service.qmd
+        - text: 7. API Developer Portal Service Setup
+          href: pipelines/api-developer-portal-service.qmd
 
 format:
   html:
     theme:
       - cosmo
-      - brand
     css: styles.css
     toc: true
+    toc-location: left
+    breadcrumbs: true
+    number-sections: true
+    depth: 2
+    mermaid:
+      theme: default
 
 
 

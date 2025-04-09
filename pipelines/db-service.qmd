@@ -1,0 +1,134 @@
+---
+title: "💽 Database Service Setup"
+sidebar: pipelines
+---
+
+# Setting Up the Postgres Service on Railway
+
+## Overview
+
+In this pipeline, the **Postgres** service functions as the central knowledge repository for all collected and transformed data. It plays a dual role:
+
+1. **Raw Data Storage** – Capturing unstructured API responses from external ingestion services (e.g., OpenSky Network for flights, Open-Meteo for weather).
+2. **Structured Relational Modeling** – Housing clean, normalized data models post-transformation—ready for querying, visualization, and API exposure.
+
+As we build a system to detect **“no-fly windows”** based on weather thresholds over Portland, Postgres serves as the long-term memory of the pipeline. In this step, we’ll deploy it using [Railway](https://railway.app) and connect via [Beekeeper Studio](https://www.beekeeperstudio.io/) to validate connectivity and inspect future data.
+
+---
+
+## Prerequisites
+
+Before proceeding, make sure you have:
+
+- A [GitHub](https://github.com/) account.
+- A [Railway](https://railway.app) account with at least **Hobby** tier access.  
+   This requires a $5 credit deposit using a credit card.
+- [Beekeeper Studio](https://www.beekeeperstudio.io/) installed on your computer.  
+   Beekeeper is an open-source desktop SQL client for inspecting and querying PostgreSQL databases.
+
+---
+
+## Steps to Set Up the Postgres Service
+
+### Create a New Project in Railway
+
+1. Log in at [railway.app](https://railway.app).
+2. Click **"New Project"**.
+3. Select **"Blank Project"**.
+4. Name your project (e.g., `no-fly-pipeline`) and click **"Create Project"**.
+
+---
+
+### Add a Postgres Database
+
+1. In your project dashboard, click **"New"** to add a service.
+2. Choose **"Database"**, then click **"PostgreSQL"**.
+3. Railway will now deploy your Postgres service.
+
+Once provisioned, this database becomes the shared backend for all services in your pipeline.
+
+---
+
+### Retrieve Your Public Connection URL
+
+1. Click into the **Postgres** service from the project dashboard.
+2. Open the **Variables** tab.
+3. Copy the `DATABASE_PUBLIC_URL` — it will look something like: `postgresql://postgres:<some-passsword>@<some-server>.proxy.rlwy.net:20848/railway`.
+
+This URL is your access point for Beekeeper and other services that will connect to the database.
+
+---
+
+### Connect to Postgres Using Beekeeper Studio
+
+You’ll use **Beekeeper Studio** to explore and verify your connection to the database.
+
+#### Launch Beekeeper Studio
+
+Open the app and click **"New Connection"**.
+
+#### Import the URL
+
+1. Choose **"PostgreSQL"** from the connection type options.
+2. Click **"Import from URL"** (top-right or near the bottom of the connection screen).
+3. Paste the `DATABASE_PUBLIC_URL` from Railway.
+4. Click **"Connect"**.
+
+#### Confirm Connection
+
+Once connected, you’ll see an empty database. That’s expected—your ingestion and transformation services will populate it in later steps. For now, you can:
+
+- Test SQL queries.
+- Monitor schema evolution.
+- Verify your database is reachable from your local environment.
+
+---
+
+### Create Tables for Raw JSON Storage
+
+Before data ingestion can begin, you need to create two tables in Postgres to hold the raw, unstructured API responses from the flight and weather ingestion services. These tables will serve as append-only logs that store the full JSON payloads alongside timestamps for later transformation.
+
+We’ll create:
+
+- `flight_json_data`: stores data retrieved from the OpenSky Network.
+- `weather_json_data`: stores data retrieved from the Open-Meteo API.
+
+Each table includes:
+
+- `id`: an auto-incrementing primary key.
+- `raw_json`: the unmodified API response stored as a `jsonb` object.
+- `timestamptz`: a timestamp indicating when the data was ingested.
+
+#### Create Tables Using SQL
+
+Paste the following SQL into Beekeeper Studio and execute it to create both tables:
+
+```sql
+CREATE TABLE flight_json_data (
+ id SERIAL PRIMARY KEY,
+ raw_json JSONB NOT NULL,
+ timestamptz TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE weather_json_data (
+ id SERIAL PRIMARY KEY,
+ raw_json JSONB NOT NULL,
+ timestamptz TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+```
+---
+
+## What’s Next?
+
+Now that your Postgres service is up and running, it’s ready to accept incoming unstructured data from your ingestion services:
+- ✈️ Web2DB Flights: gathers flight telemetry from the OpenSky Network.
+- 🌧️ Web2DB Weather: gathers Portland weather conditions from Open-Meteo.
+
+These services will write raw JSON payloads to the database every 5 minutes. Later, the DataTransform service will structure that data hourly into relational tables optimized for analysis.
+
+In the [next step](flight-ingestion-service.qmd), we’ll configure the Web2DB Flights service to begin live ingestion.
+
+📚 References
+- [https://docs.railway.app/guides/postgresql](Railway Docs – PostgreSQL)
+- [https://www.beekeeperstudio.io/](Beekeeper Studio)
+- [https://docs.railway.app/databases/external-access](Connect to Railway from External Clients)

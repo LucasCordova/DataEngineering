@@ -1,0 +1,97 @@
+---
+title: "Pipelines"
+sidebar: pipelines
+---
+
+## Overview
+
+The ability to synthesize new knowledge by integrating disparate data sources is a powerful asset. This guide will walk you through the design and deployment of a data pipeline architecture on [Railway.app](https://railway.app), a cloud-native development platform that allows you to quickly spin up backend infrastructure with minimal configuration overhead.
+
+The goal of this pipeline is to collect, structure, and expose data in a way that supports meaningful analysis and knowledge generation. By combining unstructured and structured data from multiple services into a single relational data model, this system enables real-time insights via a customizable dashboard and a developer-friendly REST API.
+
+## Scenario Detecting “No-Fly Windows” Correlated with Weather Thresholds
+
+### Research Question
+Can we identify specific weather conditions that correlate with significantly reduced flight activity—what we’ll call “no-fly windows”—over the Portland metro region? These windows may align with thresholds like heavy precipitation, low visibility, or high wind speeds. To answer this question, we'll construct a data pipeline that combines live flight and weather data, transforms it into a relational model, and exposes it through dashboards and APIs for analysis and discovery.
+
+
+
+## Architecture
+You will build an architecture composed of six distinct services as illustrated below.
+
+```{mermaid}
+   graph TD
+    subgraph Railway.app
+        Postgres[(Postgres Database)]
+        Web2DB1[Web2DB - Scraper/API Service #1 - Flights]
+        Web2DB2[Web2DB - Scraper/API Service #2 - Weather]
+        DataTransform[DataTransform Service]
+        Grafana[Grafana Dashboard]
+        DB2API[PostgREST - DB2API Bridge]
+        Swagger[Swagger UI - API Dev Tool]
+    end
+
+    Web2DB1 --> Postgres
+    Web2DB2 --> Postgres
+    Postgres --> DataTransform
+    DataTransform --> Postgres
+    Postgres --> Grafana
+    Postgres --> DB2API
+    DB2API --> Swagger
+```
+
+### How Each Service Contributes
+
+#### 💽 **Postgres Database**
+The **Postgres** database is the central data repository. It stores:
+- **Unstructured data**: Raw JSON or payloads directly from the APIs during collection.
+- **Structured data**: Normalized tables and time-series records created after transformation.
+This separation allows for historical data to be archived while maintaining clean, queryable models for analysis.
+
+#### ✈️ **Web2DB Flights**
+The **Web2DB Flights** ingestion service calls the [OpenSky Network API](https://opensky-network.org/) every 5 minutes to gather live air traffic data over the Portland metro area. It logs:
+- Aircraft positions
+- Altitudes and speeds
+- Callsigns and ICAO codes
+- Timestamps and bounding box info
+This unstructured data is stored directly into Postgres for later processing.
+
+#### 🌧️ **Web2DB Weather**
+The **Web2DB Weather** ingestion service calls the [Open-Meteo API](https://open-meteo.com/) every 5 minutes, retrieving weather information for the Portland region. It collects:
+- Temperature, wind speed and direction
+- Visibility, cloud cover, and precipitation type
+- Timestamps and geo-coordinates
+This raw weather data is logged to the database alongside flight data, aligned by time and location.
+
+#### 🔄 **Data Transformation Service (`DataTransform`)**
+Once per hour, the **DataTransform** service processes the accumulated unstructured data into a structured relational schema. Key transformations include:
+- Joining flight and weather records by timestamp
+- Extracting metrics such as flight count per interval, average altitude, or visibility index
+- Normalizing date/time formats and location metadata
+The result is a set of structured tables optimized for query performance and analytical depth.
+
+#### 📊 **Dashboard Service (`Grafana`)**
+Grafana connects to the structured Postgres schema and generates **interactive dashboards** to visualize:
+- Flight activity (e.g., counts, density maps) over time
+- Weather variable trends
+- Correlation graphs between weather metrics (e.g., wind speed) and flight drop-offs
+These dashboards help identify possible “no-fly windows” by aligning dips in flight activity with adverse weather thresholds.
+
+#### 🌐 **DB/API Bridge Service (`DB2API`)**
+Using [PostgREST](https://postgrest.org), this service turns the structured database into a RESTful API. It allows:
+- Querying historical flight and weather data
+- Filtering based on date/time, weather conditions, or flight metrics
+- Serving clean, JSON-based endpoints for developers, analysts, or downstream systems
+
+#### 👨🏾‍💻 **API Developer Interface (`Swagger`)**
+The Swagger service documents the exposed API endpoints and provides an interactive UI for developers to:
+- Explore and test API requests in real-time
+- Understand available data models and query parameters
+- Integrate this data into custom applications, dashboards, or research tools
+
+---
+
+Together, this architecture enables rich, real-time and historical analysis to determine when and why flight activity slows or stops due to environmental conditions. The result is a powerful system for answering not only our current research question, but also a broader range of aviation and climate analytics challenges.
+
+
+Head to the [next section](db-service.qmd), where we’ll begin by setting up the Postgres database service and preparing the schema for incoming unstructured data.

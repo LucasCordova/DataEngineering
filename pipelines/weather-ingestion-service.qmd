@@ -1,0 +1,100 @@
+---
+title: "🌦️ Web2DB Weather Ingestion Setup"
+sidebar: pipelines
+---
+
+# Setting Up the `Web2DB Weather` Ingestion Service
+
+## Overview
+
+In this step, you’ll set up the **Web2DB Weather** ingestion service, which fetches live weather data for the Portland area from the [Open-Meteo API](https://open-meteo.com/en/docs) and stores it in your Postgres database every five minutes.
+
+This service collects unstructured weather readings—like temperature and wind speed—and writes them to the `weather_json_data` table as raw JSON for later transformation and analysis. The data will later be joined with flight data to investigate correlations such as weather-driven no-fly windows.
+
+---
+
+## About the Open-Meteo API URL
+
+For this demo, we’re using the following Open-Meteo endpoint: 
+
+`https://api.open-meteo.com/v1/forecast?latitude=45.52&longitude=-122.68&current=temperature_2m,wind_speed_10m,weathercode`
+
+### 🌐 URL Breakdown:
+
+- `latitude=45.52` and `longitude=-122.68` pinpoint **downtown Portland**.
+- `current=...` specifies the current weather variables to return:
+  - `temperature_2m`: air temperature 2 meters above the ground.
+  - `wind_speed_10m`: wind speed 10 meters above the ground.
+  - `weathercode`: numeric weather condition code (e.g., fog, rain, snow).
+
+📚 Learn more at:  
+🔗 [Open-Meteo API Docs](https://open-meteo.com/en/docs)
+
+---
+
+## Deploying the Web2DB Weather Service
+
+### Add the Docker Service in Railway
+
+1. In your Railway project, click **“New”** → **“Deploy from Docker Image”**.
+2. Enter the image name:  `lucascordova/web2db`
+
+3. Click **Deploy**.
+
+---
+
+### Configure Environment Variables
+
+Once the image is deployed, go to the **Variables** tab and add the following:
+
+| Key            | Value                                                                                              |
+|----------------|----------------------------------------------------------------------------------------------------|
+| `SITE_URL`     | `https://api.open-meteo.com/v1/forecast?latitude=45.52&longitude=-122.68&current=temperature_2m,wind_speed_10m,weathercode` |
+| `DATABASE_URL` | `${{Postgres.DATABASE_PUBLIC_URL}}`                                                               |
+| `TABLE_NAME`   | `weather_json_data`                                                                                |
+| `DEBUG`        | `TRUE`                                                                                             |
+
+> ✅ Tip: Use Railway’s variable picker to link to your Postgres service when setting `DATABASE_URL`.
+
+---
+
+## Scheduling the Ingestion
+
+### Set Up Cron Trigger
+
+1. Go to the **Settings** tab of the Web2DB Weather service.
+2. Scroll to **Triggers** and click **“New Trigger”**.
+3. Choose **“Cron”** as the trigger type.
+4. Use this schedule: `*/5 * * * *`
+
+This means the service will run **every 5 minutes**.
+
+📚 Reference: [Crontab Guru](https://crontab.guru/#*/5_*_*_*_*) — an easy tool to preview cron expressions.
+
+---
+
+## Testing the Ingestion
+
+Once your cron trigger and environment variables are saved, the service will begin pulling weather data.
+
+### ✅ Verify the Data
+
+1. Open **Beekeeper Studio**.
+2. Connect to your Postgres database (if you haven’t already).
+3. Run:
+
+```sql
+SELECT * FROM weather_json_data ORDER BY timestamptz DESC LIMIT 10;
+```
+
+You should see recent entries showing full JSON responses from the Open-Meteo API.
+
+## 🛠️ Troubleshooting Tips
+	- Check the Deployments tab in Railway to confirm successful runs.
+	- Use the Logs tab to inspect real-time debug output.
+	- Ensure the SITE_URL is formatted correctly (with no line breaks or spaces).
+	- If the table is still empty after 5–10 minutes, double-check the DATABASE_URL, TABLE_NAME, and cron settings.
+
+## What’s Next?
+
+With both Web2DB Flights and Web2DB Weather streaming live data into your Postgres instance, you’re ready to build the DataTransform service that will process this raw data into structured, relational models—making it easier to perform analytics and build dashboards.

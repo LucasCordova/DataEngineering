@@ -1,0 +1,143 @@
+---
+title: "🌉DB API Bridge Service Setup"
+sidebar: pipelines
+---
+
+# Setting Up the DB API Bridge Service (PostgREST)
+
+## Why Set Up a DB API Bridge?
+
+Once your structured data is ready for exploration and integration, the next step is to expose it via an API. This allows your data to be accessed securely by dashboards, external applications, or developer tools. Instead of building a custom REST API, we can use **PostgREST**, which automates this process by generating RESTful endpoints directly from your PostgreSQL schema.
+
+---
+
+## What is PostgREST?
+
+[PostgREST](https://postgrest.org) is a lightweight, open-source tool that turns your PostgreSQL database into a secure RESTful API. With PostgREST, your views and tables become accessible via HTTP without writing backend code.
+
+### Key Features:
+- 🚀 Generates REST endpoints for tables, views, and stored procedures.
+- 🔐 Uses PostgreSQL's native roles and permissions for access control.
+- 📊 Perfect for exposing analytic views to tools like Swagger, frontend apps, and more.
+
+---
+
+## Step-by-Step: Deploy PostgREST in Railway
+
+### Create the Service in Railway
+
+1. Click **Create** in your Railway project.
+2. Choose **Docker Image**.
+3. Enter the Docker image name:
+   ```
+   postgrest/postgrest
+   ```
+4. Click **Deploy**.
+
+---
+
+### Configure Network and Serverless Options
+
+After deployment:
+
+1. Click on the **Deployments** tab, then select **Settings**.
+2. Under **Public Networking**, click **Generate Domain**.
+   - You can customize the domain to a meaningful name if desired.
+   - Copy the **public URL** shown.
+
+3. Scroll to the **Serverless** section.
+4. Toggle **Enable Serverless**, then click **Deploy** again.
+
+> Enabling **Serverless** mode helps reduce costs — the service sleeps when not in use and wakes up on demand.
+
+---
+
+### Set Environment Variables
+
+Navigate to the **Variables** tab and add the following:
+
+| Key                              | Value                             |
+|----------------------------------|-----------------------------------|
+| `PGRST_DB_ANON_ROLE`             | `web_anon`                        |
+| `PGRST_DB_SCHEMA`                | `api`                             |
+| `PGRST_DB_URI`                   | `${{DATABASE_URL}}`               |
+| `PGRST_OPENAPI_SERVER_PROXY_URI`| `<your public hostname>`          |
+
+> Replace `<your public hostname>` with the public domain you generated in the previous step.
+
+---
+
+## Set Up Database Permissions
+
+Open **Beekeeper Studio** and execute the following SQL:
+
+```sql
+-- Create a non-login role to define anonymous API access
+CREATE ROLE web_anon NOLOGIN;
+
+-- Allow that role to access the "api" schema
+GRANT USAGE ON SCHEMA api TO web_anon;
+
+-- Limit access only to this view
+GRANT SELECT ON api.general_aviation_weather_view TO web_anon;
+```
+
+This ensures PostgREST can only **read** from a specific schema (`api`) and specific view (`general_aviation_weather_view`). It does **not** grant access to other tables or schemas.
+
+---
+
+## Create a Dedicated Authenticator Role
+
+Rather than using the powerful `postgres` role to connect from PostgREST, we create a separate **authenticator** user that can assume the `web_anon` role. This is more secure and scalable.
+
+```sql
+CREATE ROLE authenticator NOINHERIT LOGIN PASSWORD '<your password>';
+GRANT web_anon TO authenticator;
+```
+
+### Why This Matters:
+
+- `NOINHERIT`: the authenticator role **cannot directly access** anything.
+- `LOGIN`: it can be used to log in from PostgREST.
+- `GRANT web_anon`: allows this user to **act as web_anon**.
+
+📚 See [PostgREST Tutorial, Step 3](https://docs.postgrest.org/en/v12/tutorials/tut0.html#step-3-create-database-for-api)
+
+---
+
+## Test the API Endpoint
+
+To test your PostgREST API:
+
+1. Open your browser or use a tool like `curl`.
+2. Visit your public API URL, appending the view name:
+
+```
+https://<your-domain>.up.railway.app/general_aviation_weather_view
+```
+
+If everything is configured correctly, you should see a JSON response:
+
+```json
+[
+  {
+    "timestamp": "2025-04-08T16:00:00Z",
+    "callsign": "N12345",
+    "altitude_meters": 1524,
+    "precipitation_mm": 0.8,
+    "weathercode": 61
+  },
+  ...
+]
+```
+
+✅ If you see data, your DB API bridge is fully operational!
+
+---
+
+## 🎉 Summary
+
+- ✅ PostgREST converts your database views into REST endpoints.
+- ✅ You isolated access using a dedicated schema (`api`) and view.
+- ✅ You secured the system using PostgreSQL roles (`web_anon` and `authenticator`).
+- ✅ You can now integrate this endpoint with Swagger, frontend tools, or other systems.

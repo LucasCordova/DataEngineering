@@ -1,0 +1,115 @@
+---
+title: "✈️ Web2DB Flights Ingestion Setup"
+sidebar: pipelines
+---
+
+# Setting Up the `Web2DB Flights` Ingestion Service
+
+## Overview
+
+In this step, you’ll set up the **Web2DB Flights** ingestion service, which fetches live flight data from the [OpenSky Network API](https://opensky-network.org/apidoc/rest.html) and stores it in your Postgres database every five minutes.
+
+This service will collect unstructured flight telemetry data and append it to the `flight_json_data` table in raw JSON format. You'll deploy it as a container on Railway using the `lucascordova/web2db` image and configure it to run on a schedule.
+
+---
+
+## Using Public APIs in Your Own Projects
+
+If you're building your own ingestion service using a different API, here’s the general process:
+
+1. **Check if the API requires authentication** (e.g., an API key or access token).
+2. **Read the API documentation** to understand query parameters, rate limits, and response structure.
+3. **Build your request URL** including any necessary geographic filters, authentication tokens, or query strings.
+4. **Test the request** manually (e.g., in your browser or Postman) before deploying it inside a service like Railway.
+
+For APIs that require keys or tokens, you should always inject these as **environment variables**, never hardcoded in your code or Docker image.
+
+---
+
+## About the OpenSky API URL
+
+For this demo, we're using the following public OpenSky endpoint:
+`https://opensky-network.org/api/states/all?lamin=45.08&lomin=-123.50&lamax=45.88&lomax=-122.00'
+
+### 🗺️ URL Breakdown:
+
+- `lamin` and `lamax`: latitude min/max (45.08 to 45.88)
+- `lomin` and `lomax`: longitude min/max (−123.50 to −122.00)
+
+This bounding box covers the **Portland metropolitan area** and surrounding airspace.
+
+📚 Learn more at:  
+🔗 [OpenSky Network REST API Documentation](https://opensky-network.org/apidoc/rest.html)
+
+---
+
+## Deploying the Web2DB Flights Service
+
+### Add the Docker Service in Railway
+
+1. In your Railway project, click **“New”** → **“Deploy from Docker Image”**.
+2. Enter the image name:  `lucascordova/web2db`
+3. Click **Deploy**.
+
+---
+
+### Configure Environment Variables
+
+Once deployed, go to the **Variables** tab and add the following:
+
+| Key            | Value                                                                                      |
+|----------------|--------------------------------------------------------------------------------------------|
+| `SITE_URL`     | `https://opensky-network.org/api/states/all?lamin=45.08&lomin=-123.50&lamax=45.88&lomax=-122.00` |
+| `DATABASE_URL` | `${{Postgres.DATABASE_PUBLIC_URL}}`                                                       |
+| `TABLE_NAME`   | `flight_json_data`                                                                         |
+| `DEBUG`        | `TRUE`                                                                                     |
+
+> 💡 Use the variable picker in Railway to reference your Postgres service directly for `DATABASE_URL`.
+
+---
+
+## Scheduling the Ingestion
+
+### Set Up Cron Trigger
+
+1. Go to the **Settings** tab of the Web2DB Flights service.
+2. Scroll to the **Triggers** section and click **“New Trigger”**.
+3. Choose **“Cron”** as the type.
+4. Enter the schedule: `*/5 * * * *`
+
+This means: "Run every 5 minutes."
+
+🧠 Cron Format Reference:
+- `*/5` = every 5 minutes  
+- Full format is `minute hour day month weekday`  
+📚 [Crontab Guru](https://crontab.guru/#*/5_*_*_*_*) is a great tool to preview and test your expressions.
+
+---
+
+## Testing the Ingestion
+
+After saving the environment variables and trigger, your ingestion service should begin collecting data every 5 minutes.
+
+### ✅ Verify the Data is Flowing
+
+1. Open **Beekeeper Studio**.
+2. Connect to your Postgres database (if not already connected).
+3. Run the following SQL query:
+
+```sql
+SELECT * FROM flight_json_data ORDER BY timestamptz DESC LIMIT 10;
+```
+
+If data is being ingested correctly, you should see rows with timestamps and raw JSON.
+
+🛠️ Troubleshooting Tips
+	•	Go to the Deployments tab to check if the latest deployment Completed successfully.
+	•	Check the Logs tab to view debug output (especially helpful if DEBUG=TRUE is set).
+	•	Review the Cron Triggers to make sure they’re running on schedule.
+	•	Double-check the SITE_URL and DATABASE_URL for typos or incorrect formatting.
+
+--- 
+
+## What’s Next?
+
+Now that your Web2DB Flights service is live and filling your database with raw flight data, we’ll set up the companion Web2DB Weather service to do the same with meteorological data. Together, these two data streams will power our future correlation and transformation services.

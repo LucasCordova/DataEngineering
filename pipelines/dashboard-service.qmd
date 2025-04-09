@@ -1,0 +1,173 @@
+---
+title: "Dashboard Service Setup"
+sidebar: pipelines
+---
+
+## 🌁 But first, Views
+
+A **View** in Postgres is a virtual table based on a SQL `SELECT` query. It behaves just like a table for reading, but doesn't store any data itself—it simply runs the query behind it whenever it's accessed.
+
+Views are excellent for dashboards because:
+
+- ✅ They abstract complex queries behind a simple name.
+- ✅ They can be reused by multiple clients (like Grafana).
+- ✅ You can restrict access to views rather than raw tables using **Postgres roles**.
+- ✅ They allow you to pre-join and pre-aggregate data in a way that’s efficient and secure for visualization.
+
+---
+
+## Create a View for the Dashboard
+
+Let’s create a view that answers our research question:
+> _Are there “no-fly windows” correlated with weather thresholds?_
+
+This view joins structured flight and weather data to support correlation queries:
+
+```sql
+CREATE OR REPLACE VIEW flight_weather AS
+SELECT
+    f.timestamp,
+    f.callsign,
+    f.altitude_meters,
+    f.velocity_knots,
+    f.latitude AS flight_latitude,
+    f.longitude AS flight_longitude,
+    w.precipitation_mm,
+    w.weathercode,
+    w.latitude AS weather_latitude,
+    w.longitude AS weather_longitude
+FROM
+    flights f
+JOIN
+    weather_observations w
+ON
+    date_trunc('minute', f.timestamp) = date_trunc('minute', w.timestamp)
+ORDER BY
+    f.timestamp DESC;
+```
+
+---
+
+## Deploying Grafana in Railway
+
+### Add the Grafana Template
+
+1. In your Railway project, click **"Create"** → **"Template"**.
+2. Type **Grafana** in the search bar.
+3. Select the version provided by **Andre Lademann's Projects**.
+
+4. Add the following environment variables:
+
+    | Key                        | Value           |
+    |----------------------------|-----------------|
+    | GF_SECURITY_ADMIN_USER     | grafanareader   |
+    | GF_DEFAULT_INSTANCE_NAME   | grafanapg       |
+    | GF_SECURITY_ADMIN_PASSWORD | your-password   |
+
+    Leave the 4 pre-configured environment variables as they are.
+
+    Once you’ve entered the variables, the service will check connectivity and display a message saying **"Ready to be deployed"**.
+
+5. Click [Deploy]
+
+    This will start the deployment process. It may take a few minutes.
+
+---
+
+### Enable Serverless Mode on Grafana
+
+After deployment completes:
+
+1. Return to the **Grafana service** in Railway.
+2. Click on **Settings**.
+3. Scroll down to **"Serverless"**.
+4. Toggle **Enable Serverless** and click **Deploy** again.
+
+> ✅ Enabling serverless mode helps reduce cost because the service will **go to sleep when not in use** and **wake up on demand**. This is ideal for tools like Grafana that are used periodically.
+
+---
+
+## Add a Grafana-Specific DB User
+
+To avoid giving Grafana full access to your database, we’ll create a **read-only user** that can only access the view.
+
+### Steps:
+
+1. Open your Postgres database in **Beekeeper Studio**.
+2. Run the following SQL (replace `'password'` with one you’ll remember):
+
+```sql
+CREATE USER grafanareader WITH PASSWORD 'your_password';
+GRANT USAGE ON SCHEMA "public" TO grafanareader;
+GRANT SELECT ON "public".flight_weather TO grafanareader;
+```
+
+---
+
+## Connect Grafana to Postgres
+
+### Copy PGHOST from Railway
+
+1. Go to your **Postgres service** in Railway.
+2. Under **Environment Variables**, copy the value for `PGHOST`.  
+    It will look like: `postgres.railway.internal`.
+
+---
+
+### Open Grafana and Log In
+
+1. Go to your Grafana URL shown in the **Deployments** tab.  
+   Example:  
+   [https://grafana-rbi9-production.up.railway.app](https://grafana-rbi9-production.up.railway.app)
+2. Log in with:
+   - **Username**: `grafanareader`
+   - **Password**: the password you assigned earlier
+
+---
+
+### Add a Data Source
+
+1. In Grafana, click **Connections** on the left panel.
+2. Click **Data Sources**.
+3. Search for **PostgreSQL** and select it.
+
+#### Fill in the following:
+
+| Field     | Value                                 |
+|-----------|---------------------------------------|
+| Host      | `postgres.railway.internal:5432`      |
+| Database  | `railway`                             |
+| User      | `grafanareader`                       |
+| Password  | `your_password`                       |
+
+Click **Save & Test** to confirm connectivity.
+
+---
+
+## Create Your First Dashboard in Grafana
+
+1. Go back to the **Home** page in Grafana.
+2. Click **“Create your first dashboard”**.
+3. Click **“Add Visualization”**.
+
+### Configure the Panel
+
+1. **Choose Data Source**: Select the PostgreSQL source you just set up.
+2. **From Table**: Select the `flight_weather` view.
+3. **Add Columns**: Choose at least one time-based column (`timestamp`) and one data column (e.g., `altitude_meters` or `precipitation_mm`).
+4. Click **Run Query**.
+5. Use **Table Mode** or switch to a chart via **Suggested Visualizations**.
+
+You now have a live dashboard pulling from your structured data pipeline!
+
+---
+
+## What’s Next?
+
+From here, you can:
+
+- Add filters to segment by `weathercode`.
+- Aggregate values like average flight altitude during rain conditions.
+- Build a full visualization of “no-fly” windows over time.
+
+In the [next step](db-api-bridge-service.qmd) we’ll expose your view as a **REST API** using PostgREST and document it using Swagger.
