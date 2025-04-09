@@ -93,11 +93,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../index.html" aria-current="page"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../pipelines/index.html"> 
+    <a class="nav-link active" href="../pipelines/index.html" aria-current="page"> 
 <span class="menu-text">Pipelines</span></a>
   </li>  
 </ul>
@@ -111,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Pipelines</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pipelines/index.html">Pipelines</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -125,44 +125,50 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Home</span></a>
+  <a href="../pipelines/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Pipelines</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pipelines/db-service.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Database Service</span></a>
+ <span class="menu-text">1. Database Service Setup</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pipelines/ingestion-services.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data Ingestion Services</span></a>
+  <a href="../pipelines/flight-ingestion-service.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Flight Data Ingestion Service Setup</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pipelines/weather-ingestion-service.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Weather Data Ingestion Service Setup</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pipelines/transformation-service.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data Transformation Service</span></a>
+ <span class="menu-text">4. Data Transformation Service Setup</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pipelines/dashboard-service.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Dashboard Service</span></a>
+ <span class="menu-text">5. Dashboard Service Setup</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pipelines/db-api-bridge-service.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">DB/API Bridge Service</span></a>
+ <span class="menu-text">6. DB/API Bridge Service Setup</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pipelines/api-developer-portal-service.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">API Developer Portal Service</span></a>
+ <span class="menu-text">7. API Developer Portal Service Setup</span></a>
   </div>
 </li>
     </ul>
@@ -172,8 +178,14 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1</span> Overview</a></li>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">2</span> Prerequisites</a></li>
-  <li><a href="#architecture" id="toc-architecture" class="nav-link" data-scroll-target="#architecture"><span class="header-section-number">3</span> Architecture</a></li>
+  <li><a href="#scenario-detecting-no-fly-windows-correlated-with-weather-thresholds" id="toc-scenario-detecting-no-fly-windows-correlated-with-weather-thresholds" class="nav-link" data-scroll-target="#scenario-detecting-no-fly-windows-correlated-with-weather-thresholds"><span class="header-section-number">2</span> Scenario Detecting “No-Fly Windows” Correlated with Weather Thresholds</a>
+  <ul class="collapse">
+  <li><a href="#research-question" id="toc-research-question" class="nav-link" data-scroll-target="#research-question"><span class="header-section-number">2.1</span> Research Question</a></li>
+  </ul></li>
+  <li><a href="#architecture" id="toc-architecture" class="nav-link" data-scroll-target="#architecture"><span class="header-section-number">3</span> Architecture</a>
+  <ul class="collapse">
+  <li><a href="#how-each-service-contributes" id="toc-how-each-service-contributes" class="nav-link" data-scroll-target="#how-each-service-contributes"><span class="header-section-number">3.1</span> How Each Service Contributes</a></li>
+  </ul></li>
   </ul>
 </nav>
 </nav>
@@ -208,9 +220,12 @@ ul.task-list li input[type="checkbox"] {
 <p>The ability to synthesize new knowledge by integrating disparate data sources is a powerful asset. This guide will walk you through the design and deployment of a data pipeline architecture on <a href="https://railway.app">Railway.app</a>, a cloud-native development platform that allows you to quickly spin up backend infrastructure with minimal configuration overhead.</p>
 <p>The goal of this pipeline is to collect, structure, and expose data in a way that supports meaningful analysis and knowledge generation. By combining unstructured and structured data from multiple services into a single relational data model, this system enables real-time insights via a customizable dashboard and a developer-friendly REST API.</p>
 </section>
-<section id="prerequisites" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">2</span> Prerequisites</h2>
-<p>To follow this guide, ensure you have the following: 1. A GitHub account. 2. A Railway.app account with at least Hobby tier access. Note: This requires depositing a $5 credit via credit card. It’s recommended to sign up for Railway using your GitHub account. Established GitHub accounts are subject to fewer verification checks, as Railway uses this to reduce bot or adversarial sign-up attempts.</p>
+<section id="scenario-detecting-no-fly-windows-correlated-with-weather-thresholds" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="scenario-detecting-no-fly-windows-correlated-with-weather-thresholds"><span class="header-section-number">2</span> Scenario Detecting “No-Fly Windows” Correlated with Weather Thresholds</h2>
+<section id="research-question" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="research-question"><span class="header-section-number">2.1</span> Research Question</h3>
+<p>Can we identify specific weather conditions that correlate with significantly reduced flight activity—what we’ll call “no-fly windows”—over the Portland metro region? These windows may align with thresholds like heavy precipitation, low visibility, or high wind speeds. To answer this question, we’ll construct a data pipeline that combines live flight and weather data, transforms it into a relational model, and exposes it through dashboards and APIs for analysis and discovery.</p>
+</section>
 </section>
 <section id="architecture" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="architecture"><span class="header-section-number">3</span> Architecture</h2>
@@ -220,11 +235,11 @@ ul.task-list li input[type="checkbox"] {
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">graph TD
+<pre class="mermaid mermaid-js">   graph TD
     subgraph Railway.app
         Postgres[(Postgres Database)]
-        Web2DB1[Web2DB - Scraper/API Service #1]
-        Web2DB2[Web2DB - Scraper/API Service #2]
+        Web2DB1[Web2DB - Scraper/API Service #1 - Flights]
+        Web2DB2[Web2DB - Scraper/API Service #2 - Weather]
         DataTransform[DataTransform Service]
         Grafana[Grafana Dashboard]
         DB2API[PostgREST - DB2API Bridge]
@@ -244,23 +259,42 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<ol type="1">
-<li><p><strong>Postgres Database Service (<code>Postgres</code>)</strong><br>
-A Railway-hosted PostgreSQL instance used as the central data repository. It stores raw, unstructured data during the initial collection phase and houses the cleaned, structured relational model post-transformation.</p></li>
-<li><p><strong>Data Ingestion Services (<code>Web2DB</code>)</strong><br>
-These microservices are responsible for ingesting data from external sources, including APIs and web scraping targets. They persist the gathered unstructured data into the Postgres service.</p></li>
-<li><p><strong>Data Transformation Service (<code>DataTransform</code>)</strong><br>
-This service transforms the unstructured data into a normalized and query-friendly relational schema, suitable for downstream analysis and API exposure.</p></li>
-<li><p><strong>Dashboard Service (<code>Grafana</code>)</strong><br>
-A visualization and analytics platform connected to the Postgres database. Grafana provides real-time dashboards, aggregations, and analysis capabilities.</p></li>
-<li><p><strong>DB/API Bridge Service (<code>DB2API</code>)</strong><br>
-This service uses <a href="https://postgrest.org">PostgREST</a> to expose your relational model as a secure, queryable REST API, generated directly from your database schema.</p></li>
-<li><p><strong>API Developer Interface (<code>Swagger</code>)</strong><br>
-The Swagger UI allows developers to explore, test, and understand the API endpoints served by PostgREST, enhancing developer experience and reducing integration friction.</p></li>
-</ol>
-<p>Stay tuned for the <a href="../pipelines/db-service.html">next section</a>, where we’ll begin by setting up the Postgres database service and preparing the schema for incoming unstructured data.</p>
+<section id="how-each-service-contributes" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="how-each-service-contributes"><span class="header-section-number">3.1</span> How Each Service Contributes</h3>
+<section id="postgres-database" class="level4" data-number="3.1.1">
+<h4 data-number="3.1.1" class="anchored" data-anchor-id="postgres-database"><span class="header-section-number">3.1.1</span> 🛢️ <strong>Postgres Database</strong></h4>
+<p>The <strong>Postgres</strong> database is the central data repository. It stores: - <strong>Unstructured data</strong>: Raw JSON or payloads directly from the APIs during collection. - <strong>Structured data</strong>: Normalized tables and time-series records created after transformation. This separation allows for historical data to be archived while maintaining clean, queryable models for analysis.</p>
+</section>
+<section id="web2db-flights" class="level4" data-number="3.1.2">
+<h4 data-number="3.1.2" class="anchored" data-anchor-id="web2db-flights"><span class="header-section-number">3.1.2</span> ✈️ <strong>Web2DB Flights</strong></h4>
+<p>The <strong>Web2DB Flights</strong> ingestion service calls the <a href="https://opensky-network.org/">OpenSky Network API</a> every 5 minutes to gather live air traffic data over the Portland metro area. It logs: - Aircraft positions - Altitudes and speeds - Callsigns and ICAO codes - Timestamps and bounding box info This unstructured data is stored directly into Postgres for later processing.</p>
+</section>
+<section id="web2db-weather" class="level4" data-number="3.1.3">
+<h4 data-number="3.1.3" class="anchored" data-anchor-id="web2db-weather"><span class="header-section-number">3.1.3</span> 🌧️ <strong>Web2DB Weather</strong></h4>
+<p>The <strong>Web2DB Weather</strong> ingestion service calls the <a href="https://open-meteo.com/">Open-Meteo API</a> every 5 minutes, retrieving weather information for the Portland region. It collects: - Temperature, wind speed and direction - Visibility, cloud cover, and precipitation type - Timestamps and geo-coordinates This raw weather data is logged to the database alongside flight data, aligned by time and location.</p>
+</section>
+<section id="data-transformation-service-datatransform" class="level4" data-number="3.1.4">
+<h4 data-number="3.1.4" class="anchored" data-anchor-id="data-transformation-service-datatransform"><span class="header-section-number">3.1.4</span> 🔄 <strong>Data Transformation Service (<code>DataTransform</code>)</strong></h4>
+<p>Once per hour, the <strong>DataTransform</strong> service processes the accumulated unstructured data into a structured relational schema. Key transformations include: - Joining flight and weather records by timestamp - Extracting metrics such as flight count per interval, average altitude, or visibility index - Normalizing date/time formats and location metadata The result is a set of structured tables optimized for query performance and analytical depth.</p>
+</section>
+<section id="dashboard-service-grafana" class="level4" data-number="3.1.5">
+<h4 data-number="3.1.5" class="anchored" data-anchor-id="dashboard-service-grafana"><span class="header-section-number">3.1.5</span> 📊 <strong>Dashboard Service (<code>Grafana</code>)</strong></h4>
+<p>Grafana connects to the structured Postgres schema and generates <strong>interactive dashboards</strong> to visualize: - Flight activity (e.g., counts, density maps) over time - Weather variable trends - Correlation graphs between weather metrics (e.g., wind speed) and flight drop-offs These dashboards help identify possible “no-fly windows” by aligning dips in flight activity with adverse weather thresholds.</p>
+</section>
+<section id="dbapi-bridge-service-db2api" class="level4" data-number="3.1.6">
+<h4 data-number="3.1.6" class="anchored" data-anchor-id="dbapi-bridge-service-db2api"><span class="header-section-number">3.1.6</span> 🌐 <strong>DB/API Bridge Service (<code>DB2API</code>)</strong></h4>
+<p>Using <a href="https://postgrest.org">PostgREST</a>, this service turns the structured database into a RESTful API. It allows: - Querying historical flight and weather data - Filtering based on date/time, weather conditions, or flight metrics - Serving clean, JSON-based endpoints for developers, analysts, or downstream systems</p>
+</section>
+<section id="api-developer-interface-swagger" class="level4" data-number="3.1.7">
+<h4 data-number="3.1.7" class="anchored" data-anchor-id="api-developer-interface-swagger"><span class="header-section-number">3.1.7</span> 🧪 <strong>API Developer Interface (<code>Swagger</code>)</strong></h4>
+<p>The Swagger service documents the exposed API endpoints and provides an interactive UI for developers to: - Explore and test API requests in real-time - Understand available data models and query parameters - Integrate this data into custom applications, dashboards, or research tools</p>
+<hr>
+<p>Together, this architecture enables rich, real-time and historical analysis to determine when and why flight activity slows or stops due to environmental conditions. The result is a powerful system for answering not only our current research question, but also a broader range of aviation and climate analytics challenges.</p>
+<p>Head to the <a href="../pipelines/db-service.html">next section</a>, where we’ll begin by setting up the Postgres database service and preparing the schema for incoming unstructured data.</p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Dashboard Service Setup – Data Engineering Guides</title>
+<title>Web2DB Weather Ingestion Setup – Data Engineering Guides</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -107,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pipelines/dashboard-service.html">5. Dashboard Service Setup</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pipelines/weather-ingestion-service.html">3. Weather Data Ingestion Service Setup</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -139,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pipelines/weather-ingestion-service.html" class="sidebar-item-text sidebar-link">
+  <a href="../pipelines/weather-ingestion-service.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">3. Weather Data Ingestion Service Setup</span></a>
   </div>
 </li>
@@ -151,7 +185,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pipelines/dashboard-service.html" class="sidebar-item-text sidebar-link active">
+  <a href="../pipelines/dashboard-service.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5. Dashboard Service Setup</span></a>
   </div>
 </li>
@@ -169,7 +203,35 @@ ul.task-list li input[type="checkbox"] {
 </li>
     </ul>
     </div>
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setting-up-the-web2db-weather-ingestion-service" id="toc-setting-up-the-web2db-weather-ingestion-service" class="nav-link active" data-scroll-target="#setting-up-the-web2db-weather-ingestion-service"><span class="header-section-number">1</span> Setting Up the <code>Web2DB Weather</code> Ingestion Service</a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">1.1</span> Overview</a></li>
+  <li><a href="#about-the-open-meteo-api-url" id="toc-about-the-open-meteo-api-url" class="nav-link" data-scroll-target="#about-the-open-meteo-api-url"><span class="header-section-number">1.2</span> About the Open-Meteo API URL</a>
+  <ul class="collapse">
+  <li><a href="#url-breakdown" id="toc-url-breakdown" class="nav-link" data-scroll-target="#url-breakdown"><span class="header-section-number">1.2.1</span> 🌐 URL Breakdown:</a></li>
+  </ul></li>
+  <li><a href="#deploying-the-web2db-weather-service" id="toc-deploying-the-web2db-weather-service" class="nav-link" data-scroll-target="#deploying-the-web2db-weather-service"><span class="header-section-number">1.3</span> Deploying the Web2DB Weather Service</a>
+  <ul class="collapse">
+  <li><a href="#add-the-docker-service-in-railway" id="toc-add-the-docker-service-in-railway" class="nav-link" data-scroll-target="#add-the-docker-service-in-railway"><span class="header-section-number">1.3.1</span> 1. Add the Docker Service in Railway</a></li>
+  <li><a href="#configure-environment-variables" id="toc-configure-environment-variables" class="nav-link" data-scroll-target="#configure-environment-variables"><span class="header-section-number">1.3.2</span> 2. Configure Environment Variables</a></li>
+  </ul></li>
+  <li><a href="#scheduling-the-ingestion" id="toc-scheduling-the-ingestion" class="nav-link" data-scroll-target="#scheduling-the-ingestion"><span class="header-section-number">1.4</span> Scheduling the Ingestion</a>
+  <ul class="collapse">
+  <li><a href="#set-up-cron-trigger" id="toc-set-up-cron-trigger" class="nav-link" data-scroll-target="#set-up-cron-trigger"><span class="header-section-number">1.4.1</span> 3. Set Up Cron Trigger</a></li>
+  </ul></li>
+  <li><a href="#testing-the-ingestion" id="toc-testing-the-ingestion" class="nav-link" data-scroll-target="#testing-the-ingestion"><span class="header-section-number">1.5</span> Testing the Ingestion</a>
+  <ul class="collapse">
+  <li><a href="#verify-the-data" id="toc-verify-the-data" class="nav-link" data-scroll-target="#verify-the-data"><span class="header-section-number">1.5.1</span> ✅ Verify the Data</a></li>
+  </ul></li>
+  <li><a href="#troubleshooting-tips" id="toc-troubleshooting-tips" class="nav-link" data-scroll-target="#troubleshooting-tips"><span class="header-section-number">1.6</span> 🛠️ Troubleshooting Tips</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">1.7</span> What’s Next?</a></li>
+  </ul></li>
+  </ul>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -180,7 +242,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Dashboard Service Setup</h1>
+<h1 class="title">Web2DB Weather Ingestion Setup</h1>
 </div>
 
 
@@ -197,9 +259,127 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Content goes here…</p>
+<section id="setting-up-the-web2db-weather-ingestion-service" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Setting Up the <code>Web2DB Weather</code> Ingestion Service</h1>
+<section id="overview" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">1.1</span> Overview</h2>
+<p>In this step, you’ll set up the <strong>Web2DB Weather</strong> ingestion service, which fetches live weather data for the Portland area from the <a href="https://open-meteo.com/en/docs">Open-Meteo API</a> and stores it in your Postgres database every five minutes.</p>
+<p>This service collects unstructured weather readings—like temperature and wind speed—and writes them to the <code>weather_json_data</code> table as raw JSON for later transformation and analysis. The data will later be joined with flight data to investigate correlations such as weather-driven no-fly windows.</p>
+<hr>
+</section>
+<section id="about-the-open-meteo-api-url" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="about-the-open-meteo-api-url"><span class="header-section-number">1.2</span> About the Open-Meteo API URL</h2>
+<p>For this demo, we’re using the following Open-Meteo endpoint:</p>
+<p><code>https://api.open-meteo.com/v1/forecast?latitude=45.52&amp;longitude=-122.68&amp;current=temperature_2m,wind_speed_10m,weathercode</code></p>
+<section id="url-breakdown" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="url-breakdown"><span class="header-section-number">1.2.1</span> 🌐 URL Breakdown:</h3>
+<ul>
+<li><code>latitude=45.52</code> and <code>longitude=-122.68</code> pinpoint <strong>downtown Portland</strong>.</li>
+<li><code>current=...</code> specifies the current weather variables to return:
+<ul>
+<li><code>temperature_2m</code>: air temperature 2 meters above the ground.</li>
+<li><code>wind_speed_10m</code>: wind speed 10 meters above the ground.</li>
+<li><code>weathercode</code>: numeric weather condition code (e.g., fog, rain, snow).</li>
+</ul></li>
+</ul>
+<p>📚 Learn more at:<br>
+🔗 <a href="https://open-meteo.com/en/docs">Open-Meteo API Docs</a></p>
+<hr>
+</section>
+</section>
+<section id="deploying-the-web2db-weather-service" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="deploying-the-web2db-weather-service"><span class="header-section-number">1.3</span> Deploying the Web2DB Weather Service</h2>
+<section id="add-the-docker-service-in-railway" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="add-the-docker-service-in-railway"><span class="header-section-number">1.3.1</span> 1. Add the Docker Service in Railway</h3>
+<ol type="1">
+<li><p>In your Railway project, click <strong>“New”</strong> → <strong>“Deploy from Docker Image”</strong>.</p></li>
+<li><p>Enter the image name: <code>lucascordova/web2db</code></p></li>
+<li><p>Click <strong>Deploy</strong>.</p></li>
+</ol>
+<hr>
+</section>
+<section id="configure-environment-variables" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="configure-environment-variables"><span class="header-section-number">1.3.2</span> 2. Configure Environment Variables</h3>
+<p>Once the image is deployed, go to the <strong>Variables</strong> tab and add the following:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 86%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>SITE_URL</code></td>
+<td><code>https://api.open-meteo.com/v1/forecast?latitude=45.52&amp;longitude=-122.68&amp;current=temperature_2m,wind_speed_10m,weathercode</code></td>
+</tr>
+<tr class="even">
+<td><code>DATABASE_URL</code></td>
+<td><code>${{Postgres.DATABASE_PUBLIC_URL}}</code></td>
+</tr>
+<tr class="odd">
+<td><code>TABLE_NAME</code></td>
+<td><code>weather_json_data</code></td>
+</tr>
+<tr class="even">
+<td><code>DEBUG</code></td>
+<td><code>TRUE</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>✅ Tip: Use Railway’s variable picker to link to your Postgres service when setting <code>DATABASE_URL</code>.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="scheduling-the-ingestion" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="scheduling-the-ingestion"><span class="header-section-number">1.4</span> Scheduling the Ingestion</h2>
+<section id="set-up-cron-trigger" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="set-up-cron-trigger"><span class="header-section-number">1.4.1</span> 3. Set Up Cron Trigger</h3>
+<ol type="1">
+<li>Go to the <strong>Settings</strong> tab of the Web2DB Weather service.</li>
+<li>Scroll to <strong>Triggers</strong> and click <strong>“New Trigger”</strong>.</li>
+<li>Choose <strong>“Cron”</strong> as the trigger type.</li>
+<li>Use this schedule: <code>*/5 * * * *</code></li>
+</ol>
+<p>This means the service will run <strong>every 5 minutes</strong>.</p>
+<p>📚 Reference: <a href="https://crontab.guru/#*/5_*_*_*_*">Crontab Guru</a> — an easy tool to preview cron expressions.</p>
+<hr>
+</section>
+</section>
+<section id="testing-the-ingestion" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="testing-the-ingestion"><span class="header-section-number">1.5</span> Testing the Ingestion</h2>
+<p>Once your cron trigger and environment variables are saved, the service will begin pulling weather data.</p>
+<section id="verify-the-data" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="verify-the-data"><span class="header-section-number">1.5.1</span> ✅ Verify the Data</h3>
+<ol type="1">
+<li>Open <strong>Beekeeper Studio</strong>.</li>
+<li>Connect to your Postgres database (if you haven’t already).</li>
+<li>Run:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> weather_json_data <span class="kw">ORDER</span> <span class="kw">BY</span> timestamptz <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You should see recent entries showing full JSON responses from the Open-Meteo API.</p>
+</section>
+</section>
+<section id="troubleshooting-tips" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="troubleshooting-tips"><span class="header-section-number">1.6</span> 🛠️ Troubleshooting Tips</h2>
+<pre><code>•   Check the Deployments tab in Railway to confirm successful runs.
+•   Use the Logs tab to inspect real-time debug output.
+•   Ensure the SITE_URL is formatted correctly (with no line breaks or spaces).
+•   If the table is still empty after 5–10 minutes, double-check the DATABASE_URL, TABLE_NAME, and cron settings.</code></pre>
+</section>
+<section id="whats-next" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.7</span> What’s Next?</h2>
+<p>With both Web2DB Flights and Web2DB Weather streaming live data into your Postgres instance, you’re ready to build the DataTransform service that will process this raw data into structured, relational models—making it easier to perform analytics and build dashboards.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

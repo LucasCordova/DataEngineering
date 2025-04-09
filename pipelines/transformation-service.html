@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Transformation Service – Data Engineering Guides</title>
+<title>Data Transformation Service Setup – Data Engineering Guides</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -89,11 +123,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../index.html" aria-current="page"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../pipelines/index.html"> 
+    <a class="nav-link active" href="../pipelines/index.html" aria-current="page"> 
 <span class="menu-text">Pipelines</span></a>
   </li>  
 </ul>
@@ -107,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pipelines/transformation-service.html">Data Transformation Service</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pipelines/transformation-service.html">4. Data Transformation Service Setup</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -121,49 +155,76 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Home</span></a>
+  <a href="../pipelines/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pipelines</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pipelines/db-service.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Database Service</span></a>
+ <span class="menu-text">1. Database Service Setup</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pipelines/ingestion-services.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data Ingestion Services</span></a>
+  <a href="../pipelines/flight-ingestion-service.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Flight Data Ingestion Service Setup</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pipelines/weather-ingestion-service.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Weather Data Ingestion Service Setup</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pipelines/transformation-service.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Data Transformation Service</span></a>
+ <span class="menu-text">4. Data Transformation Service Setup</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pipelines/dashboard-service.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Dashboard Service</span></a>
+ <span class="menu-text">5. Dashboard Service Setup</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pipelines/db-api-bridge-service.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">DB/API Bridge Service</span></a>
+ <span class="menu-text">6. DB/API Bridge Service Setup</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pipelines/api-developer-portal-service.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">API Developer Portal Service</span></a>
+ <span class="menu-text">7. API Developer Portal Service Setup</span></a>
   </div>
 </li>
     </ul>
     </div>
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setting-up-the-datatransform-service" id="toc-setting-up-the-datatransform-service" class="nav-link active" data-scroll-target="#setting-up-the-datatransform-service"><span class="header-section-number">1</span> Setting Up the <code>DataTransform</code> Service</a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">1.1</span> Overview</a></li>
+  <li><a href="#understand-the-json-structure" id="toc-understand-the-json-structure" class="nav-link" data-scroll-target="#understand-the-json-structure"><span class="header-section-number">1.2</span> Understand the JSON Structure</a></li>
+  <li><a href="#design-your-physical-schema" id="toc-design-your-physical-schema" class="nav-link" data-scroll-target="#design-your-physical-schema"><span class="header-section-number">1.3</span> Design Your Physical Schema</a></li>
+  <li><a href="#write-sql-to-transform-the-data" id="toc-write-sql-to-transform-the-data" class="nav-link" data-scroll-target="#write-sql-to-transform-the-data"><span class="header-section-number">1.4</span> Write SQL to Transform the Data</a>
+  <ul class="collapse">
+  <li><a href="#why-use-transactions" id="toc-why-use-transactions" class="nav-link" data-scroll-target="#why-use-transactions"><span class="header-section-number">1.4.1</span> Why Use Transactions?</a></li>
+  </ul></li>
+  <li><a href="#use-the-github-template" id="toc-use-the-github-template" class="nav-link" data-scroll-target="#use-the-github-template"><span class="header-section-number">1.5</span> Use the GitHub Template</a></li>
+  <li><a href="#add-your-sql-to-clean.sql" id="toc-add-your-sql-to-clean.sql" class="nav-link" data-scroll-target="#add-your-sql-to-clean.sql"><span class="header-section-number">1.6</span> Add Your SQL to clean.sql</a></li>
+  <li><a href="#deploy-the-service-in-railway" id="toc-deploy-the-service-in-railway" class="nav-link" data-scroll-target="#deploy-the-service-in-railway"><span class="header-section-number">1.7</span> Deploy the Service in Railway</a></li>
+  <li><a href="#set-cron-schedule" id="toc-set-cron-schedule" class="nav-link" data-scroll-target="#set-cron-schedule"><span class="header-section-number">1.8</span> Set Cron Schedule</a></li>
+  <li><a href="#testing-and-validation" id="toc-testing-and-validation" class="nav-link" data-scroll-target="#testing-and-validation"><span class="header-section-number">1.9</span> Testing and Validation</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">1.10</span> What’s Next?</a></li>
+  </ul></li>
+  </ul>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -174,7 +235,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Transformation Service</h1>
+<h1 class="title">Data Transformation Service Setup</h1>
 </div>
 
 
@@ -191,9 +252,191 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Content goes here…</p>
+<section id="setting-up-the-datatransform-service" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Setting Up the <code>DataTransform</code> Service</h1>
+<section id="overview" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">1.1</span> Overview</h2>
+<p>In this section, you’ll design and deploy a transformation service called <code>DataTransform</code>. This service will extract meaningful fields from your raw JSON flight and weather data and insert them into clean, structured tables in your Postgres database.</p>
+<p>This transformation process involves: - Understanding the structure of raw JSON. - Designing normalized physical tables for analysis. - Writing SQL to extract values using Postgres JSON functions. - Automating the transformation with a scheduled job in Railway.</p>
+<hr>
+</section>
+<section id="understand-the-json-structure" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="understand-the-json-structure"><span class="header-section-number">1.2</span> Understand the JSON Structure</h2>
+<p>Before transforming the data, you must understand what the raw JSON looks like. You can do this by running:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> raw_json <span class="kw">FROM</span> flight_json_data <span class="kw">ORDER</span> <span class="kw">BY</span> timestamptz <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">1</span>;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> raw_json <span class="kw">FROM</span> weather_json_data <span class="kw">ORDER</span> <span class="kw">BY</span> timestamptz <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explore the shape and nesting of each payload. For example: - OpenSky states is an array of arrays. OpenSky JSON Structure - Open-Meteo JSON is a nested object. Open-Meteo Example</p>
+<p>📚 Reference: <a href="https://www.postgresql.org/docs/current/queries-with.html">PostgreSQL JSON Functions and Operators</a></p>
+</section>
+<section id="design-your-physical-schema" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="design-your-physical-schema"><span class="header-section-number">1.3</span> Design Your Physical Schema</h2>
+<p>Based on the JSON contents, you’ll need normalized tables to store flight and weather data. Here’s the schema you’ll use:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> flight_json_data (</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    raw_json JSONB <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    timestamptz TIMESTAMPTZ <span class="kw">DEFAULT</span> <span class="fu">CURRENT_TIMESTAMP</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> weather_json_data (</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    raw_json JSONB <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    timestamptz TIMESTAMPTZ <span class="kw">DEFAULT</span> <span class="fu">CURRENT_TIMESTAMP</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">-- Structured output tables</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> flights (</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    icao24 <span class="dt">VARCHAR</span>(<span class="dv">10</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    callsign <span class="dt">VARCHAR</span>(<span class="dv">10</span>),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    country <span class="dt">VARCHAR</span>(<span class="dv">64</span>),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    latitude <span class="dt">DOUBLE</span> <span class="dt">PRECISION</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    longitude <span class="dt">DOUBLE</span> <span class="dt">PRECISION</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    altitude_meters <span class="dt">DOUBLE</span> <span class="dt">PRECISION</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    velocity_knots <span class="dt">DOUBLE</span> <span class="dt">PRECISION</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    heading_degrees <span class="dt">DOUBLE</span> <span class="dt">PRECISION</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    vertical_rate <span class="dt">DOUBLE</span> <span class="dt">PRECISION</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timestamp</span> TIMESTAMPTZ <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> weather_observations (</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    latitude <span class="dt">DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    longitude <span class="dt">DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timestamp</span> TIMESTAMPTZ <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    precipitation_mm <span class="dt">DOUBLE</span> <span class="dt">PRECISION</span>,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    weathercode <span class="dt">SMALLINT</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> weather_condition (</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    code <span class="dt">SMALLINT</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    description TEXT</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These tables will be the targets of your transformation logic.</p>
+</section>
+<section id="write-sql-to-transform-the-data" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="write-sql-to-transform-the-data"><span class="header-section-number">1.4</span> Write SQL to Transform the Data</h2>
+<p>What’s a Common Table Expression?</p>
+<p>A Common Table Expression (CTE) is a temporary result set defined at the beginning of a SQL statement. It helps modularize complex queries and allows you to: - Break down a multi-step transformation into readable pieces. - Reference intermediate results multiple times.</p>
+<p>📚 Reference: <a href="https://www.postgresql.org/docs/current/queries-with.html">CTEs in PostgreSQL</a></p>
+<p><em>Example Transformation for Flights</em></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">BEGIN</span>;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> <span class="dt">raw</span> <span class="kw">AS</span> (</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> <span class="kw">id</span>, timestamptz, jsonb_array_elements(raw_json<span class="op">-&gt;</span><span class="st">'states'</span>) <span class="kw">AS</span> state</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> flight_json_data</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>parsed <span class="kw">AS</span> (</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">id</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        state<span class="op">-&gt;&gt;</span><span class="dv">0</span> <span class="kw">AS</span> icao24,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        state<span class="op">-&gt;&gt;</span><span class="dv">1</span> <span class="kw">AS</span> callsign,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        state<span class="op">-&gt;&gt;</span><span class="dv">2</span> <span class="kw">AS</span> country,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        (state<span class="op">-&gt;&gt;</span><span class="dv">6</span>):<span class="ch">:DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">AS</span> longitude,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        (state<span class="op">-&gt;&gt;</span><span class="dv">5</span>):<span class="ch">:DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">AS</span> latitude,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        (state<span class="op">-&gt;&gt;</span><span class="dv">7</span>):<span class="ch">:DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">AS</span> altitude_meters,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        (state<span class="op">-&gt;&gt;</span><span class="dv">9</span>):<span class="ch">:DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">AS</span> velocity_knots,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        (state<span class="op">-&gt;&gt;</span><span class="dv">10</span>):<span class="ch">:DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">AS</span> heading_degrees,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        (state<span class="op">-&gt;&gt;</span><span class="dv">11</span>):<span class="ch">:DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">AS</span> vertical_rate,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        timestamptz</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> <span class="dt">raw</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> flights (</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    icao24, callsign, country, latitude, longitude,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    altitude_meters, velocity_knots, heading_degrees,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    vertical_rate, <span class="dt">timestamp</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    icao24, callsign, country, latitude, longitude,</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    altitude_meters, velocity_knots, heading_degrees,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    vertical_rate, timestamptz</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> parsed;</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete processed rows</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> flight_json_data;</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="kw">COMMIT</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>Example Transformation for Weather</em></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">BEGIN</span>;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> <span class="dt">raw</span> <span class="kw">AS</span> (</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> <span class="kw">id</span>, raw_json, timestamptz</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> weather_json_data</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>parsed <span class="kw">AS</span> (</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        (raw_json<span class="op">-&gt;</span><span class="st">'latitude'</span>):<span class="ch">:DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">AS</span> latitude,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        (raw_json<span class="op">-&gt;</span><span class="st">'longitude'</span>):<span class="ch">:DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">AS</span> longitude,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        (raw_json<span class="op">-&gt;</span><span class="st">'current'</span><span class="op">-&gt;</span><span class="st">'precipitation'</span>):<span class="ch">:DOUBLE</span> <span class="dt">PRECISION</span> <span class="kw">AS</span> precipitation_mm,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        (raw_json<span class="op">-&gt;</span><span class="st">'current'</span><span class="op">-&gt;</span><span class="st">'weathercode'</span>):<span class="ch">:SMALLINT</span> <span class="kw">AS</span> weathercode,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        timestamptz <span class="kw">AS</span> <span class="dt">timestamp</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> <span class="dt">raw</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> weather_observations (</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    latitude, longitude, precipitation_mm, weathercode, <span class="dt">timestamp</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    latitude, longitude, precipitation_mm, weathercode, <span class="dt">timestamp</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> parsed;</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete processed rows</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> weather_json_data;</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="kw">COMMIT</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="why-use-transactions" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="why-use-transactions"><span class="header-section-number">1.4.1</span> Why Use Transactions?</h3>
+<p>A TRANSACTION ensures that either all your steps complete successfully, or none of them are applied. This prevents partial writes and data corruption. • BEGIN; starts the transaction. • COMMIT; applies all changes if no error occurred. • If an error occurs, the entire transaction can be rolled back.</p>
+</section>
+</section>
+<section id="use-the-github-template" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="use-the-github-template"><span class="header-section-number">1.5</span> Use the GitHub Template</h2>
+<pre><code>1.  Visit: [https://github.com/LucasCordova/db_transform](https://github.com/LucasCordova/db_transform).
+2.  Click the “Use this template” button.
+3.  Name your repository: `weather_flight_db_transform`
+4.  Choose your GitHub account and click Create Repository.</code></pre>
+</section>
+<section id="add-your-sql-to-clean.sql" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="add-your-sql-to-clean.sql"><span class="header-section-number">1.6</span> Add Your SQL to clean.sql</h2>
+<pre><code>1.  Open the new repository on GitHub (recommended) or clone it locally.
+2.  Edit the clean.sql file. If you are editing in the browser, choose the `pencil` icon. Paste your flight and weather transformation SQL inside it.
+3.  Save the file and commit. In the browser editor, click the Commit changes... button, add a message, and click the final Commit changes button.</code></pre>
+</section>
+<section id="deploy-the-service-in-railway" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="deploy-the-service-in-railway"><span class="header-section-number">1.7</span> Deploy the Service in Railway</h2>
+<pre><code>1.  Go to your Railway project.
+2.  Click New → Deploy from GitHub Repo.
+3.  Click “Configure GitHub App” to give Railway access to your GitHub account.
+4.  Choose the repository weather_flight_db_transform.
+5.  Click Deploy.
+
+*Add Environment Variable*
+    Key: DATABASE_URL
+    Value: ${{Postgres.DATABASE_PUBLIC_URL}}</code></pre>
+</section>
+<section id="set-cron-schedule" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="set-cron-schedule"><span class="header-section-number">1.8</span> Set Cron Schedule</h2>
+<pre><code>1.  Go to the Settings tab of the DataTransform service.
+2.  Scroll to Triggers → New Trigger.
+3.  Choose Cron and enter: `0 * * * *`.
+This means the service runs once every hour, at the top of the hour.</code></pre>
+</section>
+<section id="testing-and-validation" class="level2" data-number="1.9">
+<h2 data-number="1.9" class="anchored" data-anchor-id="testing-and-validation"><span class="header-section-number">1.9</span> Testing and Validation</h2>
+<p>✅ Check the Tables in Beekeeper</p>
+<pre><code>After the first cron run, inspect the structured tables:
+
+```sql
+SELECT * FROM flights ORDER BY timestamp DESC LIMIT 10;
+SELECT * FROM weather_observations ORDER BY timestamp DESC LIMIT 10;
+```</code></pre>
+<p>✅ View Logs in Railway Use the Logs tab to inspect any errors or debug output.</p>
+</section>
+<section id="whats-next" class="level2" data-number="1.10">
+<h2 data-number="1.10" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.10</span> What’s Next?</h2>
+<pre><code>Now that your structured data is flowing, you can visualize and analyze it in the next step using Grafana Dashboards. You’ll use SQL queries to explore patterns in flight activity and weather data—laying the foundation for answering your core research question.</code></pre>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
