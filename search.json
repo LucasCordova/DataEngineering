@@ -11,7 +11,7 @@
     "href": "pipelines.html#architecture-overview",
     "title": "Pipelines - Data Engineering",
     "section": "Architecture Overview",
-    "text": "Architecture Overview\ngraph TD\n    subgraph Railway.app\n        Postgres[(Postgres Database)]\n        Web2DB1[Web2DB - Scraper/API Service #1]\n        Web2DB2[Web2DB - Scraper/API Service #2]\n        DataTransform[DataTransform Service]\n        Grafana[Grafana Dashboard]\n        DB2API[PostgREST - DB2API Bridge]\n        Swagger[Swagger UI - API Dev Tool]\n    end\n\n    Web2DB1 --&gt; Postgres\n    Web2DB2 --&gt; Postgres\n    Postgres --&gt; DataTransform\n    DataTransform --&gt; Postgres\n    Postgres --&gt; Grafana\n    Postgres --&gt; DB2API\n    DB2API --&gt; Swagger"
+    "text": "Architecture Overview\n\n\n\n\n\ngraph TD\n    subgraph Railway.app\n        Postgres[(Postgres Database)]\n        Web2DB1[Web2DB - Scraper/API Service #1]\n        Web2DB2[Web2DB - Scraper/API Service #2]\n        DataTransform[DataTransform Service]\n        Grafana[Grafana Dashboard]\n        DB2API[PostgREST - DB2API Bridge]\n        Swagger[Swagger UI - API Dev Tool]\n    end\n\n    Web2DB1 --&gt; Postgres\n    Web2DB2 --&gt; Postgres\n    Postgres --&gt; DataTransform\n    DataTransform --&gt; Postgres\n    Postgres --&gt; Grafana\n    Postgres --&gt; DB2API\n    DB2API --&gt; Swagger"
   },
   {
     "objectID": "index.html",
