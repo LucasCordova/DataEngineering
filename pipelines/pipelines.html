@@ -199,8 +199,8 @@
 </section>
 <section>
 <section id="data-engineering-pipelines" class="title-slide slide level1 center">
-<h1>Data Engineering Pipelines</h1>
-
+<h1>📊 Data Engineering Pipelines</h1>
+<p>Lucas Cordova</p>
 </section>
 <section id="overview-of-pipeline-stages" class="slide level2">
 <h2>Overview of Pipeline Stages</h2>
@@ -229,6 +229,9 @@
 <li><strong>Raw Data Storage</strong> – Capturing unstructured API responses from external ingestion services (e.g., OpenSky Network for flights, Open-Meteo for weather).</li>
 <li><strong>Structured Relational Modeling</strong> – Housing clean, normalized data models post-transformation—ready for querying, visualization, and API exposure.</li>
 </ol>
+</section>
+<section id="overview-continued" class="slide level2">
+<h2>Overview Continued</h2>
 <p>As we build a system to detect <strong>“no-fly windows”</strong> based on weather thresholds over Portland, Postgres serves as the long-term memory of the pipeline. In this step, we’ll deploy it using <a href="https://railway.app">Railway</a> and connect via <a href="https://www.beekeeperstudio.io/">Beekeeper Studio</a> to validate connectivity and inspect future data.</p>
 </section>
 <section id="prerequisites" class="slide level2">
@@ -302,6 +305,9 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <li><code>flight_json_data</code>: stores data retrieved from the OpenSky Network.</li>
 <li><code>weather_json_data</code>: stores data retrieved from the Open-Meteo API.</li>
 </ul>
+</section>
+<section id="raw-json-storage-continued" class="slide level2">
+<h2>RAW JSON Storage Continued</h2>
 <p>Each table includes:</p>
 <ul>
 <li><code>id</code>: an auto-incrementing primary key.</li>
@@ -351,6 +357,9 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <li><strong>Build your request URL</strong> including any necessary geographic filters, authentication tokens, or query strings.</li>
 <li><strong>Test the request</strong> manually (e.g., in your browser or Postman) before deploying it inside a service like Railway.</li>
 </ol>
+</section>
+<section id="using-public-apis-continued" class="slide level2">
+<h2>Using Public APIs Continued</h2>
 <p>For APIs that require keys or tokens, you should always inject these as <strong>environment variables</strong>, never hardcoded in your code or Docker image.</p>
 </section>
 <section id="about-the-opensky-api-url" class="slide level2">
@@ -470,8 +479,16 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <li><code>weathercode</code>: numeric weather condition code (e.g., fog, rain, snow).</li>
 </ul></li>
 </ul>
-<p>📚 Learn more at:<br>
-🔗 <a href="https://open-meteo.com/en/docs">Open-Meteo API Docs</a></p>
+<table class="caption-top">
+<tbody>
+<tr class="odd">
+<td>### 📚 Learn more at:</td>
+</tr>
+<tr class="even">
+<td>🔗 <a href="https://open-meteo.com/en/docs">Open-Meteo API Docs</a></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="deploying-the-web2db-weather-service" class="slide level2">
 <h2>Deploying the Web2DB Weather Service</h2>
@@ -626,7 +643,9 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <p>What’s a Common Table Expression?</p>
 <p>A Common Table Expression (CTE) is a temporary result set defined at the beginning of a SQL statement. It helps modularize complex queries and allows you to: - Break down a multi-step transformation into readable pieces. - Reference intermediate results multiple times.</p>
 <p>📚 Reference: <a href="https://www.postgresql.org/docs/current/queries-with.html">CTEs in PostgreSQL</a></p>
-<p><em>Example Transformation for Flights</em></p>
+</section>
+<section id="example-transformation-for-flights" class="slide level2">
+<h2>Example Transformation for Flights</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a></a><span class="cf">BEGIN</span>;</span>
 <span id="cb7-2"><a></a></span>
 <span id="cb7-3"><a></a><span class="kw">WITH</span> <span class="dt">raw</span> <span class="kw">AS</span> (</span>
@@ -663,7 +682,9 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <span id="cb7-34"><a></a><span class="kw">DELETE</span> <span class="kw">FROM</span> flight_json_data;</span>
 <span id="cb7-35"><a></a></span>
 <span id="cb7-36"><a></a><span class="kw">COMMIT</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>Example Transformation for Weather</em></p>
+</section>
+<section id="example-transformation-for-weather" class="slide level2">
+<h2>Example Transformation for Weather</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a></a><span class="cf">BEGIN</span>;</span>
 <span id="cb8-2"><a></a></span>
 <span id="cb8-3"><a></a><span class="kw">WITH</span> <span class="dt">raw</span> <span class="kw">AS</span> (</span>
@@ -690,6 +711,9 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <span id="cb8-24"><a></a><span class="kw">DELETE</span> <span class="kw">FROM</span> weather_json_data;</span>
 <span id="cb8-25"><a></a></span>
 <span id="cb8-26"><a></a><span class="kw">COMMIT</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section class="slide level2">
+
 <h3 id="why-use-transactions">Why Use Transactions?</h3>
 <p>A TRANSACTION ensures that either all your steps complete successfully, or none of them are applied. This prevents partial writes and data corruption. • BEGIN; starts the transaction. • COMMIT; applies all changes if no error occurred. • If an error occurs, the entire transaction can be rolled back.</p>
 </section>
@@ -740,14 +764,10 @@ This means the service runs once every hour, at the top of the hour.</code></pre
 <h2>Testing and Validation</h2>
 <pre><code>✅ Check the Tables in Beekeeper
 
-    After the first cron run, inspect the structured tables:
-
-    ```sql
-    SELECT * FROM flights ORDER BY timestamp DESC LIMIT 10;
-    SELECT * FROM weather_observations ORDER BY timestamp DESC LIMIT 10;
-    ```
-
-✅ View Logs in Railway
+    After the first cron run, inspect the structured tables:</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> flights <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">timestamp</span> <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">10</span>;</span>
+<span id="cb15-2"><a></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> weather_observations <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">timestamp</span> <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>✅ View Logs in Railway
     Use the Logs tab to inspect any errors or debug output.</code></pre>
 </section>
 <section id="whats-next-3" class="slide level2">
@@ -769,26 +789,26 @@ This means the service runs once every hour, at the top of the hour.</code></pre
 <h2>Create a View for the Dashboard</h2>
 <p>Let’s create a view that answers our research question: &gt; <em>Are there “no-fly windows” correlated with weather thresholds?</em></p>
 <p>This view joins structured flight and weather data to support correlation queries:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> flight_weather <span class="kw">AS</span></span>
-<span id="cb16-2"><a></a><span class="kw">SELECT</span></span>
-<span id="cb16-3"><a></a>    f.<span class="dt">timestamp</span>,</span>
-<span id="cb16-4"><a></a>    f.callsign,</span>
-<span id="cb16-5"><a></a>    f.altitude_meters,</span>
-<span id="cb16-6"><a></a>    f.velocity_knots,</span>
-<span id="cb16-7"><a></a>    f.latitude <span class="kw">AS</span> flight_latitude,</span>
-<span id="cb16-8"><a></a>    f.longitude <span class="kw">AS</span> flight_longitude,</span>
-<span id="cb16-9"><a></a>    w.precipitation_mm,</span>
-<span id="cb16-10"><a></a>    w.weathercode,</span>
-<span id="cb16-11"><a></a>    w.latitude <span class="kw">AS</span> weather_latitude,</span>
-<span id="cb16-12"><a></a>    w.longitude <span class="kw">AS</span> weather_longitude</span>
-<span id="cb16-13"><a></a><span class="kw">FROM</span></span>
-<span id="cb16-14"><a></a>    flights f</span>
-<span id="cb16-15"><a></a><span class="kw">JOIN</span></span>
-<span id="cb16-16"><a></a>    weather_observations w</span>
-<span id="cb16-17"><a></a><span class="kw">ON</span></span>
-<span id="cb16-18"><a></a>    date_trunc(<span class="st">'minute'</span>, f.<span class="dt">timestamp</span>) <span class="op">=</span> date_trunc(<span class="st">'minute'</span>, w.<span class="dt">timestamp</span>)</span>
-<span id="cb16-19"><a></a><span class="kw">ORDER</span> <span class="kw">BY</span></span>
-<span id="cb16-20"><a></a>    f.<span class="dt">timestamp</span> <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">VIEW</span> flight_weather <span class="kw">AS</span></span>
+<span id="cb18-2"><a></a><span class="kw">SELECT</span></span>
+<span id="cb18-3"><a></a>    f.<span class="dt">timestamp</span>,</span>
+<span id="cb18-4"><a></a>    f.callsign,</span>
+<span id="cb18-5"><a></a>    f.altitude_meters,</span>
+<span id="cb18-6"><a></a>    f.velocity_knots,</span>
+<span id="cb18-7"><a></a>    f.latitude <span class="kw">AS</span> flight_latitude,</span>
+<span id="cb18-8"><a></a>    f.longitude <span class="kw">AS</span> flight_longitude,</span>
+<span id="cb18-9"><a></a>    w.precipitation_mm,</span>
+<span id="cb18-10"><a></a>    w.weathercode,</span>
+<span id="cb18-11"><a></a>    w.latitude <span class="kw">AS</span> weather_latitude,</span>
+<span id="cb18-12"><a></a>    w.longitude <span class="kw">AS</span> weather_longitude</span>
+<span id="cb18-13"><a></a><span class="kw">FROM</span></span>
+<span id="cb18-14"><a></a>    flights f</span>
+<span id="cb18-15"><a></a><span class="kw">JOIN</span></span>
+<span id="cb18-16"><a></a>    weather_observations w</span>
+<span id="cb18-17"><a></a><span class="kw">ON</span></span>
+<span id="cb18-18"><a></a>    date_trunc(<span class="st">'minute'</span>, f.<span class="dt">timestamp</span>) <span class="op">=</span> date_trunc(<span class="st">'minute'</span>, w.<span class="dt">timestamp</span>)</span>
+<span id="cb18-19"><a></a><span class="kw">ORDER</span> <span class="kw">BY</span></span>
+<span id="cb18-20"><a></a>    f.<span class="dt">timestamp</span> <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="deploying-grafana-in-railway" class="slide level2">
 <h2>Deploying Grafana in Railway</h2>
@@ -848,9 +868,9 @@ This means the service runs once every hour, at the top of the hour.</code></pre
 <li>Open your Postgres database in <strong>Beekeeper Studio</strong>.</li>
 <li>Run the following SQL (replace <code>'password'</code> with one you’ll remember):</li>
 </ol>
-<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a></a><span class="kw">CREATE</span> <span class="fu">USER</span> grafanareader <span class="kw">WITH</span> <span class="kw">PASSWORD</span> <span class="st">'your_password'</span>;</span>
-<span id="cb17-2"><a></a><span class="kw">GRANT</span> <span class="kw">USAGE</span> <span class="kw">ON</span> <span class="kw">SCHEMA</span> <span class="ot">"public"</span> <span class="kw">TO</span> grafanareader;</span>
-<span id="cb17-3"><a></a><span class="kw">GRANT</span> <span class="kw">SELECT</span> <span class="kw">ON</span> <span class="ot">"public"</span>.flight_weather <span class="kw">TO</span> grafanareader;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a></a><span class="kw">CREATE</span> <span class="fu">USER</span> grafanareader <span class="kw">WITH</span> <span class="kw">PASSWORD</span> <span class="st">'your_password'</span>;</span>
+<span id="cb19-2"><a></a><span class="kw">GRANT</span> <span class="kw">USAGE</span> <span class="kw">ON</span> <span class="kw">SCHEMA</span> <span class="ot">"public"</span> <span class="kw">TO</span> grafanareader;</span>
+<span id="cb19-3"><a></a><span class="kw">GRANT</span> <span class="kw">SELECT</span> <span class="kw">ON</span> <span class="ot">"public"</span>.flight_weather <span class="kw">TO</span> grafanareader;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="connect-grafana-to-postgres" class="slide level2">
 <h2>Connect Grafana to Postgres</h2>
@@ -1027,21 +1047,21 @@ Example:<br>
 <section id="set-up-database-permissions" class="slide level2">
 <h2>Set Up Database Permissions</h2>
 <p>Open <strong>Beekeeper Studio</strong> and execute the following SQL:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a></a><span class="co">-- Create a non-login role to define anonymous API access</span></span>
-<span id="cb19-2"><a></a><span class="kw">CREATE</span> <span class="kw">ROLE</span> web_anon NOLOGIN;</span>
-<span id="cb19-3"><a></a></span>
-<span id="cb19-4"><a></a><span class="co">-- Allow that role to access the "api" schema</span></span>
-<span id="cb19-5"><a></a><span class="kw">GRANT</span> <span class="kw">USAGE</span> <span class="kw">ON</span> <span class="kw">SCHEMA</span> api <span class="kw">TO</span> web_anon;</span>
-<span id="cb19-6"><a></a></span>
-<span id="cb19-7"><a></a><span class="co">-- Limit access only to this view</span></span>
-<span id="cb19-8"><a></a><span class="kw">GRANT</span> <span class="kw">SELECT</span> <span class="kw">ON</span> api.general_aviation_weather_view <span class="kw">TO</span> web_anon;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb21-1"><a></a><span class="co">-- Create a non-login role to define anonymous API access</span></span>
+<span id="cb21-2"><a></a><span class="kw">CREATE</span> <span class="kw">ROLE</span> web_anon NOLOGIN;</span>
+<span id="cb21-3"><a></a></span>
+<span id="cb21-4"><a></a><span class="co">-- Allow that role to access the "api" schema</span></span>
+<span id="cb21-5"><a></a><span class="kw">GRANT</span> <span class="kw">USAGE</span> <span class="kw">ON</span> <span class="kw">SCHEMA</span> api <span class="kw">TO</span> web_anon;</span>
+<span id="cb21-6"><a></a></span>
+<span id="cb21-7"><a></a><span class="co">-- Limit access only to this view</span></span>
+<span id="cb21-8"><a></a><span class="kw">GRANT</span> <span class="kw">SELECT</span> <span class="kw">ON</span> api.general_aviation_weather_view <span class="kw">TO</span> web_anon;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This ensures PostgREST can only <strong>read</strong> from a specific schema (<code>api</code>) and specific view (<code>general_aviation_weather_view</code>). It does <strong>not</strong> grant access to other tables or schemas.</p>
 </section>
 <section id="create-a-dedicated-authenticator-role" class="slide level2">
 <h2>Create a Dedicated Authenticator Role</h2>
 <p>Rather than using the powerful <code>postgres</code> role to connect from PostgREST, we create a separate <strong>authenticator</strong> user that can assume the <code>web_anon</code> role. This is more secure and scalable.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a></a><span class="kw">CREATE</span> <span class="kw">ROLE</span> authenticator NOINHERIT LOGIN <span class="kw">PASSWORD</span> <span class="st">'&lt;your password&gt;'</span>;</span>
-<span id="cb20-2"><a></a><span class="kw">GRANT</span> web_anon <span class="kw">TO</span> authenticator;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a></a><span class="kw">CREATE</span> <span class="kw">ROLE</span> authenticator NOINHERIT LOGIN <span class="kw">PASSWORD</span> <span class="st">'&lt;your password&gt;'</span>;</span>
+<span id="cb22-2"><a></a><span class="kw">GRANT</span> web_anon <span class="kw">TO</span> authenticator;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <h3 id="why-this-matters">Why This Matters:</h3>
 <ul>
 <li><code>NOINHERIT</code>: the authenticator role <strong>cannot directly access</strong> anything.</li>
@@ -1059,16 +1079,16 @@ Example:<br>
 </ol>
 <pre><code>https://&lt;your-domain&gt;.up.railway.app/general_aviation_weather_view</code></pre>
 <p>If everything is configured correctly, you should see a JSON response:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb22-1"><a></a><span class="ot">[</span></span>
-<span id="cb22-2"><a></a>  <span class="fu">{</span></span>
-<span id="cb22-3"><a></a>    <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2025-04-08T16:00:00Z"</span><span class="fu">,</span></span>
-<span id="cb22-4"><a></a>    <span class="dt">"callsign"</span><span class="fu">:</span> <span class="st">"N12345"</span><span class="fu">,</span></span>
-<span id="cb22-5"><a></a>    <span class="dt">"altitude_meters"</span><span class="fu">:</span> <span class="dv">1524</span><span class="fu">,</span></span>
-<span id="cb22-6"><a></a>    <span class="dt">"precipitation_mm"</span><span class="fu">:</span> <span class="dv">0</span><span class="er">.</span><span class="dv">8</span><span class="fu">,</span></span>
-<span id="cb22-7"><a></a>    <span class="dt">"weathercode"</span><span class="fu">:</span> <span class="dv">61</span></span>
-<span id="cb22-8"><a></a>  <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb22-9"><a></a>  <span class="er">...</span></span>
-<span id="cb22-10"><a></a><span class="ot">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb24-1"><a></a><span class="ot">[</span></span>
+<span id="cb24-2"><a></a>  <span class="fu">{</span></span>
+<span id="cb24-3"><a></a>    <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2025-04-08T16:00:00Z"</span><span class="fu">,</span></span>
+<span id="cb24-4"><a></a>    <span class="dt">"callsign"</span><span class="fu">:</span> <span class="st">"N12345"</span><span class="fu">,</span></span>
+<span id="cb24-5"><a></a>    <span class="dt">"altitude_meters"</span><span class="fu">:</span> <span class="dv">1524</span><span class="fu">,</span></span>
+<span id="cb24-6"><a></a>    <span class="dt">"precipitation_mm"</span><span class="fu">:</span> <span class="dv">0</span><span class="er">.</span><span class="dv">8</span><span class="fu">,</span></span>
+<span id="cb24-7"><a></a>    <span class="dt">"weathercode"</span><span class="fu">:</span> <span class="dv">61</span></span>
+<span id="cb24-8"><a></a>  <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb24-9"><a></a>  <span class="er">...</span></span>
+<span id="cb24-10"><a></a><span class="ot">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>✅ If you see data, your DB API bridge is fully operational!</p>
 </section>
 <section id="summary" class="slide level2">

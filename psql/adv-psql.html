@@ -9,7 +9,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.6.43">
 
-  <title>Data Engineering Guides – PostgreSQL Advanced Features: Views, Functions, and Stored Procedures</title>
+  <title>Data Engineering Guides – 🔍 Postgres Advanced Features: Views, Functions, and Stored Procedures</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -191,34 +191,11 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">PostgreSQL Advanced Features: Views, Functions, and Stored Procedures</h1>
+  <h1 class="title">🔍 Postgres Advanced Features: Views, Functions, and Stored Procedures</h1>
 
 <div class="quarto-title-authors">
 </div>
 
-</section><section id="TOC">
-<nav role="doc-toc"> 
-<h2 id="toc-title">Table of contents</h2>
-<ul>
-<li><a href="#/dataset-used" id="/toc-dataset-used">Dataset Used</a></li>
-<li><a href="#/learning-objectives" id="/toc-learning-objectives">Learning Objectives</a></li>
-<li><a href="#/views-in-postgresql" id="/toc-views-in-postgresql">Views in PostgreSQL</a></li>
-<li><a href="#/creating-a-simple-view" id="/toc-creating-a-simple-view">Creating a Simple View</a></li>
-<li><a href="#/updatable-views" id="/toc-updatable-views">Updatable Views</a></li>
-<li><a href="#/functions-in-postgresql" id="/toc-functions-in-postgresql">Functions in PostgreSQL</a></li>
-<li><a href="#/example-scalar-function" id="/toc-example-scalar-function">Example: Scalar Function</a></li>
-<li><a href="#/example-table-function" id="/toc-example-table-function">Example: Table Function</a></li>
-<li><a href="#/stored-procedures" id="/toc-stored-procedures">Stored Procedures</a></li>
-<li><a href="#/example-stored-procedure" id="/toc-example-stored-procedure">Example: Stored Procedure</a></li>
-<li><a href="#/example-stored-procedure-1" id="/toc-example-stored-procedure-1">Example: Stored Procedure</a></li>
-<li><a href="#/functions-vs-stored-procedures" id="/toc-functions-vs-stored-procedures">Functions vs Stored Procedures</a></li>
-<li><a href="#/triggers-in-postgresql" id="/toc-triggers-in-postgresql">Triggers in PostgreSQL</a></li>
-<li><a href="#/trigger-example-log-customer-deletion" id="/toc-trigger-example-log-customer-deletion">Trigger Example: Log Customer Deletion</a></li>
-<li><a href="#/create-trigger" id="/toc-create-trigger">Create Trigger</a></li>
-<li><a href="#/create-trigger-1" id="/toc-create-trigger-1">Create Trigger</a></li>
-<li><a href="#/summary" id="/toc-summary">Summary</a></li>
-</ul>
-</nav>
 </section>
 <section id="dataset-used" class="slide level2">
 <h2>Dataset Used</h2>
@@ -280,8 +257,9 @@
 </ul>
 <p>Written in SQL or PL/pgSQL (PostgreSQL’s procedural language).</p>
 </section>
-<section id="example-scalar-function" class="slide level2">
-<h2>Example: Scalar Function</h2>
+<section class="slide level2">
+
+<h3 id="example-scalar-function">Example: Scalar Function</h3>
 <p>Return number of films an actor has appeared in:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a></a><span class="kw">CREATE</span> <span class="kw">FUNCTION</span> film_count(actor_id <span class="dt">INT</span>) RETURNS <span class="dt">INT</span> <span class="kw">AS</span> $$</span>
 <span id="cb3-2"><a></a>  <span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>)</span>
@@ -291,8 +269,9 @@
 <p>Usage:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a></a><span class="kw">SELECT</span> film_count(<span class="dv">1</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="example-table-function" class="slide level2">
-<h2>Example: Table Function</h2>
+<section class="slide level2">
+
+<h3 id="example-table-function">Example: Table Function</h3>
 <p>List all films rented by a customer:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a></a><span class="kw">CREATE</span> <span class="kw">OR</span> <span class="kw">REPLACE</span> <span class="kw">FUNCTION</span> customer_rentals(cust_id <span class="dt">INT</span>)</span>
 <span id="cb5-2"><a></a>RETURNS <span class="kw">TABLE</span>(title TEXT, rental_date <span class="dt">TIMESTAMP</span>) <span class="kw">AS</span> $$</span>
@@ -317,8 +296,9 @@
 </ul>
 <p>Useful for batch operations, data migrations, etc.</p>
 </section>
-<section id="example-stored-procedure" class="slide level2">
-<h2>Example: Stored Procedure</h2>
+<section class="slide level2">
+
+<h3 id="example-stored-procedure">Example: Stored Procedure</h3>
 <p>Let’s use a Stored Procedure to store deleted customers.</p>
 <p>First, let’s create a customer_deletion_log table.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> customer_deletion_log (</span>
@@ -326,8 +306,9 @@
 <span id="cb7-3"><a></a>    deleted_at <span class="dt">TIMESTAMP</span> <span class="kw">default</span> NOW()</span>
 <span id="cb7-4"><a></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="example-stored-procedure-1" class="slide level2">
-<h2>Example: Stored Procedure</h2>
+<section class="slide level2">
+
+<h3 id="example-stored-procedure-1">Example: Stored Procedure</h3>
 <p>Now, let’s create a Stored Procedure to delete a customer and log the deletion:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a></a><span class="kw">CREATE</span> <span class="kw">PROCEDURE</span> delete_customer(cust_id <span class="dt">INT</span>)</span>
 <span id="cb8-2"><a></a>LANGUAGE plpgsql</span>
@@ -381,6 +362,9 @@
 </tr>
 </tbody>
 </table>
+</section>
+<section class="slide level2">
+
 <h3 id="when-to-use-which">When to Use Which?</h3>
 <ul>
 <li>Use <strong>functions</strong> when you need return values or reusable logic inside queries.</li>

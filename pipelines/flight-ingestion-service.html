@@ -128,11 +128,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../pipelines/index.html" aria-current="page"> 
-<span class="menu-text">Pipelines</span></a>
+<span class="menu-text">Pipelines Guide</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pipelines/pipelines.html"> 
+<span class="menu-text">Pipelines Slides</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../psql/adv-psql.html"> 
-<span class="menu-text">PSQL</span></a>
+<span class="menu-text">PSQL Slides</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -215,24 +219,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">1.1</span> Overview</a></li>
   <li><a href="#using-public-apis-in-your-own-projects" id="toc-using-public-apis-in-your-own-projects" class="nav-link" data-scroll-target="#using-public-apis-in-your-own-projects"><span class="header-section-number">1.2</span> Using Public APIs in Your Own Projects</a></li>
-  <li><a href="#about-the-opensky-api-url" id="toc-about-the-opensky-api-url" class="nav-link" data-scroll-target="#about-the-opensky-api-url"><span class="header-section-number">1.3</span> About the OpenSky API URL</a>
+  <li><a href="#using-public-apis-continued" id="toc-using-public-apis-continued" class="nav-link" data-scroll-target="#using-public-apis-continued"><span class="header-section-number">1.3</span> Using Public APIs Continued</a></li>
+  <li><a href="#about-the-opensky-api-url" id="toc-about-the-opensky-api-url" class="nav-link" data-scroll-target="#about-the-opensky-api-url"><span class="header-section-number">1.4</span> About the OpenSky API URL</a>
   <ul class="collapse">
-  <li><a href="#url-breakdown" id="toc-url-breakdown" class="nav-link" data-scroll-target="#url-breakdown"><span class="header-section-number">1.3.1</span> 🗺️ URL Breakdown:</a></li>
+  <li><a href="#url-breakdown" id="toc-url-breakdown" class="nav-link" data-scroll-target="#url-breakdown"><span class="header-section-number">1.4.1</span> 🗺️ URL Breakdown:</a></li>
   </ul></li>
-  <li><a href="#deploying-the-web2db-flights-service" id="toc-deploying-the-web2db-flights-service" class="nav-link" data-scroll-target="#deploying-the-web2db-flights-service"><span class="header-section-number">1.4</span> Deploying the Web2DB Flights Service</a>
+  <li><a href="#deploying-the-web2db-flights-service" id="toc-deploying-the-web2db-flights-service" class="nav-link" data-scroll-target="#deploying-the-web2db-flights-service"><span class="header-section-number">1.5</span> Deploying the Web2DB Flights Service</a>
   <ul class="collapse">
-  <li><a href="#add-the-docker-service-in-railway" id="toc-add-the-docker-service-in-railway" class="nav-link" data-scroll-target="#add-the-docker-service-in-railway"><span class="header-section-number">1.4.1</span> Add the Docker Service in Railway</a></li>
-  <li><a href="#configure-environment-variables" id="toc-configure-environment-variables" class="nav-link" data-scroll-target="#configure-environment-variables"><span class="header-section-number">1.4.2</span> Configure Environment Variables</a></li>
+  <li><a href="#add-the-docker-service-in-railway" id="toc-add-the-docker-service-in-railway" class="nav-link" data-scroll-target="#add-the-docker-service-in-railway"><span class="header-section-number">1.5.1</span> Add the Docker Service in Railway</a></li>
+  <li><a href="#configure-environment-variables" id="toc-configure-environment-variables" class="nav-link" data-scroll-target="#configure-environment-variables"><span class="header-section-number">1.5.2</span> Configure Environment Variables</a></li>
   </ul></li>
-  <li><a href="#scheduling-the-ingestion" id="toc-scheduling-the-ingestion" class="nav-link" data-scroll-target="#scheduling-the-ingestion"><span class="header-section-number">1.5</span> Scheduling the Ingestion</a>
+  <li><a href="#scheduling-the-ingestion" id="toc-scheduling-the-ingestion" class="nav-link" data-scroll-target="#scheduling-the-ingestion"><span class="header-section-number">1.6</span> Scheduling the Ingestion</a>
   <ul class="collapse">
-  <li><a href="#set-up-cron-trigger" id="toc-set-up-cron-trigger" class="nav-link" data-scroll-target="#set-up-cron-trigger"><span class="header-section-number">1.5.1</span> Set Up Cron Trigger</a></li>
+  <li><a href="#set-up-cron-trigger" id="toc-set-up-cron-trigger" class="nav-link" data-scroll-target="#set-up-cron-trigger"><span class="header-section-number">1.6.1</span> Set Up Cron Trigger</a></li>
   </ul></li>
-  <li><a href="#testing-the-ingestion" id="toc-testing-the-ingestion" class="nav-link" data-scroll-target="#testing-the-ingestion"><span class="header-section-number">1.6</span> Testing the Ingestion</a>
+  <li><a href="#testing-the-ingestion" id="toc-testing-the-ingestion" class="nav-link" data-scroll-target="#testing-the-ingestion"><span class="header-section-number">1.7</span> Testing the Ingestion</a>
   <ul class="collapse">
-  <li><a href="#verify-the-data-is-flowing" id="toc-verify-the-data-is-flowing" class="nav-link" data-scroll-target="#verify-the-data-is-flowing"><span class="header-section-number">1.6.1</span> ✅ Verify the Data is Flowing</a></li>
+  <li><a href="#verify-the-data-is-flowing" id="toc-verify-the-data-is-flowing" class="nav-link" data-scroll-target="#verify-the-data-is-flowing"><span class="header-section-number">1.7.1</span> ✅ Verify the Data is Flowing</a></li>
   </ul></li>
-  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">1.7</span> What’s Next?</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">1.8</span> What’s Next?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -280,14 +285,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Build your request URL</strong> including any necessary geographic filters, authentication tokens, or query strings.</li>
 <li><strong>Test the request</strong> manually (e.g., in your browser or Postman) before deploying it inside a service like Railway.</li>
 </ol>
+<hr>
+</section>
+<section id="using-public-apis-continued" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="using-public-apis-continued"><span class="header-section-number">1.3</span> Using Public APIs Continued</h2>
 <p>For APIs that require keys or tokens, you should always inject these as <strong>environment variables</strong>, never hardcoded in your code or Docker image.</p>
 <hr>
 </section>
-<section id="about-the-opensky-api-url" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="about-the-opensky-api-url"><span class="header-section-number">1.3</span> About the OpenSky API URL</h2>
+<section id="about-the-opensky-api-url" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="about-the-opensky-api-url"><span class="header-section-number">1.4</span> About the OpenSky API URL</h2>
 <p>For this demo, we’re using the following public OpenSky endpoint: `https://opensky-network.org/api/states/all?lamin=45.08&amp;lomin=-123.50&amp;lamax=45.88&amp;lomax=-122.00’</p>
-<section id="url-breakdown" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="url-breakdown"><span class="header-section-number">1.3.1</span> 🗺️ URL Breakdown:</h3>
+<section id="url-breakdown" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="url-breakdown"><span class="header-section-number">1.4.1</span> 🗺️ URL Breakdown:</h3>
 <ul>
 <li><code>lamin</code> and <code>lamax</code>: latitude min/max (45.08 to 45.88)</li>
 <li><code>lomin</code> and <code>lomax</code>: longitude min/max (−123.50 to −122.00)</li>
@@ -298,10 +307,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="deploying-the-web2db-flights-service" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="deploying-the-web2db-flights-service"><span class="header-section-number">1.4</span> Deploying the Web2DB Flights Service</h2>
-<section id="add-the-docker-service-in-railway" class="level3" data-number="1.4.1">
-<h3 data-number="1.4.1" class="anchored" data-anchor-id="add-the-docker-service-in-railway"><span class="header-section-number">1.4.1</span> Add the Docker Service in Railway</h3>
+<section id="deploying-the-web2db-flights-service" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="deploying-the-web2db-flights-service"><span class="header-section-number">1.5</span> Deploying the Web2DB Flights Service</h2>
+<section id="add-the-docker-service-in-railway" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="add-the-docker-service-in-railway"><span class="header-section-number">1.5.1</span> Add the Docker Service in Railway</h3>
 <ol type="1">
 <li>In your Railway project, click <strong>“New”</strong> → <strong>“Deploy from Docker Image”</strong>.</li>
 <li>Enter the image name: <code>lucascordova/web2db</code></li>
@@ -309,8 +318,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <hr>
 </section>
-<section id="configure-environment-variables" class="level3" data-number="1.4.2">
-<h3 data-number="1.4.2" class="anchored" data-anchor-id="configure-environment-variables"><span class="header-section-number">1.4.2</span> Configure Environment Variables</h3>
+<section id="configure-environment-variables" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="configure-environment-variables"><span class="header-section-number">1.5.2</span> Configure Environment Variables</h3>
 <p>Once deployed, go to the <strong>Variables</strong> tab and add the following:</p>
 <table class="caption-top table">
 <colgroup>
@@ -348,10 +357,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="scheduling-the-ingestion" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="scheduling-the-ingestion"><span class="header-section-number">1.5</span> Scheduling the Ingestion</h2>
-<section id="set-up-cron-trigger" class="level3" data-number="1.5.1">
-<h3 data-number="1.5.1" class="anchored" data-anchor-id="set-up-cron-trigger"><span class="header-section-number">1.5.1</span> Set Up Cron Trigger</h3>
+<section id="scheduling-the-ingestion" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="scheduling-the-ingestion"><span class="header-section-number">1.6</span> Scheduling the Ingestion</h2>
+<section id="set-up-cron-trigger" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="set-up-cron-trigger"><span class="header-section-number">1.6.1</span> Set Up Cron Trigger</h3>
 <ol type="1">
 <li>Go to the <strong>Settings</strong> tab of the Web2DB Flights service.</li>
 <li>Scroll to the <strong>Triggers</strong> section and click <strong>“New Trigger”</strong>.</li>
@@ -365,11 +374,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="testing-the-ingestion" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="testing-the-ingestion"><span class="header-section-number">1.6</span> Testing the Ingestion</h2>
+<section id="testing-the-ingestion" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="testing-the-ingestion"><span class="header-section-number">1.7</span> Testing the Ingestion</h2>
 <p>After saving the environment variables and trigger, your ingestion service should begin collecting data every 5 minutes.</p>
-<section id="verify-the-data-is-flowing" class="level3" data-number="1.6.1">
-<h3 data-number="1.6.1" class="anchored" data-anchor-id="verify-the-data-is-flowing"><span class="header-section-number">1.6.1</span> ✅ Verify the Data is Flowing</h3>
+<section id="verify-the-data-is-flowing" class="level3" data-number="1.7.1">
+<h3 data-number="1.7.1" class="anchored" data-anchor-id="verify-the-data-is-flowing"><span class="header-section-number">1.7.1</span> ✅ Verify the Data is Flowing</h3>
 <ol type="1">
 <li>Open <strong>Beekeeper Studio</strong>.</li>
 <li>Connect to your Postgres database (if not already connected).</li>
@@ -381,8 +390,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="whats-next" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.7</span> What’s Next?</h2>
+<section id="whats-next" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.8</span> What’s Next?</h2>
 <p>Now that your Web2DB Flights service is live and filling your database with raw flight data, we’ll set up the companion Web2DB Weather service to do the same with meteorological data. Together, these two data streams will power our future correlation and transformation services.</p>
 
 
