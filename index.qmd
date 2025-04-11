@@ -8,8 +8,9 @@ Welcome to the guide site for the **Data Engineering** course at **Willamette Un
 This site is used to share setup guides, deployment instructions, and project documentation to help you build and manage your data pipelines.
 
 Stay tuned for:
-- 📘 Step-by-step tutorials.
-- ⚙️ Infrastructure walkthroughs.
-- 🚀 Deployment recipes for Railway, PostgreSQL, Grafana, PostgREST, and more.
+
+    - 📘 Step-by-step tutorials.
+    - ⚙️ Infrastructure walkthroughs.
+    - 🚀 Deployment recipes for Railway, PostgreSQL, Grafana, PostgREST, and more.
 
 Let's build pipelines that generate insight and impact. Happy hacking!

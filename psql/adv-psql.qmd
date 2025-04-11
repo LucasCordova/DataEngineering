@@ -1,0 +1,265 @@
+---
+title: "🔍 Postgres Advanced Features: Views, Functions, and Stored Procedures"
+format:
+  revealjs:
+    slide-number: true
+    code-fold: true
+    code-overflow: wrap
+    toc: true
+    toc-depth: 1
+---
+
+## Dataset Used
+
+For this lecture, we use the **Pagila** database — a PostgreSQL-compatible version of the classic Sakila DVD rental database.
+
+Download the SQL file from [Canvas](https://willamette.instructure.com/courses/7432/pages/week-13) to follow along.
+
+To load it into Postgres:
+    1. Create a new database called pagila_dvd.
+    2. Execute the contents of the SQL file you downloaded.
+
+---
+
+## Learning Objectives
+
+- Understand and create **Views** in PostgreSQL
+- Understand and create **User-Defined Functions**
+- Understand and create **Stored Procedures**
+- Understand and create **Triggers**
+- See practical examples using the **Pagila** dataset
+
+---
+
+## Views in PostgreSQL
+
+A **view** is a stored query that you can treat like a table.
+
+### Why Use Views?
+- Simplify complex queries
+- Reuse SQL logic
+- Add a security layer
+- Encapsulate business logic
+
+---
+
+## Creating a Simple View
+
+### Example: Top 5 Most Rented Films
+```sql
+CREATE VIEW top_5_rented_films AS
+SELECT f.title, COUNT(r.rental_id) AS rental_count
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+GROUP BY f.title
+ORDER BY rental_count DESC
+LIMIT 5;
+```
+
+You can now query it like a table:
+```sql
+SELECT * FROM top_5_rented_films;
+```
+
+---
+
+## Updatable Views
+
+Views are read-only **unless**:
+
+- Based on a single table
+- No aggregates or GROUP BY
+- No DISTINCT, LIMIT, OFFSET, JOIN
+
+You can make them updatable with **INSTEAD OF triggers**.
+
+---
+
+## Functions in PostgreSQL
+
+User-defined functions (UDFs) allow you to write **reusable logic**.
+They can return:
+
+- Scalar values
+- Table results (set-returning functions)
+
+Written in SQL or PL/pgSQL (PostgreSQL’s procedural language).
+
+---
+
+### Example: Scalar Function
+
+Return number of films an actor has appeared in:
+```sql
+CREATE FUNCTION film_count(actor_id INT) RETURNS INT AS $$
+  SELECT COUNT(*)
+  FROM film_actor
+  WHERE film_actor.actor_id = $1;
+$$ LANGUAGE SQL;
+```
+
+Usage:
+```sql
+SELECT film_count(1);
+```
+
+---
+
+### Example: Table Function
+
+List all films rented by a customer:
+```sql
+CREATE OR REPLACE FUNCTION customer_rentals(cust_id INT)
+RETURNS TABLE(title TEXT, rental_date TIMESTAMP) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT f.title, r.rental_date::TIMESTAMP
+  FROM rental r
+  JOIN inventory i ON r.inventory_id = i.inventory_id
+  JOIN film f ON i.film_id = f.film_id
+  WHERE r.customer_id = cust_id;
+END;
+$$ LANGUAGE plpgsql
+```
+
+Usage:
+```sql
+SELECT * FROM customer_rentals(1);
+```
+
+---
+
+## Stored Procedures
+
+Procedures are like functions but:
+
+- Do not return values
+- Support **transactions** (e.g., COMMIT/ROLLBACK)
+
+Useful for batch operations, data migrations, etc.
+
+---
+
+### Example: Stored Procedure
+
+Let's use a Stored Procedure to store deleted customers.
+
+First, let's create a customer_deletion_log table.
+
+```sql
+CREATE TABLE customer_deletion_log (
+	customer_id SERIAL PRIMARY KEY,
+	deleted_at TIMESTAMP default NOW()
+);
+```
+---
+
+### Example: Stored Procedure
+
+Now, let's create a Stored Procedure to delete a customer and log the deletion:
+```sql
+CREATE PROCEDURE delete_customer(cust_id INT)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  DELETE FROM payment WHERE customer_id = cust_id;
+  DELETE FROM rental WHERE customer_id = cust_id;
+  DELETE FROM customer WHERE customer_id = cust_id;
+  INSERT INTO customer_deletion_log(customer_id, deleted_at)
+  VALUES (cust_id, NOW());
+END;
+$$;
+```
+
+Call it with:
+```sql
+CALL delete_customer(1);
+```
+
+---
+
+## Functions vs Stored Procedures
+
+| Feature             | Function                         | Stored Procedure                     |
+|---------------------|----------------------------------|--------------------------------------|
+| Returns             | Scalar or table data             | No return (output via OUT params)    |
+| Used in SQL         | Yes (can be called in queries)   | No (must use `CALL`)                 |
+| Transaction Control | No                               | Yes (can use COMMIT/ROLLBACK)        |
+| Ideal Use Case      | Computation, data transformation | Batch jobs, transactional workflows  |
+
+--- 
+
+### When to Use Which?
+
+- Use **functions** when you need return values or reusable logic inside queries.
+- Use **procedures** for complex tasks that modify many rows, interact with multiple tables, or require transaction control.
+
+---
+
+
+## Triggers in PostgreSQL
+
+A **trigger** runs a function automatically when a specified event occurs on a table.
+
+### Events:
+- `BEFORE` or `AFTER`
+- `INSERT`, `UPDATE`, `DELETE`, or `TRUNCATE`
+
+---
+
+
+## Trigger Example: Log Customer Deletion
+
+### Step 1: Create Log Table (if you haven't already)
+
+```sql
+CREATE TABLE customer_deletion_log (
+  customer_id INT,
+  deleted_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+--- 
+
+## Create Trigger
+### Step 2: Create Trigger Function
+
+```sql
+CREATE OR REPLACE FUNCTION log_customer_deletion()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO customer_deletion_log(customer_id, deleted_at)
+  VALUES (OLD.customer_id, NOW());
+  RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+---
+
+## Create Trigger
+
+### Step 3: Attach Trigger to `customer` Table
+
+```sql
+CREATE TRIGGER trg_log_customer_delete
+AFTER DELETE ON customer
+FOR EACH ROW
+EXECUTE FUNCTION log_customer_deletion();
+```
+### Test It!
+```sql
+DELETE FROM customer WHERE customer_id = 1;
+SELECT * FROM customer_deletion_log;
+```
+
+---
+
+
+## Summary
+
+- **Views**: Encapsulate reusable queries
+- **Functions**: Reusable logic that can return scalar/table data
+- **Procedures**: Logic with transaction control, no return value
+- **Triggers**: Automatically invoke logic on data events (e.g., inserts/deletes)

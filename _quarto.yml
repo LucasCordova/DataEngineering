@@ -8,7 +8,11 @@ website:
       - href: index.qmd
         text: Home
       - href: pipelines/index.qmd
-        text: Pipelines
+        text: Pipelines Guide
+      - href: pipelines/pipelines.qmd
+        text: Pipelines Slides
+      - href: psql/adv-psql.qmd
+        text: PSQL Slides
   sidebar:
     - id: pipelines
       title: "Pipelines"
@@ -29,6 +33,11 @@ website:
           href: pipelines/db-api-bridge-service.qmd
         - text: 7. API Developer Portal Service Setup
           href: pipelines/api-developer-portal-service.qmd
+    - id: psql
+      title: "PSQL"
+      contents:
+        - text: Advanced PSQL Features
+          href: psql/adv_psql.qmd
 
 format:
   html:

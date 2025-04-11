@@ -128,7 +128,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../pipelines/index.html" aria-current="page"> 
-<span class="menu-text">Pipelines</span></a>
+<span class="menu-text">Pipelines Guide</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pipelines/pipelines.html"> 
+<span class="menu-text">Pipelines Slides</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../psql/adv-psql.html"> 
+<span class="menu-text">PSQL Slides</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -212,16 +220,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">1.1</span> Overview</a></li>
   <li><a href="#understand-the-json-structure" id="toc-understand-the-json-structure" class="nav-link" data-scroll-target="#understand-the-json-structure"><span class="header-section-number">1.2</span> Understand the JSON Structure</a></li>
   <li><a href="#design-your-physical-schema" id="toc-design-your-physical-schema" class="nav-link" data-scroll-target="#design-your-physical-schema"><span class="header-section-number">1.3</span> Design Your Physical Schema</a></li>
-  <li><a href="#write-sql-to-transform-the-data" id="toc-write-sql-to-transform-the-data" class="nav-link" data-scroll-target="#write-sql-to-transform-the-data"><span class="header-section-number">1.4</span> Write SQL to Transform the Data</a>
+  <li><a href="#write-sql-to-transform-the-data" id="toc-write-sql-to-transform-the-data" class="nav-link" data-scroll-target="#write-sql-to-transform-the-data"><span class="header-section-number">1.4</span> Write SQL to Transform the Data</a></li>
+  <li><a href="#example-transformation-for-flights" id="toc-example-transformation-for-flights" class="nav-link" data-scroll-target="#example-transformation-for-flights"><span class="header-section-number">1.5</span> Example Transformation for Flights</a></li>
+  <li><a href="#example-transformation-for-weather" id="toc-example-transformation-for-weather" class="nav-link" data-scroll-target="#example-transformation-for-weather"><span class="header-section-number">1.6</span> Example Transformation for Weather</a>
   <ul class="collapse">
-  <li><a href="#why-use-transactions" id="toc-why-use-transactions" class="nav-link" data-scroll-target="#why-use-transactions"><span class="header-section-number">1.4.1</span> Why Use Transactions?</a></li>
+  <li><a href="#why-use-transactions" id="toc-why-use-transactions" class="nav-link" data-scroll-target="#why-use-transactions"><span class="header-section-number">1.6.1</span> Why Use Transactions?</a></li>
   </ul></li>
-  <li><a href="#use-the-github-template" id="toc-use-the-github-template" class="nav-link" data-scroll-target="#use-the-github-template"><span class="header-section-number">1.5</span> Use the GitHub Template</a></li>
-  <li><a href="#add-your-sql-to-clean.sql" id="toc-add-your-sql-to-clean.sql" class="nav-link" data-scroll-target="#add-your-sql-to-clean.sql"><span class="header-section-number">1.6</span> Add Your SQL to clean.sql</a></li>
-  <li><a href="#deploy-the-service-in-railway" id="toc-deploy-the-service-in-railway" class="nav-link" data-scroll-target="#deploy-the-service-in-railway"><span class="header-section-number">1.7</span> Deploy the Service in Railway</a></li>
-  <li><a href="#set-cron-schedule" id="toc-set-cron-schedule" class="nav-link" data-scroll-target="#set-cron-schedule"><span class="header-section-number">1.8</span> Set Cron Schedule</a></li>
-  <li><a href="#testing-and-validation" id="toc-testing-and-validation" class="nav-link" data-scroll-target="#testing-and-validation"><span class="header-section-number">1.9</span> Testing and Validation</a></li>
-  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">1.10</span> What’s Next?</a></li>
+  <li><a href="#use-the-github-template" id="toc-use-the-github-template" class="nav-link" data-scroll-target="#use-the-github-template"><span class="header-section-number">1.7</span> Use the GitHub Template</a></li>
+  <li><a href="#add-your-sql-to-clean.sql" id="toc-add-your-sql-to-clean.sql" class="nav-link" data-scroll-target="#add-your-sql-to-clean.sql"><span class="header-section-number">1.8</span> Add Your SQL to clean.sql</a></li>
+  <li><a href="#deploy-the-service-in-railway" id="toc-deploy-the-service-in-railway" class="nav-link" data-scroll-target="#deploy-the-service-in-railway"><span class="header-section-number">1.9</span> Deploy the Service in Railway</a></li>
+  <li><a href="#set-cron-schedule" id="toc-set-cron-schedule" class="nav-link" data-scroll-target="#set-cron-schedule"><span class="header-section-number">1.10</span> Set Cron Schedule</a></li>
+  <li><a href="#testing-and-validation" id="toc-testing-and-validation" class="nav-link" data-scroll-target="#testing-and-validation"><span class="header-section-number">1.11</span> Testing and Validation</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">1.12</span> What’s Next?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -318,7 +328,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>What’s a Common Table Expression?</p>
 <p>A Common Table Expression (CTE) is a temporary result set defined at the beginning of a SQL statement. It helps modularize complex queries and allows you to: - Break down a multi-step transformation into readable pieces. - Reference intermediate results multiple times.</p>
 <p>📚 Reference: <a href="https://www.postgresql.org/docs/current/queries-with.html">CTEs in PostgreSQL</a></p>
-<p><em>Example Transformation for Flights</em></p>
+<hr>
+</section>
+<section id="example-transformation-for-flights" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="example-transformation-for-flights"><span class="header-section-number">1.5</span> Example Transformation for Flights</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">BEGIN</span>;</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> <span class="dt">raw</span> <span class="kw">AS</span> (</span>
@@ -355,7 +368,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> flight_json_data;</span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="kw">COMMIT</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>Example Transformation for Weather</em></p>
+<hr>
+</section>
+<section id="example-transformation-for-weather" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="example-transformation-for-weather"><span class="header-section-number">1.6</span> Example Transformation for Weather</h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">BEGIN</span>;</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> <span class="dt">raw</span> <span class="kw">AS</span> (</span>
@@ -382,26 +398,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> weather_json_data;</span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="kw">COMMIT</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="why-use-transactions" class="level3" data-number="1.4.1">
-<h3 data-number="1.4.1" class="anchored" data-anchor-id="why-use-transactions"><span class="header-section-number">1.4.1</span> Why Use Transactions?</h3>
+<hr>
+<section id="why-use-transactions" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="why-use-transactions"><span class="header-section-number">1.6.1</span> Why Use Transactions?</h3>
 <p>A TRANSACTION ensures that either all your steps complete successfully, or none of them are applied. This prevents partial writes and data corruption. • BEGIN; starts the transaction. • COMMIT; applies all changes if no error occurred. • If an error occurs, the entire transaction can be rolled back.</p>
 </section>
 </section>
-<section id="use-the-github-template" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="use-the-github-template"><span class="header-section-number">1.5</span> Use the GitHub Template</h2>
+<section id="use-the-github-template" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="use-the-github-template"><span class="header-section-number">1.7</span> Use the GitHub Template</h2>
 <pre><code>1.  [Use the db_transform GitHub template](https://github.com/LucasCordova/db_transform).
 2.  Click the “Use this template” button.
 3.  Name your repository: `weather_flight_db_transform`
 4.  Choose your GitHub account and click Create Repository.</code></pre>
 </section>
-<section id="add-your-sql-to-clean.sql" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="add-your-sql-to-clean.sql"><span class="header-section-number">1.6</span> Add Your SQL to clean.sql</h2>
+<section id="add-your-sql-to-clean.sql" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="add-your-sql-to-clean.sql"><span class="header-section-number">1.8</span> Add Your SQL to clean.sql</h2>
 <pre><code>1.  Open the new repository on GitHub (recommended) or clone it locally.
 2.  Edit the clean.sql file. If you are editing in the browser, choose the `pencil` icon. Paste your flight and weather transformation SQL inside it.
 3.  Save the file and commit. In the browser editor, click the Commit changes... button, add a message, and click the final Commit changes button.</code></pre>
 </section>
-<section id="deploy-the-service-in-railway" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="deploy-the-service-in-railway"><span class="header-section-number">1.7</span> Deploy the Service in Railway</h2>
+<section id="deploy-the-service-in-railway" class="level2" data-number="1.9">
+<h2 data-number="1.9" class="anchored" data-anchor-id="deploy-the-service-in-railway"><span class="header-section-number">1.9</span> Deploy the Service in Railway</h2>
 <pre><code>1.  Go to your Railway project.
 2.  Click New → Deploy from GitHub Repo.
 3.  Click “Configure GitHub App” to give Railway access to your GitHub account.
@@ -423,29 +440,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <pre><code>6.  Click Deploy.</code></pre>
 </section>
-<section id="set-cron-schedule" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="set-cron-schedule"><span class="header-section-number">1.8</span> Set Cron Schedule</h2>
+<section id="set-cron-schedule" class="level2" data-number="1.10">
+<h2 data-number="1.10" class="anchored" data-anchor-id="set-cron-schedule"><span class="header-section-number">1.10</span> Set Cron Schedule</h2>
 <pre><code>1.  Go to the Settings tab of the DataTransform service.
 2.  Scroll to Triggers → New Trigger.
 3.  Choose Cron and enter: `0 * * * *`.
 This means the service runs once every hour, at the top of the hour.</code></pre>
 </section>
-<section id="testing-and-validation" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="testing-and-validation"><span class="header-section-number">1.9</span> Testing and Validation</h2>
+<section id="testing-and-validation" class="level2" data-number="1.11">
+<h2 data-number="1.11" class="anchored" data-anchor-id="testing-and-validation"><span class="header-section-number">1.11</span> Testing and Validation</h2>
 <pre><code>✅ Check the Tables in Beekeeper
 
-    After the first cron run, inspect the structured tables:
-
-    ```sql
-    SELECT * FROM flights ORDER BY timestamp DESC LIMIT 10;
-    SELECT * FROM weather_observations ORDER BY timestamp DESC LIMIT 10;
-    ```
-
-✅ View Logs in Railway
+    After the first cron run, inspect the structured tables:</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> flights <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">timestamp</span> <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">10</span>;</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> weather_observations <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">timestamp</span> <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>✅ View Logs in Railway
     Use the Logs tab to inspect any errors or debug output.</code></pre>
 </section>
-<section id="whats-next" class="level2" data-number="1.10">
-<h2 data-number="1.10" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.10</span> What’s Next?</h2>
+<section id="whats-next" class="level2" data-number="1.12">
+<h2 data-number="1.12" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.12</span> What’s Next?</h2>
 <pre><code>Now that your structured data is flowing, you can visualize and analyze it in the next step using Grafana Dashboards. You’ll use SQL queries to explore patterns in flight activity and weather data—laying the foundation for answering your core research question.</code></pre>
 
 

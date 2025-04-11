@@ -1,0 +1,49 @@
+---
+title: "Pipeline Overview Slides"
+format: revealjs
+
+---
+
+# 📊 Data Engineering Pipelines
+
+Lucas Cordova
+
+---
+
+## Overview of Pipeline Stages
+
+- Database Service Setup
+- Flight Data Ingestion
+- Weather Data Ingestion
+- Data Transformation
+- Dashboard Service
+- DB/API Bridge
+- API Developer Portal
+
+---
+
+{{< include db-service.qmd >}}
+
+---
+
+{{< include flight-ingestion-service.qmd >}}
+
+---
+
+{{< include weather-ingestion-service.qmd >}}
+
+---
+
+{{< include transformation-service.qmd >}}
+
+---
+
+{{< include dashboard-service.qmd >}}
+
+---
+
+{{< include db-api-bridge-service.qmd >}}
+
+---
+
+{{< include api-developer-portal-service.qmd >}}

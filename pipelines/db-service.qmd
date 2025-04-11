@@ -12,6 +12,10 @@ In this pipeline, the **Postgres** service functions as the central knowledge re
 1. **Raw Data Storage** – Capturing unstructured API responses from external ingestion services (e.g., OpenSky Network for flights, Open-Meteo for weather).
 2. **Structured Relational Modeling** – Housing clean, normalized data models post-transformation—ready for querying, visualization, and API exposure.
 
+---
+
+## Overview Continued
+
 As we build a system to detect **“no-fly windows”** based on weather thresholds over Portland, Postgres serves as the long-term memory of the pipeline. In this step, we’ll deploy it using [Railway](https://railway.app) and connect via [Beekeeper Studio](https://www.beekeeperstudio.io/) to validate connectivity and inspect future data.
 
 ---
@@ -92,6 +96,10 @@ We’ll create:
 
 - `flight_json_data`: stores data retrieved from the OpenSky Network.
 - `weather_json_data`: stores data retrieved from the Open-Meteo API.
+
+---
+
+## RAW JSON Storage Continued
 
 Each table includes:
 

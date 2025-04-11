@@ -92,7 +92,10 @@ A Common Table Expression (CTE) is a temporary result set defined at the beginni
 
 📚 Reference: [CTEs in PostgreSQL](https://www.postgresql.org/docs/current/queries-with.html)
 
-*Example Transformation for Flights*
+---
+
+## Example Transformation for Flights
+
 ```sql
 BEGIN;
 
@@ -132,7 +135,9 @@ DELETE FROM flight_json_data;
 COMMIT;
 ```
 
-*Example Transformation for Weather*
+--- 
+
+## Example Transformation for Weather
 
 ```sql
 BEGIN;
@@ -163,6 +168,8 @@ DELETE FROM weather_json_data;
 COMMIT;
 ```
 
+---
+
 ### Why Use Transactions?
 
 A TRANSACTION ensures that either all your steps complete successfully, or none of them are applied. This prevents partial writes and data corruption.
@@ -171,17 +178,20 @@ A TRANSACTION ensures that either all your steps complete successfully, or none 
 	•	If an error occurs, the entire transaction can be rolled back.
 
 ## Use the GitHub Template
+
 	1.	[Use the db_transform GitHub template](https://github.com/LucasCordova/db_transform).
 	2.	Click the “Use this template” button.
 	3.	Name your repository: `weather_flight_db_transform`
     4.	Choose your GitHub account and click Create Repository.
 
 ## Add Your SQL to clean.sql
+
 	1.	Open the new repository on GitHub (recommended) or clone it locally.
     2.	Edit the clean.sql file. If you are editing in the browser, choose the `pencil` icon. Paste your flight and weather transformation SQL inside it.
     3.	Save the file and commit. In the browser editor, click the Commit changes... button, add a message, and click the final Commit changes button.
 
 ## Deploy the Service in Railway
+
     1.	Go to your Railway project.
 	2.	Click New → Deploy from GitHub Repo.
 	3.	Click “Configure GitHub App” to give Railway access to your GitHub account.
@@ -195,6 +205,7 @@ A TRANSACTION ensures that either all your steps complete successfully, or none 
 	6.	Click Deploy.
 
 ## Set Cron Schedule
+
     1.	Go to the Settings tab of the DataTransform service.
 	2.	Scroll to Triggers → New Trigger.
 	3.	Choose Cron and enter: `0 * * * *`.
@@ -206,10 +217,10 @@ A TRANSACTION ensures that either all your steps complete successfully, or none 
 
         After the first cron run, inspect the structured tables:
 
-        ```sql
-        SELECT * FROM flights ORDER BY timestamp DESC LIMIT 10;
-        SELECT * FROM weather_observations ORDER BY timestamp DESC LIMIT 10;
-        ```
+```sql
+SELECT * FROM flights ORDER BY timestamp DESC LIMIT 10;
+SELECT * FROM weather_observations ORDER BY timestamp DESC LIMIT 10;
+```
 
     ✅ View Logs in Railway
         Use the Logs tab to inspect any errors or debug output.

@@ -1,0 +1,7 @@
+project:
+  type: revealjs
+
+format:
+  revealjs:
+    theme: simple
+    slide-number: true

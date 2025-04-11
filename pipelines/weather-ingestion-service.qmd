@@ -27,7 +27,9 @@ For this demo, we’re using the following Open-Meteo endpoint:
   - `wind_speed_10m`: wind speed 10 meters above the ground.
   - `weathercode`: numeric weather condition code (e.g., fog, rain, snow).
 
-📚 Learn more at:  
+---
+### 📚 Learn more at:  
+
 🔗 [Open-Meteo API Docs](https://open-meteo.com/en/docs)
 
 ---
@@ -37,6 +39,7 @@ For this demo, we’re using the following Open-Meteo endpoint:
 ### Add the Docker Service in Railway
 
 1. In your Railway project, click **“New”** → **“Deploy from Docker Image”**.
+
 2. Enter the image name:  `lucascordova/web2db`
 
 3. Click **Deploy**.

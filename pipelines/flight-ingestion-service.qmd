@@ -22,6 +22,10 @@ If you're building your own ingestion service using a different API, here’s th
 3. **Build your request URL** including any necessary geographic filters, authentication tokens, or query strings.
 4. **Test the request** manually (e.g., in your browser or Postman) before deploying it inside a service like Railway.
 
+--- 
+
+## Using Public APIs Continued
+
 For APIs that require keys or tokens, you should always inject these as **environment variables**, never hardcoded in your code or Docker image.
 
 ---

@@ -128,7 +128,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../pipelines/index.html" aria-current="page"> 
-<span class="menu-text">Pipelines</span></a>
+<span class="menu-text">Pipelines Guide</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pipelines/pipelines.html"> 
+<span class="menu-text">Pipelines Slides</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../psql/adv-psql.html"> 
+<span class="menu-text">PSQL Slides</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -210,16 +218,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#setting-up-the-postgres-service-on-railway" id="toc-setting-up-the-postgres-service-on-railway" class="nav-link active" data-scroll-target="#setting-up-the-postgres-service-on-railway"><span class="header-section-number">1</span> Setting Up the Postgres Service on Railway</a>
   <ul class="collapse">
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">1.1</span> Overview</a></li>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">1.2</span> Prerequisites</a></li>
-  <li><a href="#steps-to-set-up-the-postgres-service" id="toc-steps-to-set-up-the-postgres-service" class="nav-link" data-scroll-target="#steps-to-set-up-the-postgres-service"><span class="header-section-number">1.3</span> Steps to Set Up the Postgres Service</a>
+  <li><a href="#overview-continued" id="toc-overview-continued" class="nav-link" data-scroll-target="#overview-continued"><span class="header-section-number">1.2</span> Overview Continued</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">1.3</span> Prerequisites</a></li>
+  <li><a href="#steps-to-set-up-the-postgres-service" id="toc-steps-to-set-up-the-postgres-service" class="nav-link" data-scroll-target="#steps-to-set-up-the-postgres-service"><span class="header-section-number">1.4</span> Steps to Set Up the Postgres Service</a>
   <ul class="collapse">
-  <li><a href="#create-a-new-project-in-railway" id="toc-create-a-new-project-in-railway" class="nav-link" data-scroll-target="#create-a-new-project-in-railway"><span class="header-section-number">1.3.1</span> Create a New Project in Railway</a></li>
-  <li><a href="#add-a-postgres-database" id="toc-add-a-postgres-database" class="nav-link" data-scroll-target="#add-a-postgres-database"><span class="header-section-number">1.3.2</span> Add a Postgres Database</a></li>
-  <li><a href="#retrieve-your-public-connection-url" id="toc-retrieve-your-public-connection-url" class="nav-link" data-scroll-target="#retrieve-your-public-connection-url"><span class="header-section-number">1.3.3</span> Retrieve Your Public Connection URL</a></li>
-  <li><a href="#connect-to-postgres-using-beekeeper-studio" id="toc-connect-to-postgres-using-beekeeper-studio" class="nav-link" data-scroll-target="#connect-to-postgres-using-beekeeper-studio"><span class="header-section-number">1.3.4</span> Connect to Postgres Using Beekeeper Studio</a></li>
-  <li><a href="#create-tables-for-raw-json-storage" id="toc-create-tables-for-raw-json-storage" class="nav-link" data-scroll-target="#create-tables-for-raw-json-storage"><span class="header-section-number">1.3.5</span> Create Tables for Raw JSON Storage</a></li>
+  <li><a href="#create-a-new-project-in-railway" id="toc-create-a-new-project-in-railway" class="nav-link" data-scroll-target="#create-a-new-project-in-railway"><span class="header-section-number">1.4.1</span> Create a New Project in Railway</a></li>
+  <li><a href="#add-a-postgres-database" id="toc-add-a-postgres-database" class="nav-link" data-scroll-target="#add-a-postgres-database"><span class="header-section-number">1.4.2</span> Add a Postgres Database</a></li>
+  <li><a href="#retrieve-your-public-connection-url" id="toc-retrieve-your-public-connection-url" class="nav-link" data-scroll-target="#retrieve-your-public-connection-url"><span class="header-section-number">1.4.3</span> Retrieve Your Public Connection URL</a></li>
+  <li><a href="#connect-to-postgres-using-beekeeper-studio" id="toc-connect-to-postgres-using-beekeeper-studio" class="nav-link" data-scroll-target="#connect-to-postgres-using-beekeeper-studio"><span class="header-section-number">1.4.4</span> Connect to Postgres Using Beekeeper Studio</a></li>
+  <li><a href="#create-tables-for-raw-json-storage" id="toc-create-tables-for-raw-json-storage" class="nav-link" data-scroll-target="#create-tables-for-raw-json-storage"><span class="header-section-number">1.4.5</span> Create Tables for Raw JSON Storage</a></li>
   </ul></li>
-  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">1.4</span> What’s Next?</a></li>
+  <li><a href="#raw-json-storage-continued" id="toc-raw-json-storage-continued" class="nav-link" data-scroll-target="#raw-json-storage-continued"><span class="header-section-number">1.5</span> RAW JSON Storage Continued</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">1.6</span> What’s Next?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -259,11 +269,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Raw Data Storage</strong> – Capturing unstructured API responses from external ingestion services (e.g., OpenSky Network for flights, Open-Meteo for weather).</li>
 <li><strong>Structured Relational Modeling</strong> – Housing clean, normalized data models post-transformation—ready for querying, visualization, and API exposure.</li>
 </ol>
+<hr>
+</section>
+<section id="overview-continued" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="overview-continued"><span class="header-section-number">1.2</span> Overview Continued</h2>
 <p>As we build a system to detect <strong>“no-fly windows”</strong> based on weather thresholds over Portland, Postgres serves as the long-term memory of the pipeline. In this step, we’ll deploy it using <a href="https://railway.app">Railway</a> and connect via <a href="https://www.beekeeperstudio.io/">Beekeeper Studio</a> to validate connectivity and inspect future data.</p>
 <hr>
 </section>
-<section id="prerequisites" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">1.2</span> Prerequisites</h2>
+<section id="prerequisites" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">1.3</span> Prerequisites</h2>
 <p>Before proceeding, make sure you have:</p>
 <ul>
 <li>A <a href="https://github.com/">GitHub</a> account.</li>
@@ -274,10 +288,10 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 </ul>
 <hr>
 </section>
-<section id="steps-to-set-up-the-postgres-service" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="steps-to-set-up-the-postgres-service"><span class="header-section-number">1.3</span> Steps to Set Up the Postgres Service</h2>
-<section id="create-a-new-project-in-railway" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="create-a-new-project-in-railway"><span class="header-section-number">1.3.1</span> Create a New Project in Railway</h3>
+<section id="steps-to-set-up-the-postgres-service" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="steps-to-set-up-the-postgres-service"><span class="header-section-number">1.4</span> Steps to Set Up the Postgres Service</h2>
+<section id="create-a-new-project-in-railway" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="create-a-new-project-in-railway"><span class="header-section-number">1.4.1</span> Create a New Project in Railway</h3>
 <ol type="1">
 <li>Log in at <a href="https://railway.app">railway.app</a>.</li>
 <li>Click <strong>“New Project”</strong>.</li>
@@ -286,8 +300,8 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 </ol>
 <hr>
 </section>
-<section id="add-a-postgres-database" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2" class="anchored" data-anchor-id="add-a-postgres-database"><span class="header-section-number">1.3.2</span> Add a Postgres Database</h3>
+<section id="add-a-postgres-database" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="add-a-postgres-database"><span class="header-section-number">1.4.2</span> Add a Postgres Database</h3>
 <ol type="1">
 <li>In your project dashboard, click <strong>“New”</strong> to add a service.</li>
 <li>Choose <strong>“Database”</strong>, then click <strong>“PostgreSQL”</strong>.</li>
@@ -296,8 +310,8 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <p>Once provisioned, this database becomes the shared backend for all services in your pipeline.</p>
 <hr>
 </section>
-<section id="retrieve-your-public-connection-url" class="level3" data-number="1.3.3">
-<h3 data-number="1.3.3" class="anchored" data-anchor-id="retrieve-your-public-connection-url"><span class="header-section-number">1.3.3</span> Retrieve Your Public Connection URL</h3>
+<section id="retrieve-your-public-connection-url" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="retrieve-your-public-connection-url"><span class="header-section-number">1.4.3</span> Retrieve Your Public Connection URL</h3>
 <ol type="1">
 <li>Click into the <strong>Postgres</strong> service from the project dashboard.</li>
 <li>Open the <strong>Variables</strong> tab.</li>
@@ -306,15 +320,15 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <p>This URL is your access point for Beekeeper and other services that will connect to the database.</p>
 <hr>
 </section>
-<section id="connect-to-postgres-using-beekeeper-studio" class="level3" data-number="1.3.4">
-<h3 data-number="1.3.4" class="anchored" data-anchor-id="connect-to-postgres-using-beekeeper-studio"><span class="header-section-number">1.3.4</span> Connect to Postgres Using Beekeeper Studio</h3>
+<section id="connect-to-postgres-using-beekeeper-studio" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="connect-to-postgres-using-beekeeper-studio"><span class="header-section-number">1.4.4</span> Connect to Postgres Using Beekeeper Studio</h3>
 <p>You’ll use <strong>Beekeeper Studio</strong> to explore and verify your connection to the database.</p>
-<section id="launch-beekeeper-studio" class="level4" data-number="1.3.4.1">
-<h4 data-number="1.3.4.1" class="anchored" data-anchor-id="launch-beekeeper-studio"><span class="header-section-number">1.3.4.1</span> Launch Beekeeper Studio</h4>
+<section id="launch-beekeeper-studio" class="level4" data-number="1.4.4.1">
+<h4 data-number="1.4.4.1" class="anchored" data-anchor-id="launch-beekeeper-studio"><span class="header-section-number">1.4.4.1</span> Launch Beekeeper Studio</h4>
 <p>Open the app and click <strong>“New Connection”</strong>.</p>
 </section>
-<section id="import-the-url" class="level4" data-number="1.3.4.2">
-<h4 data-number="1.3.4.2" class="anchored" data-anchor-id="import-the-url"><span class="header-section-number">1.3.4.2</span> Import the URL</h4>
+<section id="import-the-url" class="level4" data-number="1.4.4.2">
+<h4 data-number="1.4.4.2" class="anchored" data-anchor-id="import-the-url"><span class="header-section-number">1.4.4.2</span> Import the URL</h4>
 <ol type="1">
 <li>Choose <strong>“PostgreSQL”</strong> from the connection type options.</li>
 <li>Click <strong>“Import from URL”</strong> (top-right or near the bottom of the connection screen).</li>
@@ -322,8 +336,8 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <li>Click <strong>“Connect”</strong>.</li>
 </ol>
 </section>
-<section id="confirm-connection" class="level4" data-number="1.3.4.3">
-<h4 data-number="1.3.4.3" class="anchored" data-anchor-id="confirm-connection"><span class="header-section-number">1.3.4.3</span> Confirm Connection</h4>
+<section id="confirm-connection" class="level4" data-number="1.4.4.3">
+<h4 data-number="1.4.4.3" class="anchored" data-anchor-id="confirm-connection"><span class="header-section-number">1.4.4.3</span> Confirm Connection</h4>
 <p>Once connected, you’ll see an empty database. That’s expected—your ingestion and transformation services will populate it in later steps. For now, you can:</p>
 <ul>
 <li>Test SQL queries.</li>
@@ -333,22 +347,27 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <hr>
 </section>
 </section>
-<section id="create-tables-for-raw-json-storage" class="level3" data-number="1.3.5">
-<h3 data-number="1.3.5" class="anchored" data-anchor-id="create-tables-for-raw-json-storage"><span class="header-section-number">1.3.5</span> Create Tables for Raw JSON Storage</h3>
+<section id="create-tables-for-raw-json-storage" class="level3" data-number="1.4.5">
+<h3 data-number="1.4.5" class="anchored" data-anchor-id="create-tables-for-raw-json-storage"><span class="header-section-number">1.4.5</span> Create Tables for Raw JSON Storage</h3>
 <p>Before data ingestion can begin, you need to create two tables in Postgres to hold the raw, unstructured API responses from the flight and weather ingestion services. These tables will serve as append-only logs that store the full JSON payloads alongside timestamps for later transformation.</p>
 <p>We’ll create:</p>
 <ul>
 <li><code>flight_json_data</code>: stores data retrieved from the OpenSky Network.</li>
 <li><code>weather_json_data</code>: stores data retrieved from the Open-Meteo API.</li>
 </ul>
+<hr>
+</section>
+</section>
+<section id="raw-json-storage-continued" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="raw-json-storage-continued"><span class="header-section-number">1.5</span> RAW JSON Storage Continued</h2>
 <p>Each table includes:</p>
 <ul>
 <li><code>id</code>: an auto-incrementing primary key.</li>
 <li><code>raw_json</code>: the unmodified API response stored as a <code>jsonb</code> object.</li>
 <li><code>timestamptz</code>: a timestamp indicating when the data was ingested.</li>
 </ul>
-<section id="create-tables-using-sql" class="level4" data-number="1.3.5.1">
-<h4 data-number="1.3.5.1" class="anchored" data-anchor-id="create-tables-using-sql"><span class="header-section-number">1.3.5.1</span> Create Tables Using SQL</h4>
+<section id="create-tables-using-sql" class="level4" data-number="1.5.0.1">
+<h4 data-number="1.5.0.1" class="anchored" data-anchor-id="create-tables-using-sql"><span class="header-section-number">1.5.0.1</span> Create Tables Using SQL</h4>
 <p>Paste the following SQL into Beekeeper Studio and execute it to create both tables:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> flight_json_data (</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="kw">id</span> SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
@@ -364,9 +383,8 @@ Beekeeper is an open-source desktop SQL client for inspecting and querying Postg
 <hr>
 </section>
 </section>
-</section>
-<section id="whats-next" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.4</span> What’s Next?</h2>
+<section id="whats-next" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">1.6</span> What’s Next?</h2>
 <p>Now that your Postgres service is up and running, it’s ready to accept incoming unstructured data from your ingestion services: - ✈️ Web2DB Flights: gathers flight telemetry from the OpenSky Network. - 🌧️ Web2DB Weather: gathers Portland weather conditions from Open-Meteo.</p>
 <p>These services will write raw JSON payloads to the database every 5 minutes. Later, the DataTransform service will structure that data hourly into relational tables optimized for analysis.</p>
 <p>In the <a href="../pipelines/flight-ingestion-service.html">next step</a>, we’ll configure the Web2DB Flights service to begin live ingestion.</p>

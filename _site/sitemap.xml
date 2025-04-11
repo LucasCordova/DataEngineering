@@ -2,15 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://LucasCordova.github.io/DataEngineering/index.html</loc>
-    <lastmod>2025-04-09T14:13:52.683Z</lastmod>
+    <lastmod>2025-04-10T00:22:07.162Z</lastmod>
   </url>
   <url>
-    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/api-developer-portal-service.html</loc>
-    <lastmod>2025-04-09T14:04:59.674Z</lastmod>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/db-service.html</loc>
+    <lastmod>2025-04-10T00:33:33.253Z</lastmod>
+  </url>
+  <url>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/flight-ingestion-service.html</loc>
+    <lastmod>2025-04-10T00:34:45.612Z</lastmod>
   </url>
   <url>
     <loc>https://LucasCordova.github.io/DataEngineering/pipelines/weather-ingestion-service.html</loc>
-    <lastmod>2025-04-09T10:53:12.785Z</lastmod>
+    <lastmod>2025-04-10T00:36:18.324Z</lastmod>
   </url>
   <url>
     <loc>https://LucasCordova.github.io/DataEngineering/pipelines/db-api-bridge-service.html</loc>
@@ -22,18 +26,22 @@
   </url>
   <url>
     <loc>https://LucasCordova.github.io/DataEngineering/pipelines/transformation-service.html</loc>
-    <lastmod>2025-04-09T11:02:58.825Z</lastmod>
+    <lastmod>2025-04-10T00:45:17.822Z</lastmod>
   </url>
   <url>
     <loc>https://LucasCordova.github.io/DataEngineering/pipelines/index.html</loc>
     <lastmod>2025-04-09T10:56:06.150Z</lastmod>
   </url>
   <url>
-    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/flight-ingestion-service.html</loc>
-    <lastmod>2025-04-09T14:06:31.552Z</lastmod>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/pipelines.html</loc>
+    <lastmod>2025-04-10T00:25:40.608Z</lastmod>
   </url>
   <url>
-    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/db-service.html</loc>
-    <lastmod>2025-04-09T10:55:13.710Z</lastmod>
+    <loc>https://LucasCordova.github.io/DataEngineering/pipelines/api-developer-portal-service.html</loc>
+    <lastmod>2025-04-09T14:04:59.674Z</lastmod>
+  </url>
+  <url>
+    <loc>https://LucasCordova.github.io/DataEngineering/psql/adv-psql.html</loc>
+    <lastmod>2025-04-10T00:29:36.249Z</lastmod>
   </url>
 </urlset>
