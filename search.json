@@ -117,6 +117,216 @@
     ]
   },
   {
+    "objectID": "psql/psql.html#dataset-used",
+    "href": "psql/psql.html#dataset-used",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Dataset Used",
+    "text": "Dataset Used\nFor this lecture, we use the Pagila database — a PostgreSQL-compatible version of the classic Sakila DVD rental database.\nDownload the SQL file from Canvas to follow along.\nTo load it into Postgres: 1. Create a new database called pagila_dvd. 2. Execute the contents of the SQL file you downloaded."
+  },
+  {
+    "objectID": "psql/psql.html#learning-objectives",
+    "href": "psql/psql.html#learning-objectives",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Learning Objectives",
+    "text": "Learning Objectives\n\nUnderstand and create Views in PostgreSQL\nUnderstand and create User-Defined Functions\nUnderstand and create Stored Procedures\nUnderstand and create Triggers\nSee practical examples using the Pagila dataset"
+  },
+  {
+    "objectID": "psql/psql.html#views-in-postgresql",
+    "href": "psql/psql.html#views-in-postgresql",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Views in PostgreSQL",
+    "text": "Views in PostgreSQL\nA View is a stored query that you can treat like a table.\nWhy Use Views?\n\nSimplify complex queries\nReuse SQL logic\nAdd a security layer\nEncapsulate business logic"
+  },
+  {
+    "objectID": "psql/psql.html#creating-a-simple-view",
+    "href": "psql/psql.html#creating-a-simple-view",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Creating a Simple View",
+    "text": "Creating a Simple View\nExample: Top 5 Most Rented Films\nCREATE VIEW top_5_rented_films AS\nSELECT f.title, COUNT(r.rental_id) AS rental_count\nFROM film f\nJOIN inventory i ON f.film_id = i.film_id\nJOIN rental r ON i.inventory_id = r.inventory_id\nGROUP BY f.title\nORDER BY rental_count DESC\nLIMIT 5;\nYou can now query it like a table:\nSELECT * FROM top_5_rented_films;"
+  },
+  {
+    "objectID": "psql/psql.html#updatable-views",
+    "href": "psql/psql.html#updatable-views",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Updatable Views",
+    "text": "Updatable Views\nViews are read-only unless:\n\nBased on a single table\nNo aggregates or GROUP BY\nNo DISTINCT, LIMIT, OFFSET, JOIN\n\nYou can make them updatable with INSTEAD OF triggers."
+  },
+  {
+    "objectID": "psql/psql.html#functions-in-postgresql",
+    "href": "psql/psql.html#functions-in-postgresql",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Functions in PostgreSQL",
+    "text": "Functions in PostgreSQL\nUser-defined functions (UDFs) allow you to write reusable logic. They can return:\n\nScalar values\nTable results (set-returning functions)\n\nWritten in SQL or PL/pgSQL (PostgreSQL’s procedural language).\nExample: Scalar Function\nReturn number of films an actor has appeared in:\nCREATE FUNCTION film_count(actor_id INT) RETURNS INT AS $$\n  SELECT COUNT(*)\n  FROM film_actor\n  WHERE film_actor.actor_id = $1;\n$$ LANGUAGE SQL;\nUsage:\nSELECT film_count(1);\nExample: Table Function\nList all films rented by a customer:\nCREATE OR REPLACE FUNCTION customer_rentals(cust_id INT)\nRETURNS TABLE(title TEXT, rental_date TIMESTAMP) AS $$\nBEGIN\n  RETURN QUERY\n  SELECT f.title, r.rental_date::TIMESTAMP\n  FROM rental r\n  JOIN inventory i ON r.inventory_id = i.inventory_id\n  JOIN film f ON i.film_id = f.film_id\n  WHERE r.customer_id = cust_id;\nEND;\n$$ LANGUAGE plpgsql\nUsage:\nSELECT * FROM customer_rentals(1);"
+  },
+  {
+    "objectID": "psql/psql.html#stored-procedures",
+    "href": "psql/psql.html#stored-procedures",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Stored Procedures",
+    "text": "Stored Procedures\nProcedures are like functions but:\n\nDo not return values\nSupport transactions (e.g., COMMIT/ROLLBACK)\n\nUseful for batch operations, data migrations, etc.\nExample: Stored Procedure\nLet’s use a Stored Procedure to store deleted customers.\nFirst, let’s create a customer_deletion_log table.\nCREATE TABLE customer_deletion_log (\n    customer_id SERIAL PRIMARY KEY,\n    deleted_at TIMESTAMP default NOW()\n);\nExample: Stored Procedure\nNow, let’s create a Stored Procedure to delete a customer and log the deletion:\nCREATE PROCEDURE delete_customer(cust_id INT)\nLANGUAGE plpgsql\nAS $$\nBEGIN\n  DELETE FROM payment WHERE customer_id = cust_id;\n  DELETE FROM rental WHERE customer_id = cust_id;\n  DELETE FROM customer WHERE customer_id = cust_id;\n  INSERT INTO customer_deletion_log(customer_id, deleted_at)\n  VALUES (cust_id, NOW());\nEND;\n$$;\nCall it with:\nCALL delete_customer(1);"
+  },
+  {
+    "objectID": "psql/psql.html#functions-vs-stored-procedures",
+    "href": "psql/psql.html#functions-vs-stored-procedures",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Functions vs Stored Procedures",
+    "text": "Functions vs Stored Procedures\nFeature | Function | Stored Procedure |\n||-|–| | Returns | Scalar or table data | No return (output via OUT params) | | Used in SQL | Yes (can be called in queries) | No (must use CALL) | | Transaction Control | No | Yes (can use COMMIT/ROLLBACK) | | Ideal Use Case | Computation, data transformation | Batch jobs, transactional workflows |\nWhen to Use Which?\n\nUse functions when you need return values or reusable logic inside queries.\nUse procedures for complex tasks that modify many rows, interact with multiple tables, or require transaction control."
+  },
+  {
+    "objectID": "psql/psql.html#triggers-in-postgresql",
+    "href": "psql/psql.html#triggers-in-postgresql",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Triggers in PostgreSQL",
+    "text": "Triggers in PostgreSQL\nA trigger runs a function automatically when a specified event occurs on a table.\nEvents:\n\nBEFORE or AFTER\nINSERT, UPDATE, DELETE, or TRUNCATE"
+  },
+  {
+    "objectID": "psql/psql.html#trigger-example-log-customer-deletion",
+    "href": "psql/psql.html#trigger-example-log-customer-deletion",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Trigger Example: Log Customer Deletion",
+    "text": "Trigger Example: Log Customer Deletion\nStep 1: Create Log Table (if you haven’t already)\nCREATE TABLE customer_deletion_log (\n  customer_id INT,\n  deleted_at TIMESTAMP DEFAULT NOW()\n);"
+  },
+  {
+    "objectID": "psql/psql.html#create-trigger",
+    "href": "psql/psql.html#create-trigger",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Create Trigger",
+    "text": "Create Trigger\nStep 2: Create Trigger Function\nCREATE OR REPLACE FUNCTION log_customer_deletion()\nRETURNS TRIGGER AS $$\nBEGIN\n  INSERT INTO customer_deletion_log(customer_id, deleted_at)\n  VALUES (OLD.customer_id, NOW());\n  RETURN OLD;\nEND;\n$$ LANGUAGE plpgsql;"
+  },
+  {
+    "objectID": "psql/psql.html#create-trigger-1",
+    "href": "psql/psql.html#create-trigger-1",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Create Trigger",
+    "text": "Create Trigger\nStep 3: Attach Trigger to customer Table\nCREATE TRIGGER trg_log_customer_delete\nAFTER DELETE ON customer\nFOR EACH ROW\nEXECUTE FUNCTION log_customer_deletion();\nTest It!\nDELETE FROM customer WHERE customer_id = 1;\nSELECT * FROM customer_deletion_log;"
+  },
+  {
+    "objectID": "psql/psql.html#summary",
+    "href": "psql/psql.html#summary",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Summary",
+    "text": "Summary\n\nViews: Encapsulate reusable queries\nFunctions: Reusable logic that can return scalar/table data\nProcedures: Logic with transaction control, no return value\nTriggers: Automatically invoke logic on data events (e.g., inserts/deletes)"
+  },
+  {
+    "objectID": "psql/psql.html#windows-verifying-you-can-run-the-psql-command",
+    "href": "psql/psql.html#windows-verifying-you-can-run-the-psql-command",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Windows: Verifying You Can Run the psql Command",
+    "text": "Windows: Verifying You Can Run the psql Command\n\nGo to a command prompt (cmd) or PowerShell and try to run:\npsql --version\nIf it returns a version, you’re good to go!\nIf the command fails, try these steps:\n\n\nOpen Windows Explorer and navigate to your PostgreSQL installation directory. This is usually in C:\\Program Files\\PostgreSQL\\&lt;version&gt;\\bin.\n\nLook for psql.exe in the bin folder."
+  },
+  {
+    "objectID": "psql/psql.html#windows-adding-postgresql-to-path",
+    "href": "psql/psql.html#windows-adding-postgresql-to-path",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Windows: Adding PostgreSQL to PATH",
+    "text": "Windows: Adding PostgreSQL to PATH\n\nIf you find it, add the path to your system’s PATH variable:\n - In the Start menu, type in **Environment Variables** and click it.\n - Click on **Environment Variables**.\n - Under **System Variables**, find `Path`, click **Edit**.\n - Click **New** and add the path to the `bin` folder.\n - Click **OK** to close all dialog boxes.\n - Restart your command prompt or PowerShell to apply changes.\nTry running psql --version again and ensure it returns a version number."
+  },
+  {
+    "objectID": "psql/psql.html#mac-verifying-you-can-run-the-psql-command",
+    "href": "psql/psql.html#mac-verifying-you-can-run-the-psql-command",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Mac: Verifying You Can Run the psql Command",
+    "text": "Mac: Verifying You Can Run the psql Command\n\nOpen a terminal and run:\npsql --version\nIf it returns a version, you’re good to go!\nIf the command fails, try these steps:\n\nAlternative 1 (using brew): 1 Open a terminal and run: bash      brew install postgresql 2 After installation, run: bash      brew services start postgresql 3 Try running psql --version again and ensure it returns a version number."
+  },
+  {
+    "objectID": "psql/psql.html#mac-verifying-you-can-run-the-psql-command-alt",
+    "href": "psql/psql.html#mac-verifying-you-can-run-the-psql-command-alt",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Mac: Verifying You Can Run the psql Command Alt",
+    "text": "Mac: Verifying You Can Run the psql Command Alt\n\nLocate your PostgreSQL installation directory. This is usually in /Library/PostgreSQL/&lt;version&gt;/bin.\nOpen your terminal and run:\n\nexport PATH=\"/Library/PostgreSQL/&lt;version&gt;/bin:$PATH\"\n\nTo make this change permanent:\n\nOpen your terminal and run (be sure to replace &lt;version&gt; with your installed version):\n\n\necho 'export PATH=\"/Library/PostgreSQL/&lt;version&gt;/bin:$PATH\"' &gt;&gt; ~/.bash_profile\nThen run:\nsource ~/.bash_profile\n\nTry running psql --version again and ensure it returns a version number."
+  },
+  {
+    "objectID": "psql/psql.html#copying-csv-file-using-psql-on-windows",
+    "href": "psql/psql.html#copying-csv-file-using-psql-on-windows",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Copying CSV File Using psql on Windows",
+    "text": "Copying CSV File Using psql on Windows\n\nIn your command prompt (cmd) or PowerShell, navigate to the directory where your .csv file is located (i.e. cd ~\\\\Documents\\\\.).\nRun the following command:\n\npsql postgresql://postgres:&lt;password&gt;@&lt;host&gt;:&lt;port&gt;/&lt;dbname&gt; -c \"\\copy tablename FROM 'data.csv' WITH CSV HEADER\"\n\nIf successful, the command prints a success message indicating the number of rows imported."
+  },
+  {
+    "objectID": "psql/psql.html#copying-csv-file-using-psql-on-mac",
+    "href": "psql/psql.html#copying-csv-file-using-psql-on-mac",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Copying CSV File Using psql on Mac",
+    "text": "Copying CSV File Using psql on Mac\n\nIn your terminal, navigate to the directory where your .csv file is located (i.e. cd ~/Documents/).\nRun the following command:\n\npsql postgresql://postgres:&lt;password&gt;@&lt;host&gt;:&lt;port&gt;/&lt;dbname&gt; -c \"\\copy books FROM 'data.csv' WITH CSV HEADER\"\n\nIf successful, the command prints a success message indicating the number of rows imported."
+  },
+  {
+    "objectID": "psql/psql.html#method-1-explain-analyze",
+    "href": "psql/psql.html#method-1-explain-analyze",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Method 1: EXPLAIN ANALYZE",
+    "text": "Method 1: EXPLAIN ANALYZE\nEXPLAIN ANALYZE SELECT * FROM film WHERE title = 'ACADEMY DINOSAUR';\n\nShows the query plan and actual execution time\nHelps diagnose performance bottlenecks"
+  },
+  {
+    "objectID": "psql/psql.html#method-2-iming-in-psql",
+    "href": "psql/psql.html#method-2-iming-in-psql",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Method 2: iming in psql",
+    "text": "Method 2: iming in psql\nEnable timing:\n\\timing\nSELECT * FROM film WHERE title = 'ACADEMY DINOSAUR';"
+  },
+  {
+    "objectID": "psql/psql.html#sample-query-to-benchmark",
+    "href": "psql/psql.html#sample-query-to-benchmark",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Sample Query to Benchmark",
+    "text": "Sample Query to Benchmark\nSELECT * FROM customer WHERE last_name = 'SMITH';\nLet’s try with and without indexing to observe time difference."
+  },
+  {
+    "objectID": "psql/psql.html#create-an-index",
+    "href": "psql/psql.html#create-an-index",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Create an Index",
+    "text": "Create an Index\nCREATE INDEX idx_customer_last_name ON customer(last_name);\nThen re-run:\nSELECT * FROM customer WHERE last_name = 'SMITH';"
+  },
+  {
+    "objectID": "psql/psql.html#remove-the-index",
+    "href": "psql/psql.html#remove-the-index",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Remove the Index",
+    "text": "Remove the Index\nDROP INDEX idx_customer_last_name;\nCompare the performance with and without the index."
+  },
+  {
+    "objectID": "psql/psql.html#what-is-data-mining",
+    "href": "psql/psql.html#what-is-data-mining",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "What is Data Mining?",
+    "text": "What is Data Mining?\n\nThe process of discovering patterns in large datasets\nInvolves techniques from:\n\nStatistics\nMachine Learning\nPattern Recognition\n\nPostgreSQL provides extensible SQL querying capabilities perfect for early-stage data mining"
+  },
+  {
+    "objectID": "psql/psql.html#the-pagila-database",
+    "href": "psql/psql.html#the-pagila-database",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "The Pagila Database",
+    "text": "The Pagila Database\n\nInspired by the Sakila database from MySQL\nContains:\n\nFilms, actors, and categories\nRentals and payments\nCustomers and their demographics"
+  },
+  {
+    "objectID": "psql/psql.html#regular-expressions-in-postgresql",
+    "href": "psql/psql.html#regular-expressions-in-postgresql",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Regular Expressions in PostgreSQL",
+    "text": "Regular Expressions in PostgreSQL\n\n~ : match regex\n\n~* : match case-insensitive\n\n!~ : does not match regex\n\n!~* : does not match case-insensitive"
+  },
+  {
+    "objectID": "psql/psql.html#examples",
+    "href": "psql/psql.html#examples",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Examples",
+    "text": "Examples"
+  },
+  {
+    "objectID": "psql/psql.html#case-insensitive-matching",
+    "href": "psql/psql.html#case-insensitive-matching",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Case-Insensitive Matching",
+    "text": "Case-Insensitive Matching"
+  },
+  {
+    "objectID": "psql/psql.html#group-films-by-those-containing-love-vs-not",
+    "href": "psql/psql.html#group-films-by-those-containing-love-vs-not",
+    "title": "⛏️ Data Mining with PostgreSQL",
+    "section": "Group films by those containing ‘love’ vs not",
+    "text": "Group films by those containing ‘love’ vs not\nSELECT\n  CASE WHEN title ~* 'love' THEN 'Contains Love'\n       ELSE 'Does Not Contain Love' END AS love_category,\n  COUNT(*) AS film_count\nFROM film\nGROUP BY 1;"
+  },
+  {
     "objectID": "pipelines/api-developer-portal-service.html",
     "href": "pipelines/api-developer-portal-service.html",
     "title": "👨🏾‍💻API Developer Portal Setup (Swagger)",
@@ -1161,6 +1371,13 @@
       "Home",
       "1. Database Service Setup"
     ]
+  },
+  {
+    "objectID": "psql/index.html",
+    "href": "psql/index.html",
+    "title": "PSQL",
+    "section": "",
+    "text": "Advanced PSQL Features\nCopying CSV from Local to Remote\nPerformance Tuning\nData Mining and Regex"
   },
   {
     "objectID": "psql/mining.html#what-is-data-mining",
