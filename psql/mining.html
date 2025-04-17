@@ -9,7 +9,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.6.43">
 
-  <title>Data Engineering Guides – PostgreSQL Advanced Features: Views, Functions, and Stored Procedures</title>
+  <title>Data Engineering Guides – ⛏️ Data Mining with PostgreSQL</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -93,7 +93,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-b9d2fe02cc32158b42e7eed6b5f25a77.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-d58ca6e55452da357bd4996cb6e3aa10.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -191,7 +191,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">PostgreSQL Advanced Features: Views, Functions, and Stored Procedures</h1>
+  <h1 class="title">⛏️ Data Mining with PostgreSQL</h1>
 
 <div class="quarto-title-authors">
 </div>
@@ -200,128 +200,178 @@
 <nav role="doc-toc"> 
 <h2 id="toc-title">Table of contents</h2>
 <ul>
-<li><a href="#/dataset-used" id="/toc-dataset-used">Dataset Used</a></li>
-<li><a href="#/learning-objectives" id="/toc-learning-objectives">Learning Objectives</a></li>
-<li><a href="#/views-in-postgresql" id="/toc-views-in-postgresql">Views in PostgreSQL</a></li>
-<li><a href="#/creating-a-simple-view" id="/toc-creating-a-simple-view">Creating a Simple View</a></li>
-<li><a href="#/updatable-views" id="/toc-updatable-views">Updatable Views</a></li>
-<li><a href="#/functions-in-postgresql" id="/toc-functions-in-postgresql">Functions in PostgreSQL</a></li>
-<li><a href="#/example-scalar-function" id="/toc-example-scalar-function">Example: Scalar Function</a></li>
-<li><a href="#/example-table-function" id="/toc-example-table-function">Example: Table Function</a></li>
-<li><a href="#/stored-procedures" id="/toc-stored-procedures">Stored Procedures</a></li>
-<li><a href="#/example-stored-procedure" id="/toc-example-stored-procedure">Example: Stored Procedure</a></li>
-<li><a href="#/summary" id="/toc-summary">Summary</a></li>
+<li><a href="#/introduction-to-data-mining-with-postgres" id="/toc-introduction-to-data-mining-with-postgres">Introduction to Data Mining with Postgres</a></li>
+<li><a href="#/find-all-customers-whose-last-name-starts-with-mc" id="/toc-find-all-customers-whose-last-name-starts-with-mc">Find all customers whose last name starts with ‘Mc’</a></li>
+<li><a href="#/find-film-titles-that-include-the-word-love-case-insensitive" id="/toc-find-film-titles-that-include-the-word-love-case-insensitive">Find film titles that include the word ‘love’ (case-insensitive)</a></li>
+<li><a href="#/using-regex-to-classify-films" id="/toc-using-regex-to-classify-films">Using Regex to Classify Films</a></li>
+<li><a href="#/extracting-words-regex-functions" id="/toc-extracting-words-regex-functions">Extracting Words: Regex Functions</a></li>
+<li><a href="#/example-extract-the-first-word-from-film-titles" id="/toc-example-extract-the-first-word-from-film-titles">Example: Extract the first word from film titles</a></li>
+<li><a href="#/regex-replace-clean-up-phone-numbers" id="/toc-regex-replace-clean-up-phone-numbers">Regex Replace: Clean Up Phone Numbers</a></li>
+<li><a href="#/advanced-query-categorize-titles-by-pattern" id="/toc-advanced-query-categorize-titles-by-pattern">Advanced Query: Categorize Titles by Pattern</a></li>
+<li><a href="#/use-regex-in-joins" id="/toc-use-regex-in-joins">Use Regex in Joins</a></li>
+<li><a href="#/practice-challenge" id="/toc-practice-challenge">Practice Challenge</a></li>
+<li><a href="#/tips-and-tricks" id="/toc-tips-and-tricks">Tips and Tricks</a></li>
+<li><a href="#/resources" id="/toc-resources">Resources</a></li>
+<li><a href="#/questions" id="/toc-questions">Questions?</a></li>
 </ul>
 </nav>
 </section>
-<section id="dataset-used" class="slide level2">
-<h2>Dataset Used</h2>
-<p>For this lecture, we use the <strong>Pagila</strong> database — a PostgreSQL-compatible version of the classic Sakila DVD rental database.</p>
-<p>Download the SQL file from <a href="https://willamette.instructure.com/courses/7432/pages/week-13">Canvas</a> to follow along.</p>
-<p>To load it into Postgres: 1. Create a new database called pagila_dvd. 2. Execute the contents of the SQL file you downloaded.</p>
-</section>
-<section id="learning-objectives" class="slide level2">
-<h2>Learning Objectives</h2>
+<section>
+<section id="introduction-to-data-mining-with-postgres" class="title-slide slide level1 center">
+<h1>Introduction to Data Mining with Postgres</h1>
 <ul>
-<li>Understand and create <strong>Views</strong> in PostgreSQL</li>
-<li>Understand and create <strong>User-Defined Functions</strong></li>
-<li>Understand and create <strong>Stored Procedures</strong></li>
-<li>See practical examples using the <strong>Pagila</strong> dataset</li>
+<li>PostgreSQL provides powerful tools for querying, cleaning, and extracting insights from structured data.</li>
+<li>The <code>Pagila</code> sample database, based on the classic DVD rental business, is ideal for practicing these skills.</li>
 </ul>
 </section>
-<section id="views-in-postgresql" class="slide level2">
-<h2>Views in PostgreSQL</h2>
-<p>A <strong>view</strong> is a stored query that you can treat like a table.</p>
-<h3 id="why-use-views">Why Use Views?</h3>
+<section id="what-is-data-mining" class="slide level2">
+<h2>What is Data Mining?</h2>
 <ul>
-<li>Simplify complex queries</li>
-<li>Reuse SQL logic</li>
-<li>Add a security layer</li>
-<li>Encapsulate business logic</li>
+<li>The process of discovering patterns in large datasets</li>
+<li>Involves techniques from:
+<ul>
+<li>Statistics</li>
+<li>Machine Learning</li>
+<li>Pattern Recognition</li>
+</ul></li>
+<li>PostgreSQL provides extensible SQL querying capabilities perfect for early-stage data mining</li>
 </ul>
 </section>
-<section id="creating-a-simple-view" class="slide level2">
-<h2>Creating a Simple View</h2>
-<h3 id="example-top-5-most-rented-films">Example: Top 5 Most Rented Films</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> top_5_rented_films <span class="kw">AS</span></span>
-<span id="cb1-2"><a></a><span class="kw">SELECT</span> f.title, <span class="fu">COUNT</span>(r.rental_id) <span class="kw">AS</span> rental_count</span>
-<span id="cb1-3"><a></a><span class="kw">FROM</span> film f</span>
-<span id="cb1-4"><a></a><span class="kw">JOIN</span> inventory i <span class="kw">ON</span> f.film_id <span class="op">=</span> i.film_id</span>
-<span id="cb1-5"><a></a><span class="kw">JOIN</span> rental r <span class="kw">ON</span> i.inventory_id <span class="op">=</span> r.inventory_id</span>
-<span id="cb1-6"><a></a><span class="kw">GROUP</span> <span class="kw">BY</span> f.title</span>
-<span id="cb1-7"><a></a><span class="kw">ORDER</span> <span class="kw">BY</span> rental_count <span class="kw">DESC</span></span>
-<span id="cb1-8"><a></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You can now query it like a table:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> top_5_rented_films;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="updatable-views" class="slide level2">
-<h2>Updatable Views</h2>
-<p>Views are read-only <strong>unless</strong>: - Based on a single table - No aggregates or GROUP BY - No DISTINCT, LIMIT, OFFSET, JOIN</p>
-<p>You can make them updatable with <strong>INSTEAD OF triggers</strong>.</p>
-</section>
-<section id="functions-in-postgresql" class="slide level2">
-<h2>Functions in PostgreSQL</h2>
-<p>User-defined functions (UDFs) allow you to write <strong>reusable logic</strong>. They can return: - Scalar values - Table results (set-returning functions)</p>
-<p>Written in SQL or PL/pgSQL (PostgreSQL’s procedural language).</p>
-</section>
-<section id="example-scalar-function" class="slide level2">
-<h2>Example: Scalar Function</h2>
-<p>Return number of films an actor has appeared in:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a></a><span class="kw">CREATE</span> <span class="kw">FUNCTION</span> film_count(actor_id <span class="dt">INT</span>) RETURNS <span class="dt">INT</span> <span class="kw">AS</span> $$</span>
-<span id="cb3-2"><a></a>  <span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>)</span>
-<span id="cb3-3"><a></a>  <span class="kw">FROM</span> film_actor</span>
-<span id="cb3-4"><a></a>  <span class="kw">WHERE</span> film_actor.actor_id <span class="op">=</span> $<span class="dv">1</span>;</span>
-<span id="cb3-5"><a></a>$$ LANGUAGE SQL;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Usage:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a></a><span class="kw">SELECT</span> film_count(<span class="dv">1</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="example-table-function" class="slide level2">
-<h2>Example: Table Function</h2>
-<p>List all films rented by a customer:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a></a><span class="kw">CREATE</span> <span class="kw">FUNCTION</span> customer_rentals(cust_id <span class="dt">INT</span>)</span>
-<span id="cb5-2"><a></a>RETURNS <span class="kw">TABLE</span>(title TEXT, rental_date <span class="dt">TIMESTAMP</span>) <span class="kw">AS</span> $$</span>
-<span id="cb5-3"><a></a><span class="cf">BEGIN</span></span>
-<span id="cb5-4"><a></a>  <span class="kw">RETURN</span> <span class="kw">QUERY</span></span>
-<span id="cb5-5"><a></a>  <span class="kw">SELECT</span> f.title, r.rental_date</span>
-<span id="cb5-6"><a></a>  <span class="kw">FROM</span> rental r</span>
-<span id="cb5-7"><a></a>  <span class="kw">JOIN</span> inventory i <span class="kw">ON</span> r.inventory_id <span class="op">=</span> i.inventory_id</span>
-<span id="cb5-8"><a></a>  <span class="kw">JOIN</span> film f <span class="kw">ON</span> i.film_id <span class="op">=</span> f.film_id</span>
-<span id="cb5-9"><a></a>  <span class="kw">WHERE</span> r.customer_id <span class="op">=</span> cust_id;</span>
-<span id="cb5-10"><a></a><span class="cf">END</span>;</span>
-<span id="cb5-11"><a></a>$$ LANGUAGE plpgsql;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Usage:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customer_rentals(<span class="dv">1</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="stored-procedures" class="slide level2">
-<h2>Stored Procedures</h2>
-<p>Procedures are like functions but: - Do not return values - Support <strong>transactions</strong> (e.g., COMMIT/ROLLBACK)</p>
-<p>Useful for batch operations, data migrations, etc.</p>
-</section>
-<section id="example-stored-procedure" class="slide level2">
-<h2>Example: Stored Procedure</h2>
-<p>Procedure to delete a customer and log the deletion:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a></a><span class="kw">CREATE</span> <span class="kw">PROCEDURE</span> delete_customer(cust_id <span class="dt">INT</span>)</span>
-<span id="cb7-2"><a></a>LANGUAGE plpgsql</span>
-<span id="cb7-3"><a></a><span class="kw">AS</span> $$</span>
-<span id="cb7-4"><a></a><span class="cf">BEGIN</span></span>
-<span id="cb7-5"><a></a>  <span class="kw">DELETE</span> <span class="kw">FROM</span> payment <span class="kw">WHERE</span> customer_id <span class="op">=</span> cust_id;</span>
-<span id="cb7-6"><a></a>  <span class="kw">DELETE</span> <span class="kw">FROM</span> rental <span class="kw">WHERE</span> customer_id <span class="op">=</span> cust_id;</span>
-<span id="cb7-7"><a></a>  <span class="kw">DELETE</span> <span class="kw">FROM</span> customer <span class="kw">WHERE</span> customer_id <span class="op">=</span> cust_id;</span>
-<span id="cb7-8"><a></a>  <span class="kw">INSERT</span> <span class="kw">INTO</span> customer_deletion_log(customer_id, deleted_at)</span>
-<span id="cb7-9"><a></a>  <span class="kw">VALUES</span> (cust_id, NOW());</span>
-<span id="cb7-10"><a></a><span class="cf">END</span>;</span>
-<span id="cb7-11"><a></a>$$;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Call it with:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a></a><span class="kw">CALL</span> delete_customer(<span class="dv">1</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="summary" class="slide level2">
-<h2>Summary</h2>
+<section id="the-pagila-database" class="slide level2">
+<h2>The Pagila Database</h2>
 <ul>
-<li><strong>Views</strong>: Encapsulate reusable queries</li>
-<li><strong>Functions</strong>: Reusable logic that can return scalar/table data</li>
-<li><strong>Procedures</strong>: Logic with transaction control, no return value</li>
-<li>Use the <strong>Pagila</strong> database for realistic examples</li>
+<li>Inspired by the Sakila database from MySQL</li>
+<li>Contains:
+<ul>
+<li>Films, actors, and categories</li>
+<li>Rentals and payments</li>
+<li>Customers and their demographics</li>
+</ul></li>
 </ul>
+</section>
+<section id="regular-expressions-in-postgresql" class="slide level2">
+<h2>Regular Expressions in PostgreSQL</h2>
+<ul>
+<li><code>~</code> : match regex<br>
+</li>
+<li><code>~*</code> : match case-insensitive<br>
+</li>
+<li><code>!~</code> : does not match regex<br>
+</li>
+<li><code>!~*</code> : does not match case-insensitive</li>
+</ul>
+</section>
+<section id="examples" class="slide level2">
+<h2>Examples</h2>
+</section></section>
+<section>
+<section id="find-all-customers-whose-last-name-starts-with-mc" class="title-slide slide level1 center">
+<h1>Find all customers whose last name starts with ‘Mc’</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a></a><span class="kw">SELECT</span> first_name, last_name</span>
+<span id="cb1-2"><a></a><span class="kw">FROM</span> customer</span>
+<span id="cb1-3"><a></a><span class="kw">WHERE</span> last_name ~ <span class="st">'^Mc'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="case-insensitive-matching" class="slide level2">
+<h2>Case-Insensitive Matching</h2>
+</section></section>
+<section id="find-film-titles-that-include-the-word-love-case-insensitive" class="title-slide slide level1 center">
+<h1>Find film titles that include the word ‘love’ (case-insensitive)</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a></a><span class="kw">SELECT</span> title</span>
+<span id="cb2-2"><a></a><span class="kw">FROM</span> film</span>
+<span id="cb2-3"><a></a><span class="kw">WHERE</span> title ~<span class="op">*</span> <span class="st">'love'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section>
+<section id="using-regex-to-classify-films" class="title-slide slide level1 center">
+<h1>Using Regex to Classify Films</h1>
+
+</section>
+<h3 id="tag-films-that-contain-numbers-in-the-title">Tag films that contain numbers in the title</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a></a><span class="kw">SELECT</span> title</span>
+<span id="cb3-2"><a></a><span class="kw">FROM</span> film</span>
+<span id="cb3-3"><a></a><span class="kw">WHERE</span> title ~ <span class="st">'</span><span class="ch">\\</span><span class="st">d'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>\\d</code> matches any digit (requires double backslash in SQL)</li>
+</ul></section>
+<section id="extracting-words-regex-functions" class="title-slide slide level1 center">
+<h1>Extracting Words: Regex Functions</h1>
+<ul>
+<li><code>substring(string from pattern)</code></li>
+<li><code>regexp_replace(string, pattern, replacement)</code></li>
+<li><code>regexp_matches(string, pattern)</code></li>
+</ul>
+</section>
+
+<section id="example-extract-the-first-word-from-film-titles" class="title-slide slide level1 center">
+<h1>Example: Extract the first word from film titles</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a></a><span class="kw">SELECT</span> title, substring(title <span class="kw">FROM</span> <span class="st">'^</span><span class="ch">\\</span><span class="st">w+'</span>) <span class="kw">AS</span> first_word</span>
+<span id="cb4-2"><a></a><span class="kw">FROM</span> film</span>
+<span id="cb4-3"><a></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="regex-replace-clean-up-phone-numbers" class="title-slide slide level1 center">
+<h1>Regex Replace: Clean Up Phone Numbers</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a></a><span class="kw">SELECT</span> phone,</span>
+<span id="cb5-2"><a></a>       <span class="fu">regexp_replace</span>(phone, <span class="st">'[^</span><span class="ch">\\</span><span class="st">d]'</span>, <span class="st">''</span>, <span class="st">'g'</span>) <span class="kw">AS</span> digits_only</span>
+<span id="cb5-3"><a></a><span class="kw">FROM</span> address</span>
+<span id="cb5-4"><a></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section>
+<section id="advanced-query-categorize-titles-by-pattern" class="title-slide slide level1 center">
+<h1>Advanced Query: Categorize Titles by Pattern</h1>
+
+</section>
+<section id="group-films-by-those-containing-love-vs-not" class="slide level2">
+<h2>Group films by those containing ‘love’ vs not</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a></a><span class="kw">SELECT</span></span>
+<span id="cb6-2"><a></a>  <span class="cf">CASE</span> <span class="cf">WHEN</span> title ~<span class="op">*</span> <span class="st">'love'</span> <span class="cf">THEN</span> <span class="st">'Contains Love'</span></span>
+<span id="cb6-3"><a></a>       <span class="cf">ELSE</span> <span class="st">'Does Not Contain Love'</span> <span class="cf">END</span> <span class="kw">AS</span> love_category,</span>
+<span id="cb6-4"><a></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> film_count</span>
+<span id="cb6-5"><a></a><span class="kw">FROM</span> film</span>
+<span id="cb6-6"><a></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="use-regex-in-joins" class="title-slide slide level1 center">
+<h1>Use Regex in Joins</h1>
+
+</section>
+<h3 id="find-all-customers-whose-email-domain-is-yahoo.com">Find all customers whose email domain is yahoo.com</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a></a><span class="kw">SELECT</span> first_name, last_name, email</span>
+<span id="cb7-2"><a></a><span class="kw">FROM</span> customer</span>
+<span id="cb7-3"><a></a><span class="kw">WHERE</span> email ~<span class="op">*</span> <span class="st">'@yahoo</span><span class="ch">\\</span><span class="st">.com$'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></section>
+<section id="practice-challenge" class="title-slide slide level1 center">
+<h1>Practice Challenge</h1>
+<p>Write a query that finds all films where the title:</p>
+<ul>
+<li>Ends with a number</li>
+<li>Contains the word “Adventure” anywhere</li>
+<li>Is over 100 minutes long</li>
+</ul>
+<p><em>Tip: Use <code>~</code>, <code>AND</code>, and <code>length</code> fields</em></p>
+</section>
+
+<section id="tips-and-tricks" class="title-slide slide level1 center">
+<h1>Tips and Tricks</h1>
+<ul>
+<li>Always escape backslashes in regex</li>
+<li>Use <code>EXPLAIN</code> to monitor performance</li>
+<li>Test expressions in small queries first</li>
+</ul>
+</section>
+
+<section id="resources" class="title-slide slide level1 center">
+<h1>Resources</h1>
+<ul>
+<li>PostgreSQL Regex Docs: https://www.postgresql.org/docs/current/functions-matching.html</li>
+<li>Regex101 Testing: https://regex101.com/</li>
+<li>Pagila DB: https://github.com/devrimgunduz/pagila</li>
+</ul>
+</section>
+
+<section id="questions" class="title-slide slide level1 center">
+<h1>Questions?</h1>
+<p>Use the Pagila database to experiment with regex in real-world data mining!</p>
 
 
 </section>
@@ -486,7 +536,7 @@
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'none',
+        transition: 'slide',
 
         // Transition speed (default/fast/slow)
         transitionSpeed: 'default',
@@ -627,7 +677,7 @@
       }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
+          var filterRegex = new RegExp("https:\/\/LucasCordova\.github\.io\/DataEngineering\/");
         var isInternal = (href) => {
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
